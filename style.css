@@ -9,3 +9,15 @@ body {
     background: #ffffff;
     color: #1f2937;
 }
+
+header {
+    background: #ffffff;
+    padding: 20px 6%;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #4f46e5;
+    letter-spacing: 1px;
+}
