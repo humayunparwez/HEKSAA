@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Patient Dashboard - HEKSAA</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -15,13 +17,71 @@
     </header>
 
     <main>
+
         <section class="dashboard">
+
             <h2>Patient Dashboard</h2>
 
             <p>
                 Welcome to your personal mental health dashboard.
             </p>
+
+            <!-- Mental Health Check-in -->
+
+            <div class="checkin-card">
+
+                <h3>🧠 Mental Health Check-in</h3>
+
+                <p>
+                    Take a quick check-in to help monitor your mental well-being.
+                </p>
+
+                <form>
+
+                    <label for="mood">How are you feeling today?</label>
+
+                    <select id="mood" name="mood">
+                        <option value="">Select your mood</option>
+                        <option value="very-happy">Very Happy</option>
+                        <option value="happy">Happy</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="sad">Sad</option>
+                        <option value="very-sad">Very Sad</option>
+                    </select>
+
+
+                    <label for="stress">How would you rate your stress level?</label>
+
+                    <select id="stress" name="stress">
+                        <option value="">Select stress level</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                        <option value="very-high">Very High</option>
+                    </select>
+
+
+                    <label for="anxiety">How would you rate your anxiety level?</label>
+
+                    <select id="anxiety" name="anxiety">
+                        <option value="">Select anxiety level</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                        <option value="very-high">Very High</option>
+                    </select>
+
+
+                    <button type="submit">
+                        Submit Check-in
+                    </button>
+
+                </form>
+
+            </div>
+
         </section>
+
     </main>
 
 </body>
