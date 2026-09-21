@@ -245,3 +245,26 @@ header h1 {
 .status-item strong {
     color: #1f2937;
 }
+/* Overall Mental Health Status */
+
+.overall-status {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.overall-status span {
+    color: #475569;
+    font-size: 16px;
+}
+
+.overall-status strong {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+}
