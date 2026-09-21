@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.querySelector(".checkin-card form");
+    const successMessage = document.getElementById("success-message");
 
     if (!form) {
         return;
@@ -19,11 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        alert(
-            "Your check-in has been recorded successfully."
-        );
+        if (successMessage) {
+            successMessage.style.display = "block";
+        }
 
         form.reset();
+
     });
 
 });
