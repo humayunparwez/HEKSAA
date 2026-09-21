@@ -139,3 +139,55 @@ header h1 {
     font-size: 18px;
     line-height: 1.6;
 }
+/* Mental Health Check-in */
+
+.checkin-card {
+    margin-top: 40px;
+    padding: 30px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    max-width: 650px;
+}
+
+.checkin-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.checkin-card p {
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.checkin-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkin-card label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.checkin-card select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 16px;
+}
+
+.checkin-card button {
+    margin-top: 15px;
+    padding: 14px;
+    background: #4f46e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
