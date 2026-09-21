@@ -37,10 +37,14 @@
             </p>
 
 
-            <form id="patient-login-form">
+            <form
+                action="patient-dashboard.html"
+                method="get"
+            >
 
                 <input
                     type="email"
+                    name="email"
                     placeholder="Email address"
                     required
                 >
@@ -48,6 +52,7 @@
 
                 <input
                     type="password"
+                    name="password"
                     placeholder="Password"
                     required
                 >
@@ -62,25 +67,6 @@
         </section>
 
     </main>
-
-
-    <script>
-
-        document
-            .getElementById("patient-login-form")
-            .addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
-
-                    window.location.href =
-                        "patient-dashboard.html";
-
-                }
-            );
-
-    </script>
 
 </body>
 
