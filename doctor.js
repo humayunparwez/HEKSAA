@@ -2,27 +2,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       Get Elements
+       Patient Profile
     ========================= */
 
-    const totalCheckins =
-        document.getElementById("total-checkins");
+    const patientName =
+        document.getElementById(
+            "doctor-patient-name"
+        );
 
-    const lowCount =
-        document.getElementById("low-count");
+    const patientId =
+        document.getElementById(
+            "doctor-patient-id"
+        );
 
-    const moderateCount =
-        document.getElementById("moderate-count");
+    const patientAge =
+        document.getElementById(
+            "doctor-patient-age"
+        );
 
-    const highCount =
-        document.getElementById("high-count");
-
-    const doctorHistory =
-        document.getElementById("doctor-history");
+    const latestStatus =
+        document.getElementById(
+            "doctor-latest-status"
+        );
 
 
     /* =========================
-       Get Patient History
+       Summary
+    ========================= */
+
+    const totalCheckins =
+        document.getElementById(
+            "total-checkins"
+        );
+
+    const lowCount =
+        document.getElementById(
+            "low-count"
+        );
+
+    const moderateCount =
+        document.getElementById(
+            "moderate-count"
+        );
+
+    const highCount =
+        document.getElementById(
+            "high-count"
+        );
+
+
+    const doctorHistory =
+        document.getElementById(
+            "doctor-history"
+        );
+
+
+    /* =========================
+       Get Profile
+    ========================= */
+
+    function getProfile() {
+
+        const savedProfile =
+            localStorage.getItem(
+                "heksaaPatientProfile"
+            );
+
+
+        if (!savedProfile) {
+
+            return null;
+
+        }
+
+
+        try {
+
+            return JSON.parse(
+                savedProfile
+            );
+
+        }
+
+        catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =========================
+       Get History
     ========================= */
 
     function getHistory() {
@@ -42,7 +114,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
-            return JSON.parse(savedHistory);
+            return JSON.parse(
+                savedHistory
+            );
 
         }
 
@@ -64,20 +138,27 @@ document.addEventListener("DOMContentLoaded", function () {
         return value
             .replace(/-/g, " ")
             .replace(/\b\w/g, function (letter) {
+
                 return letter.toUpperCase();
+
             });
 
     }
 
 
     /* =========================
-       Apply Status Class
+       Status Class
     ========================= */
 
     function applyStatusClass(
         element,
         status
     ) {
+
+        if (!element) {
+            return;
+        }
+
 
         element.classList.remove(
             "status-low",
@@ -114,6 +195,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
+       Load Patient Profile
+    ========================= */
+
+    function loadPatientProfile() {
+
+        const profile =
+            getProfile();
+
+
+        if (!profile) {
+            return;
+        }
+
+
+        if (patientName) {
+
+            patientName.textContent =
+                profile.name || "Patient";
+
+        }
+
+
+        if (patientId) {
+
+            patientId.textContent =
+                profile.id || "Not available";
+
+        }
+
+
+        if (patientAge) {
+
+            patientAge.textContent =
+                profile.age || "Not available";
+
+        }
+
+    }
+
+
+    /* =========================
        Display Dashboard
     ========================= */
 
@@ -136,7 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
         /* Counters */
 
         let low = 0;
+
         let moderate = 0;
+
         let high = 0;
 
 
@@ -173,29 +297,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (lowCount) {
-
             lowCount.textContent = low;
-
         }
 
 
         if (moderateCount) {
-
             moderateCount.textContent =
                 moderate;
-
         }
 
 
         if (highCount) {
+            highCount.textContent = high;
+        }
 
-            highCount.textContent =
-                high;
+
+        /* Latest Status */
+
+        if (
+            latestStatus &&
+            history.length > 0
+        ) {
+
+            latestStatus.textContent =
+                history[0].overallStatus;
+
+
+            applyStatusClass(
+                latestStatus,
+                history[0].overallStatus
+            );
 
         }
 
 
-        /* Empty State */
+        /* Empty */
 
         if (
             !doctorHistory ||
@@ -210,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
         doctorHistory.innerHTML = "";
 
 
-        /* Display Check-ins */
+        /* Display History */
 
         history.forEach(function (item) {
 
@@ -265,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="doctor-data">
 
+
                     <div class="doctor-data-item">
 
                         <span>
@@ -303,6 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     </div>
 
+
                 </div>
 
             `;
@@ -320,7 +458,9 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            doctorHistory.appendChild(card);
+            doctorHistory.appendChild(
+                card
+            );
 
         });
 
@@ -328,8 +468,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       Start Dashboard
+       Start
     ========================= */
+
+    loadPatientProfile();
 
     displayDashboard();
 
