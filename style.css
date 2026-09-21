@@ -22,6 +22,8 @@ header h1 {
     letter-spacing: 1px;
 }
 
+/* Home Page */
+
 .hero {
     padding: 80px 6%;
     text-align: center;
@@ -58,10 +60,6 @@ header h1 {
     font-weight: 600;
 }
 
-.role-btn:hover {
-    background: #4338ca;
-}
-
 /* Patient Login */
 
 .login-section {
@@ -93,24 +91,15 @@ header h1 {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 16px;
-    outline: none;
-}
-
-.login-section input:focus {
-    border-color: #4f46e5;
 }
 
 .login-section button {
+    width: 100%;
     padding: 14px;
     background: #4f46e5;
-    color: #ffffff;
+    color: white;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
-}
-
-.login-section button:hover {
-    background: #4338ca;
 }
