@@ -2,24 +2,35 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Patient Dashboard - HEKSAA</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
     <header>
+
         <h1>HEKSAA</h1>
+
     </header>
 
 
     <main>
 
         <section class="dashboard">
+
 
             <h2>Patient Dashboard</h2>
 
@@ -28,7 +39,83 @@
             </p>
 
 
-            <!-- Mental Health Check-in -->
+            <!-- =========================
+                 Patient Profile
+            ========================= -->
+
+            <div class="profile-card">
+
+                <h3>👤 Patient Profile</h3>
+
+                <p class="profile-description">
+                    Enter your basic information for your HEKSAA profile.
+                </p>
+
+
+                <form id="profile-form">
+
+
+                    <label for="patient-name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="patient-name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+
+                    <label for="patient-id">
+                        Patient ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="patient-id"
+                        placeholder="Example: HK-001"
+                        required
+                    >
+
+
+                    <label for="patient-age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="patient-age"
+                        placeholder="Enter your age"
+                        min="1"
+                        max="120"
+                        required
+                    >
+
+
+                    <button type="submit">
+                        Save Profile
+                    </button>
+
+
+                    <div
+                        id="profile-success"
+                        class="success-message"
+                        style="display: none;"
+                    >
+                        ✓ Profile saved successfully.
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =========================
+                 Mental Health Check-in
+            ========================= -->
 
             <div class="checkin-card">
 
@@ -38,11 +125,14 @@
                     Take a quick check-in to help monitor your mental well-being.
                 </p>
 
+
                 <form>
+
 
                     <label for="mood">
                         How are you feeling today?
                     </label>
+
 
                     <select id="mood" name="mood">
 
@@ -73,9 +163,11 @@
                     </select>
 
 
+
                     <label for="stress">
                         How would you rate your stress level?
                     </label>
+
 
                     <select id="stress" name="stress">
 
@@ -102,9 +194,11 @@
                     </select>
 
 
+
                     <label for="anxiety">
                         How would you rate your anxiety level?
                     </label>
+
 
                     <select id="anxiety" name="anxiety">
 
@@ -131,9 +225,11 @@
                     </select>
 
 
+
                     <button type="submit">
                         Submit Check-in
                     </button>
+
 
 
                     <div
@@ -144,20 +240,27 @@
                         ✓ Check-in recorded successfully.
                     </div>
 
+
                 </form>
 
             </div>
 
 
-            <!-- Mental Health Status -->
+
+            <!-- =========================
+                 Mental Health Status
+            ========================= -->
 
             <div class="status-card">
 
+
                 <h3>📊 Mental Health Status</h3>
+
 
                 <p class="status-description">
                     Your latest check-in overview.
                 </p>
+
 
 
                 <div class="status-item">
@@ -171,6 +274,7 @@
                 </div>
 
 
+
                 <div class="status-item">
 
                     <span>Stress Level</span>
@@ -182,6 +286,7 @@
                 </div>
 
 
+
                 <div class="status-item">
 
                     <span>Anxiety Level</span>
@@ -191,6 +296,7 @@
                     </strong>
 
                 </div>
+
 
 
                 <div class="overall-status">
@@ -205,18 +311,26 @@
 
                 </div>
 
+
             </div>
 
 
-            <!-- Check-in History -->
+
+            <!-- =========================
+                 Check-in History
+            ========================= -->
 
             <div class="history-card">
 
+
                 <h3>🕒 Check-in History</h3>
+
 
                 <p class="history-description">
                     Your previous mental health check-ins.
                 </p>
+
+
 
                 <div id="checkin-history">
 
@@ -226,6 +340,7 @@
 
                 </div>
 
+
             </div>
 
 
@@ -234,9 +349,8 @@
     </main>
 
 
-    <!-- JavaScript -->
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 
 </body>
 
