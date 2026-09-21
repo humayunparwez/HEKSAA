@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusMood = document.getElementById("status-mood");
     const statusStress = document.getElementById("status-stress");
     const statusAnxiety = document.getElementById("status-anxiety");
+    const overallStatus = document.getElementById("overall-status");
 
     if (!form) {
         return;
@@ -17,6 +18,41 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/\b\w/g, function (letter) {
                 return letter.toUpperCase();
             });
+    }
+
+    function calculateOverallStatus(mood, stress, anxiety) {
+
+        const moodScore = {
+            "very-happy": 0,
+            "happy": 1,
+            "neutral": 2,
+            "sad": 3,
+            "very-sad": 4
+        };
+
+        const levelScore = {
+            "low": 0,
+            "moderate": 1,
+            "high": 2,
+            "very-high": 3
+        };
+
+        const totalScore =
+            moodScore[mood] +
+            levelScore[stress] +
+            levelScore[anxiety];
+
+        const averageScore = totalScore / 3;
+
+        if (averageScore <= 1) {
+            return "Low Concern";
+        }
+
+        if (averageScore <= 2) {
+            return "Moderate Concern";
+        }
+
+        return "High Concern";
     }
 
     form.addEventListener("submit", function (event) {
@@ -32,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Show success message
         if (successMessage) {
             successMessage.style.display = "block";
         }
@@ -49,6 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
             statusAnxiety.textContent = formatValue(anxiety);
         }
 
+        // Calculate overall status
+        if (overallStatus) {
+            overallStatus.textContent =
+                calculateOverallStatus(mood, stress, anxiety);
+        }
+
+        // Reset form
         form.reset();
 
     });
