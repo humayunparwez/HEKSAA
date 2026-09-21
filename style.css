@@ -61,3 +61,56 @@ header h1 {
 .role-btn:hover {
     background: #4338ca;
 }
+
+/* Patient Login */
+
+.login-section {
+    width: 90%;
+    max-width: 450px;
+    margin: 70px auto;
+    text-align: center;
+}
+
+.login-section h2 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.login-section p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+.login-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.login-section input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.login-section input:focus {
+    border-color: #4f46e5;
+}
+
+.login-section button {
+    padding: 14px;
+    background: #4f46e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-section button:hover {
+    background: #4338ca;
+}
