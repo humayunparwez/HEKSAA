@@ -1,20 +1,50 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const form = document.querySelector(".checkin-card form");
-    const successMessage = document.getElementById("success-message");
 
-    const statusMood = document.getElementById("status-mood");
-    const statusStress = document.getElementById("status-stress");
-    const statusAnxiety = document.getElementById("status-anxiety");
-    const overallStatus = document.getElementById("overall-status");
+    /* =========================
+       Profile Elements
+    ========================= */
+
+    const profileForm =
+        document.getElementById("profile-form");
+
+    const profileSuccess =
+        document.getElementById("profile-success");
+
+    const patientName =
+        document.getElementById("patient-name");
+
+    const patientId =
+        document.getElementById("patient-id");
+
+    const patientAge =
+        document.getElementById("patient-age");
+
+
+    /* =========================
+       Check-in Elements
+    ========================= */
+
+    const form =
+        document.querySelector(".checkin-card form");
+
+    const successMessage =
+        document.getElementById("success-message");
+
+    const statusMood =
+        document.getElementById("status-mood");
+
+    const statusStress =
+        document.getElementById("status-stress");
+
+    const statusAnxiety =
+        document.getElementById("status-anxiety");
+
+    const overallStatus =
+        document.getElementById("overall-status");
 
     const historyContainer =
         document.getElementById("checkin-history");
-
-
-    if (!form) {
-        return;
-    }
 
 
     /* =========================
@@ -33,6 +63,105 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
+       Load Profile
+    ========================= */
+
+    function loadProfile() {
+
+        const savedProfile =
+            localStorage.getItem(
+                "heksaaPatientProfile"
+            );
+
+
+        if (!savedProfile) {
+            return;
+        }
+
+
+        try {
+
+            const profile =
+                JSON.parse(savedProfile);
+
+
+            if (patientName) {
+                patientName.value =
+                    profile.name || "";
+            }
+
+
+            if (patientId) {
+                patientId.value =
+                    profile.id || "";
+            }
+
+
+            if (patientAge) {
+                patientAge.value =
+                    profile.age || "";
+            }
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "Unable to load patient profile."
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       Save Profile
+    ========================= */
+
+    if (profileForm) {
+
+        profileForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const profile = {
+
+                    name:
+                        patientName.value.trim(),
+
+                    id:
+                        patientId.value.trim(),
+
+                    age:
+                        patientAge.value
+
+                };
+
+
+                localStorage.setItem(
+                    "heksaaPatientProfile",
+                    JSON.stringify(profile)
+                );
+
+
+                if (profileSuccess) {
+
+                    profileSuccess.style.display =
+                        "block";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================
        Calculate Overall Status
     ========================= */
 
@@ -41,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         stress,
         anxiety
     ) {
+
 
         const moodScore = {
 
@@ -93,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       Apply Status Color
+       Apply Status Class
     ========================= */
 
     function applyStatusClass(
@@ -141,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       Get Saved History
+       Get History
     ========================= */
 
     function getHistory() {
@@ -254,11 +384,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${formattedDate}
                 </div>
 
+
                 <div class="history-row">
 
-                    <span>
-                        Mood
-                    </span>
+                    <span>Mood</span>
 
                     <strong>
                         ${formatValue(item.mood)}
@@ -269,9 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="history-row">
 
-                    <span>
-                        Stress
-                    </span>
+                    <span>Stress</span>
 
                     <strong>
                         ${formatValue(item.stress)}
@@ -282,9 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="history-row">
 
-                    <span>
-                        Anxiety
-                    </span>
+                    <span>Anxiety</span>
 
                     <strong>
                         ${formatValue(item.anxiety)}
@@ -325,176 +450,152 @@ document.addEventListener("DOMContentLoaded", function () {
        Submit Check-in
     ========================= */
 
-    form.addEventListener(
-        "submit",
-        function (event) {
+    if (form) {
 
-            event.preventDefault();
+        form.addEventListener(
+            "submit",
+            function (event) {
 
-
-            const mood =
-                document.getElementById(
-                    "mood"
-                ).value;
+                event.preventDefault();
 
 
-            const stress =
-                document.getElementById(
-                    "stress"
-                ).value;
+                const mood =
+                    document.getElementById(
+                        "mood"
+                    ).value;
 
 
-            const anxiety =
-                document.getElementById(
-                    "anxiety"
-                ).value;
+                const stress =
+                    document.getElementById(
+                        "stress"
+                    ).value;
 
 
-            /* Validate */
+                const anxiety =
+                    document.getElementById(
+                        "anxiety"
+                    ).value;
 
-            if (
-                !mood ||
-                !stress ||
-                !anxiety
-            ) {
 
-                alert(
-                    "Please complete all the questions before submitting."
+                if (
+                    !mood ||
+                    !stress ||
+                    !anxiety
+                ) {
+
+                    alert(
+                        "Please complete all the questions before submitting."
+                    );
+
+                    return;
+
+                }
+
+
+                const result =
+                    calculateOverallStatus(
+                        mood,
+                        stress,
+                        anxiety
+                    );
+
+
+                if (successMessage) {
+
+                    successMessage.style.display =
+                        "block";
+
+                }
+
+
+                if (statusMood) {
+
+                    statusMood.textContent =
+                        formatValue(mood);
+
+                }
+
+
+                if (statusStress) {
+
+                    statusStress.textContent =
+                        formatValue(stress);
+
+                }
+
+
+                if (statusAnxiety) {
+
+                    statusAnxiety.textContent =
+                        formatValue(anxiety);
+
+                }
+
+
+                if (overallStatus) {
+
+                    overallStatus.textContent =
+                        result;
+
+
+                    applyStatusClass(
+                        overallStatus,
+                        result
+                    );
+
+                }
+
+
+                const newCheckin = {
+
+                    mood: mood,
+
+                    stress: stress,
+
+                    anxiety: anxiety,
+
+                    overallStatus: result,
+
+                    date:
+                        new Date().toISOString()
+
+                };
+
+
+                const history =
+                    getHistory();
+
+
+                history.unshift(
+                    newCheckin
                 );
 
-                return;
 
-            }
+                const limitedHistory =
+                    history.slice(0, 10);
 
 
-            /* Calculate Overall Status */
-
-            const result =
-                calculateOverallStatus(
-                    mood,
-                    stress,
-                    anxiety
+                saveHistory(
+                    limitedHistory
                 );
 
 
-            /* Show Success Message */
+                displayHistory();
 
-            if (successMessage) {
 
-                successMessage.style.display =
-                    "block";
+                form.reset();
 
             }
+        );
 
-
-            /* Update Mood */
-
-            if (statusMood) {
-
-                statusMood.textContent =
-                    formatValue(mood);
-
-            }
-
-
-            /* Update Stress */
-
-            if (statusStress) {
-
-                statusStress.textContent =
-                    formatValue(stress);
-
-            }
-
-
-            /* Update Anxiety */
-
-            if (statusAnxiety) {
-
-                statusAnxiety.textContent =
-                    formatValue(anxiety);
-
-            }
-
-
-            /* Update Overall Status */
-
-            if (overallStatus) {
-
-                overallStatus.textContent =
-                    result;
-
-
-                applyStatusClass(
-                    overallStatus,
-                    result
-                );
-
-            }
-
-
-            /* =========================
-               Create History Record
-            ========================= */
-
-            const newCheckin = {
-
-                mood: mood,
-
-                stress: stress,
-
-                anxiety: anxiety,
-
-                overallStatus: result,
-
-                date:
-                    new Date().toISOString()
-
-            };
-
-
-            /* Get Existing History */
-
-            const history =
-                getHistory();
-
-
-            /* Add Newest Check-in First */
-
-            history.unshift(
-                newCheckin
-            );
-
-
-            /* Keep Latest 10 */
-
-            const limitedHistory =
-                history.slice(0, 10);
-
-
-            /* Save */
-
-            saveHistory(
-                limitedHistory
-            );
-
-
-            /* Refresh History */
-
-            displayHistory();
-
-
-            /* Reset Form */
-
-            form.reset();
-
-        }
-    );
+    }
 
 
     /* =========================
-       Load History on Page Open
+       Initial Load
     ========================= */
+
+    loadProfile();
 
     displayHistory();
 
