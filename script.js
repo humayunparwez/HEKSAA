@@ -88,8 +88,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Calculate overall status
         if (overallStatus) {
-            overallStatus.textContent =
-                calculateOverallStatus(mood, stress, anxiety);
+
+    const result = calculateOverallStatus(mood, stress, anxiety);
+
+    overallStatus.textContent = result;
+
+    overallStatus.classList.remove(
+        "status-low",
+        "status-moderate",
+        "status-high"
+    );
+
+    if (result === "Low Concern") {
+        overallStatus.classList.add("status-low");
+    } 
+    else if (result === "Moderate Concern") {
+        overallStatus.classList.add("status-moderate");
+    } 
+    else {
+        overallStatus.classList.add("status-high");
+    }
         }
 
         // Reset form
