@@ -21,3 +21,21 @@ header h1 {
     color: #4f46e5;
     letter-spacing: 1px;
 }
+
+.hero {
+    padding: 80px 6%;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #64748b;
+    max-width: 650px;
+    margin: 0 auto;
+}
