@@ -204,3 +204,44 @@ header h1 {
     font-size: 16px;
     font-weight: 600;
 }
+/* Mental Health Status */
+
+.status-card {
+    margin-top: 30px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    max-width: 650px;
+}
+
+.status-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.status-description {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 16px;
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-item span {
+    color: #475569;
+}
+
+.status-item strong {
+    color: #1f2937;
+}
