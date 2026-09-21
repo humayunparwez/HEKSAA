@@ -853,3 +853,108 @@ header h1 {
 
     font-weight: 600;
 }
+/* =========================
+   Patient Profile Overview
+========================= */
+
+.patient-profile-overview {
+    margin-top: 35px;
+
+    padding: 25px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.patient-avatar {
+    width: 65px;
+
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: #eef2ff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+}
+
+
+.patient-profile-info {
+    flex: 1;
+}
+
+
+.profile-label {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+.patient-profile-info h3 {
+    font-size: 24px;
+
+    margin: 4px 0 8px;
+}
+
+
+.patient-details {
+    display: flex;
+
+    gap: 20px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+.patient-details strong {
+    color: #1f2937;
+}
+
+
+.patient-profile-overview
+.doctor-status {
+    flex-shrink: 0;
+}
+
+
+@media (max-width: 600px) {
+
+    .patient-profile-overview {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 24px;
+
+    }
+
+
+    .patient-details {
+
+        flex-direction: column;
+
+        gap: 5px;
+
+    }
+
+}
