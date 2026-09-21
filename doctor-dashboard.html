@@ -2,18 +2,28 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Doctor Dashboard - HEKSAA</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
     <header>
+
         <h1>HEKSAA</h1>
+
     </header>
 
 
@@ -21,76 +31,191 @@
 
         <section class="doctor-dashboard">
 
-            <h2>Doctor / Counselor Dashboard</h2>
+
+            <h2>
+                Doctor / Counselor Dashboard
+            </h2>
+
 
             <p class="dashboard-subtitle">
-                Monitor patient mental health check-ins and identify
-                changes that may require attention.
+                Monitor patient mental health check-ins
+                and identify changes that may require
+                attention.
             </p>
 
 
-            <!-- Patient Overview -->
 
-            <div class="doctor-summary">
+            <!-- =========================
+                 Patient Overview
+            ========================= -->
 
-                <div class="summary-card">
+            <div class="patient-profile-overview">
 
-                    <span class="summary-icon">👥</span>
 
-                    <div>
-                        <p>Total Check-ins</p>
-                        <strong id="total-checkins">0</strong>
+                <div class="patient-avatar">
+                    👤
+                </div>
+
+
+                <div class="patient-profile-info">
+
+                    <span class="profile-label">
+                        Patient
+                    </span>
+
+
+                    <h3 id="doctor-patient-name">
+                        Patient
+                    </h3>
+
+
+                    <div class="patient-details">
+
+                        <span>
+                            ID:
+                            <strong id="doctor-patient-id">
+                                Not available
+                            </strong>
+                        </span>
+
+
+                        <span>
+                            Age:
+                            <strong id="doctor-patient-age">
+                                Not available
+                            </strong>
+                        </span>
+
                     </div>
 
                 </div>
 
 
-                <div class="summary-card">
-
-                    <span class="summary-icon">🟢</span>
-
-                    <div>
-                        <p>Low Concern</p>
-                        <strong id="low-count">0</strong>
-                    </div>
-
+                <div
+                    id="doctor-latest-status"
+                    class="doctor-status"
+                >
+                    No Data
                 </div>
 
-
-                <div class="summary-card">
-
-                    <span class="summary-icon">🟡</span>
-
-                    <div>
-                        <p>Moderate Concern</p>
-                        <strong id="moderate-count">0</strong>
-                    </div>
-
-                </div>
-
-
-                <div class="summary-card">
-
-                    <span class="summary-icon">🔴</span>
-
-                    <div>
-                        <p>High Concern</p>
-                        <strong id="high-count">0</strong>
-                    </div>
-
-                </div>
 
             </div>
 
 
-            <!-- Patient Monitoring -->
+
+            <!-- =========================
+                 Summary
+            ========================= -->
+
+            <div class="doctor-summary">
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        👥
+                    </span>
+
+                    <div>
+
+                        <p>
+                            Total Check-ins
+                        </p>
+
+                        <strong id="total-checkins">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        🟢
+                    </span>
+
+                    <div>
+
+                        <p>
+                            Low Concern
+                        </p>
+
+                        <strong id="low-count">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        🟡
+                    </span>
+
+                    <div>
+
+                        <p>
+                            Moderate Concern
+                        </p>
+
+                        <strong id="moderate-count">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        🔴
+                    </span>
+
+                    <div>
+
+                        <p>
+                            High Concern
+                        </p>
+
+                        <strong id="high-count">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 Patient Monitoring
+            ========================= -->
 
             <div class="patient-monitoring">
 
-                <h3>📊 Patient Mental Health Monitoring</h3>
+
+                <h3>
+                    📊 Patient Mental Health Monitoring
+                </h3>
+
 
                 <p class="section-description">
-                    Recent patient check-ins recorded by HEKSAA.
+                    Recent patient check-ins recorded
+                    by HEKSAA.
                 </p>
 
 
@@ -102,41 +227,53 @@
                             📋
                         </div>
 
-                        <h4>No patient check-ins available</h4>
+                        <h4>
+                            No patient check-ins available
+                        </h4>
 
                         <p>
-                            Patient check-in information will appear
-                            here when available.
+                            Patient check-in information
+                            will appear here when available.
                         </p>
 
                     </div>
 
                 </div>
 
+
             </div>
 
 
-            <!-- Information -->
+
+            <!-- =========================
+                 Information
+            ========================= -->
 
             <div class="doctor-info">
 
-                <h3>ℹ️ Monitoring Information</h3>
+                <h3>
+                    ℹ️ Monitoring Information
+                </h3>
+
 
                 <p>
-                    HEKSAA uses patient self-reported check-in information
-                    to support mental health monitoring. The displayed
-                    concern level is a prototype indicator and is not
-                    a medical diagnosis.
+                    HEKSAA uses patient self-reported
+                    check-in information to support
+                    mental health monitoring. The
+                    displayed concern level is a
+                    prototype indicator and is not a
+                    medical diagnosis.
                 </p>
 
             </div>
+
 
         </section>
 
     </main>
 
 
-    <script src="doctor.js?v=1"></script>
+    <script src="doctor.js?v=2"></script>
 
 </body>
 
