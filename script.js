@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    function formatValue(value) {
+        return value
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, function (letter) {
+                return letter.toUpperCase();
+            });
+    }
+
     form.addEventListener("submit", function (event) {
 
         event.preventDefault();
@@ -24,25 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Show success message
         if (successMessage) {
             successMessage.style.display = "block";
         }
 
         // Update Mental Health Status
         if (statusMood) {
-            statusMood.textContent = mood.replace("-", " ");
+            statusMood.textContent = formatValue(mood);
         }
 
         if (statusStress) {
-            statusStress.textContent = stress.replace("-", " ");
+            statusStress.textContent = formatValue(stress);
         }
 
         if (statusAnxiety) {
-            statusAnxiety.textContent = anxiety.replace("-", " ");
+            statusAnxiety.textContent = formatValue(anxiety);
         }
 
-        // Reset the form
         form.reset();
 
     });
