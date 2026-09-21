@@ -26,6 +26,7 @@
                 Welcome to your personal mental health dashboard.
             </p>
 
+
             <!-- Mental Health Check-in -->
 
             <div class="checkin-card">
@@ -38,7 +39,9 @@
 
                 <form>
 
-                    <label for="mood">How are you feeling today?</label>
+                    <label for="mood">
+                        How are you feeling today?
+                    </label>
 
                     <select id="mood" name="mood">
                         <option value="">Select your mood</option>
@@ -50,7 +53,9 @@
                     </select>
 
 
-                    <label for="stress">How would you rate your stress level?</label>
+                    <label for="stress">
+                        How would you rate your stress level?
+                    </label>
 
                     <select id="stress" name="stress">
                         <option value="">Select stress level</option>
@@ -61,7 +66,9 @@
                     </select>
 
 
-                    <label for="anxiety">How would you rate your anxiety level?</label>
+                    <label for="anxiety">
+                        How would you rate your anxiety level?
+                    </label>
 
                     <select id="anxiety" name="anxiety">
                         <option value="">Select anxiety level</option>
@@ -76,17 +83,70 @@
                         Submit Check-in
                     </button>
 
-                    <div id="success-message" class="success-message" style="display: none;">
-    ✓ Check-in recorded successfully.
+
+                    <div
+                        id="success-message"
+                        class="success-message"
+                        style="display: none;"
+                    >
+                        ✓ Check-in recorded successfully.
                     </div>
 
                 </form>
 
             </div>
 
+
+            <!-- Mental Health Status -->
+
+            <div class="status-card">
+
+                <h3>📊 Mental Health Status</h3>
+
+                <p class="status-description">
+                    Your latest check-in overview.
+                </p>
+
+
+                <div class="status-item">
+
+                    <span>Mood</span>
+
+                    <strong id="status-mood">
+                        Not available
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>Stress Level</span>
+
+                    <strong id="status-stress">
+                        Not available
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>Anxiety Level</span>
+
+                    <strong id="status-anxiety">
+                        Not available
+                    </strong>
+
+                </div>
+
+            </div>
+
         </section>
 
     </main>
+
+
     <script src="script.js"></script>
 
 </body>
