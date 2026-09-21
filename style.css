@@ -10,6 +10,8 @@ body {
     color: #1f2937;
 }
 
+/* Header */
+
 header {
     background: #ffffff;
     padding: 20px 6%;
@@ -47,6 +49,7 @@ header h1 {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .role-btn {
@@ -108,6 +111,20 @@ header h1 {
 
 .dashboard {
     width: 90%;
+    max-width: 1000px;
+    margin: 60px auto;
+}
+
+.dashboard h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.dashboard p {
+    color: #64748b;
+    font-size: 18px;
+    line-height: 1.6;
+}    width: 90%;
     max-width: 1000px;
     margin: 60px auto;
 }
