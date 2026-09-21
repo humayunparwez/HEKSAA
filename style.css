@@ -444,3 +444,329 @@ header h1 {
     }
 
 }
+/* =========================
+   Doctor Dashboard
+========================= */
+
+.doctor-dashboard {
+    width: 90%;
+    max-width: 1100px;
+    margin: 60px auto;
+}
+
+
+.doctor-dashboard h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+
+.dashboard-subtitle {
+    color: #64748b;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 750px;
+}
+
+
+/* =========================
+   Summary Cards
+========================= */
+
+.doctor-summary {
+    margin-top: 35px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+.summary-card {
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.summary-icon {
+    font-size: 28px;
+}
+
+
+.summary-card p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+
+.summary-card strong {
+    font-size: 28px;
+    color: #1f2937;
+}
+
+
+/* =========================
+   Patient Monitoring
+========================= */
+
+.patient-monitoring {
+    margin-top: 35px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+}
+
+
+.patient-monitoring h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+.section-description {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   Doctor Check-in
+========================= */
+
+.doctor-checkin {
+    padding: 22px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.doctor-checkin:last-child {
+    border-bottom: none;
+}
+
+
+.doctor-checkin-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.doctor-checkin-header h4 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+
+.doctor-date {
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+.doctor-status {
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   Doctor Data
+========================= */
+
+.doctor-data {
+    margin-top: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+
+.doctor-data-item {
+    padding: 15px;
+
+    background: #f8fafc;
+
+    border-radius: 10px;
+}
+
+
+.doctor-data-item span {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 7px;
+}
+
+
+.doctor-data-item strong {
+    color: #1f2937;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   Empty State
+========================= */
+
+.doctor-empty {
+    text-align: center;
+
+    padding: 40px 20px;
+
+    color: #64748b;
+}
+
+
+.empty-icon {
+    font-size: 40px;
+
+    margin-bottom: 15px;
+}
+
+
+.doctor-empty h4 {
+    color: #1f2937;
+
+    font-size: 18px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   Doctor Information
+========================= */
+
+.doctor-info {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+}
+
+
+.doctor-info h3 {
+    margin-bottom: 10px;
+
+    font-size: 20px;
+}
+
+
+.doctor-info p {
+    color: #64748b;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   Doctor Mobile
+========================= */
+
+@media (max-width: 800px) {
+
+    .doctor-summary {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .doctor-data {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .doctor-dashboard {
+
+        width: 90%;
+
+        margin: 40px auto;
+
+    }
+
+
+    .doctor-dashboard h2 {
+
+        font-size: 30px;
+
+    }
+
+
+    .doctor-summary {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .patient-monitoring {
+
+        padding: 24px;
+
+    }
+
+
+    .doctor-checkin-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
