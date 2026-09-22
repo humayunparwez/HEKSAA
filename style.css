@@ -969,6 +969,14 @@ header h1 {
     text-align: center;
 }
 }
+.login-error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
 .login-button {
     display: block;
     width: 100%;
