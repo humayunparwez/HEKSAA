@@ -995,3 +995,67 @@ header h1 {
 .login-button:hover {
     background: #4338ca;
 }
+/* =========================
+   Mental Health Trend
+========================= */
+
+.health-trend {
+    margin-top: 30px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.health-trend h3 {
+    margin-bottom: 8px;
+    color: #1f2937;
+}
+
+.trend-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.trend-card {
+    padding: 18px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.trend-card span {
+    display: block;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.trend-card strong {
+    display: block;
+    font-size: 18px;
+    color: #4f46e5;
+}
+
+.trend-good {
+    color: #16a34a !important;
+}
+
+.trend-warning {
+    color: #dc2626 !important;
+}
+
+.trend-stable {
+    color: #d97706 !important;
+}
+
+
+@media (max-width: 600px) {
+
+    .trend-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
