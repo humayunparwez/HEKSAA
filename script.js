@@ -621,21 +621,127 @@ localStorage.setItem(
 
 
                 const history =
-                    getHistory();
+    getHistory();
+
+history.unshift(
+    newCheckin
+);
+
+const limitedHistory =
+    history.slice(0, 10);
+
+saveHistory(
+    limitedHistory
+);
 
 
-                history.unshift(
-                    newCheckin
-                );
+/* =========================
+   Save Check-in to Patient
+========================= */
+
+const savedProfile =
+    localStorage.getItem(
+        "heksaaPatientProfile"
+    );
 
 
-                const limitedHistory =
-                    history.slice(0, 10);
+if (savedProfile) {
+
+    try {
+
+        const profile =
+            JSON.parse(savedProfile);
 
 
-                saveHistory(
-                    limitedHistory
-                );
+        let patients = [];
+
+
+        const savedPatients =
+            localStorage.getItem(
+                "heksaaPatients"
+            );
+
+
+        if (savedPatients) {
+
+            try {
+
+                patients =
+                    JSON.parse(savedPatients);
+
+            }
+
+            catch (error) {
+
+                patients = [];
+
+            }
+
+        }
+
+
+        const patientIndex =
+            patients.findIndex(
+                function (patient) {
+
+                    return (
+                        patient.id ===
+                        profile.id
+                    );
+
+                }
+            );
+
+
+        if (patientIndex >= 0) {
+
+            patients[patientIndex].name =
+                profile.name;
+
+            patients[patientIndex].age =
+                profile.age;
+
+            patients[patientIndex].history =
+                limitedHistory;
+
+        }
+
+        else {
+
+            patients.push({
+
+                id: profile.id,
+
+                name: profile.name,
+
+                age: profile.age,
+
+                history: limitedHistory
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+
+            "heksaaPatients",
+
+            JSON.stringify(patients)
+
+        );
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Unable to update patient database."
+        );
+
+    }
+
+}
 
 
                 displayHistory();
