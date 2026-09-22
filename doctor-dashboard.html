@@ -209,6 +209,20 @@
             transform: scale(0.97);
         }
 
+        /* SETTINGS */
+
+        .doctor-quick-nav .settings-link {
+            color: #4f46e5;
+        }
+
+        .doctor-quick-nav .settings-link:hover {
+            background: #eef2ff;
+
+            color: #3730a3;
+        }
+
+        /* LOGOUT */
+
         .doctor-quick-nav .logout-link {
             margin-left: auto;
 
@@ -697,9 +711,6 @@
             color: #991b1b;
         }
 
-
-        /* Alert controls */
-
         .alert-controls {
             display: flex;
 
@@ -707,9 +718,6 @@
 
             margin-bottom: 8px;
         }
-
-
-        /* Alert item */
 
         .alert-item {
             margin-top: 15px;
@@ -1848,7 +1856,7 @@
                 display: grid;
 
                 grid-template-columns:
-                    repeat(5, minmax(0, 1fr));
+                    repeat(4, minmax(0, 1fr));
 
                 gap: 4px;
 
@@ -2141,6 +2149,10 @@
 
 
 
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
     <main class="doctor-main">
 
 
@@ -2158,28 +2170,46 @@
                 <span>Patients</span>
             </a>
 
+
             <a href="#distress-center">
                 🚨
                 <span>Alerts</span>
             </a>
+
 
             <a href="#monitoring-section">
                 📊
                 <span>Monitoring</span>
             </a>
 
+
             <a href="#risk-timeline-section">
                 🕐
                 <span>Timeline</span>
             </a>
+
 
             <a href="#alert-history-section">
                 🔔
                 <span>History</span>
             </a>
 
+
+            <!-- NEW SETTINGS -->
+
             <a
-                href="doctor-login.html"
+                href="doctor-settings.html"
+                class="settings-link"
+            >
+                ⚙️
+                <span>Settings</span>
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="index.html"
                 class="logout-link"
             >
                 🚪
@@ -2200,9 +2230,11 @@
                 CLINICAL MONITORING PORTAL
             </span>
 
+
             <h2>
                 Doctor / Counselor Dashboard
             </h2>
+
 
             <p>
                 Monitor patient well-being, review
@@ -2221,17 +2253,20 @@
 
         <div class="doctor-summary">
 
+
             <div class="summary-card">
 
                 <span class="summary-icon">
                     👥
                 </span>
 
+
                 <div>
 
                     <p>
                         Total Check-ins
                     </p>
+
 
                     <strong id="total-checkins">
                         0
@@ -2242,17 +2277,20 @@
             </div>
 
 
+
             <div class="summary-card">
 
                 <span class="summary-icon">
                     🟢
                 </span>
 
+
                 <div>
 
                     <p>
                         Low Concern
                     </p>
+
 
                     <strong id="low-count">
                         0
@@ -2263,17 +2301,20 @@
             </div>
 
 
+
             <div class="summary-card">
 
                 <span class="summary-icon">
                     🟡
                 </span>
 
+
                 <div>
 
                     <p>
                         Moderate Concern
                     </p>
+
 
                     <strong id="moderate-count">
                         0
@@ -2284,17 +2325,20 @@
             </div>
 
 
+
             <div class="summary-card">
 
                 <span class="summary-icon">
                     🔴
                 </span>
 
+
                 <div>
 
                     <p>
                         High Concern
                     </p>
+
 
                     <strong id="high-count">
                         0
@@ -2303,6 +2347,7 @@
                 </div>
 
             </div>
+
 
         </div>
 
@@ -2317,6 +2362,7 @@
             class="doctor-section patient-list-section"
         >
 
+
             <div class="doctor-section-header">
 
                 <div class="doctor-section-title">
@@ -2325,11 +2371,13 @@
                         👥
                     </div>
 
+
                     <div>
 
                         <h3>
                             Patient Directory
                         </h3>
+
 
                         <p>
                             Search and select a patient
@@ -2343,7 +2391,6 @@
             </div>
 
 
-            <!-- Search and filter -->
 
             <div class="patient-directory-tools">
 
@@ -2366,13 +2413,16 @@
                         All Patients
                     </option>
 
+
                     <option value="low">
                         🟢 Low Concern
                     </option>
 
+
                     <option value="moderate">
                         🟡 Moderate Concern
                     </option>
+
 
                     <option value="high">
                         🔴 High Concern
@@ -2383,6 +2433,7 @@
             </div>
 
 
+
             <div
                 id="patient-list"
                 class="patient-list"
@@ -2391,6 +2442,7 @@
                 Loading patients...
 
             </div>
+
 
         </section>
 
@@ -2405,7 +2457,9 @@
             class="doctor-section distress-alert-center"
         >
 
+
             <div class="alert-center-header">
+
 
                 <div class="doctor-section-title">
 
@@ -2413,11 +2467,13 @@
                         🚨
                     </div>
 
+
                     <div>
 
                         <h3>
                             Distress Alert Center
                         </h3>
+
 
                         <p>
                             Review and acknowledge patient
@@ -2429,6 +2485,7 @@
                 </div>
 
 
+
                 <div
                     id="active-alert-count"
                     class="active-alert-count"
@@ -2436,10 +2493,10 @@
                     0 Active Alerts
                 </div>
 
+
             </div>
 
 
-            <!-- Alert filter -->
 
             <div class="alert-controls">
 
@@ -2453,13 +2510,16 @@
                         All Alerts
                     </option>
 
+
                     <option value="pending">
                         🔴 Pending
                     </option>
 
+
                     <option value="acknowledged">
                         🟢 Acknowledged
                     </option>
+
 
                     <option value="escalated">
                         ⚠️ Escalated
@@ -2470,11 +2530,13 @@
             </div>
 
 
+
             <div id="distress-alert-list">
 
-                <!-- Alerts are inserted by distress.js -->
+                <!-- Alerts inserted by distress.js -->
 
             </div>
+
 
         </section>
 
@@ -2489,6 +2551,7 @@
             class="patient-profile-overview"
         >
 
+
             <div class="patient-avatar">
                 👤
             </div>
@@ -2500,6 +2563,7 @@
                     Selected Patient
                 </span>
 
+
                 <h3 id="doctor-patient-name">
                     Patient
                 </h3>
@@ -2509,16 +2573,21 @@
 
                     <span>
                         ID:
+
                         <strong id="doctor-patient-id">
                             Not available
                         </strong>
+
                     </span>
+
 
                     <span>
                         Age:
+
                         <strong id="doctor-patient-age">
                             Not available
                         </strong>
+
                     </span>
 
                 </div>
@@ -2532,6 +2601,7 @@
             >
                 No Data
             </div>
+
 
         </div>
 
@@ -2550,6 +2620,7 @@
             <h3>
                 ⚠️ Attention Required
             </h3>
+
 
             <p>
                 The latest check-in for this patient
@@ -2571,17 +2642,20 @@
             class="doctor-section risk-prediction-section"
         >
 
+
             <div class="doctor-section-title">
 
                 <div class="doctor-section-icon">
                     🧠
                 </div>
 
+
                 <div>
 
                     <h3>
                         Dynamic Distress Prediction
                     </h3>
+
 
                     <p>
                         Prototype risk estimation based
@@ -2593,9 +2667,12 @@
             </div>
 
 
+
             <div class="risk-prediction-card">
 
+
                 <div class="risk-score-row">
+
 
                     <div
                         id="risk-score-circle"
@@ -2606,6 +2683,7 @@
                             0
                         </strong>
 
+
                         <span>
                             / 100
                         </span>
@@ -2613,7 +2691,9 @@
                     </div>
 
 
+
                     <div class="risk-score-info">
+
 
                         <div
                             id="risk-level"
@@ -2628,9 +2708,12 @@
                             meaningful risk estimate.
                         </p>
 
+
                     </div>
 
+
                 </div>
+
 
 
                 <div class="risk-meter">
@@ -2643,13 +2726,16 @@
                 </div>
 
 
+
                 <div class="risk-factor-grid">
+
 
                     <div class="risk-factor">
 
                         <span>
                             Latest Concern
                         </span>
+
 
                         <strong id="risk-latest">
                             No Data
@@ -2658,11 +2744,13 @@
                     </div>
 
 
+
                     <div class="risk-factor">
 
                         <span>
                             Recent Pattern
                         </span>
+
 
                         <strong id="risk-pattern">
                             No Data
@@ -2671,11 +2759,13 @@
                     </div>
 
 
+
                     <div class="risk-factor">
 
                         <span>
                             High Concern Rate
                         </span>
+
 
                         <strong id="risk-high-rate">
                             0%
@@ -2683,7 +2773,9 @@
 
                     </div>
 
+
                 </div>
+
 
 
                 <div class="risk-note">
@@ -2695,7 +2787,9 @@
 
                 </div>
 
+
             </div>
+
 
         </section>
 
@@ -2710,17 +2804,20 @@
             class="doctor-section patient-monitoring"
         >
 
+
             <div class="doctor-section-title">
 
                 <div class="doctor-section-icon">
                     📊
                 </div>
 
+
                 <div>
 
                     <h3>
                         Patient Mental Health Monitoring
                     </h3>
+
 
                     <p>
                         Recent check-ins recorded by HEKSAA.
@@ -2731,6 +2828,7 @@
             </div>
 
 
+
             <div id="doctor-history">
 
                 <!-- History generated by doctor.js -->
@@ -2739,15 +2837,15 @@
 
 
 
-            <!-- =============================================
-                 TREND
-            ============================================== -->
+            <!-- TREND -->
 
             <div class="health-trend">
+
 
                 <h3>
                     📈 Mental Health Trend
                 </h3>
+
 
                 <p class="section-description">
                     Overview of the patient's recent
@@ -2755,13 +2853,16 @@
                 </p>
 
 
+
                 <div class="trend-grid">
+
 
                     <div class="trend-card">
 
                         <span>
                             Latest Mood
                         </span>
+
 
                         <strong id="trend-mood">
                             No Data
@@ -2770,11 +2871,13 @@
                     </div>
 
 
+
                     <div class="trend-card">
 
                         <span>
                             Latest Stress
                         </span>
+
 
                         <strong id="trend-stress">
                             No Data
@@ -2783,11 +2886,13 @@
                     </div>
 
 
+
                     <div class="trend-card">
 
                         <span>
                             Latest Anxiety
                         </span>
+
 
                         <strong id="trend-anxiety">
                             No Data
@@ -2796,11 +2901,13 @@
                     </div>
 
 
+
                     <div class="trend-card">
 
                         <span>
                             Recent Trend
                         </span>
+
 
                         <strong id="trend-direction">
                             No Data
@@ -2808,9 +2915,12 @@
 
                     </div>
 
+
                 </div>
 
+
             </div>
+
 
         </section>
 
@@ -2825,17 +2935,20 @@
             class="doctor-section risk-timeline-section"
         >
 
+
             <div class="doctor-section-title">
 
                 <div class="doctor-section-icon">
                     🕐
                 </div>
 
+
                 <div>
 
                     <h3>
                         Patient Risk Timeline
                     </h3>
+
 
                     <p>
                         Chronological view of the patient's
@@ -2847,6 +2960,7 @@
             </div>
 
 
+
             <div
                 id="risk-timeline"
                 class="risk-timeline"
@@ -2855,6 +2969,7 @@
                 <!-- Timeline generated by doctor.js -->
 
             </div>
+
 
         </section>
 
@@ -2869,17 +2984,20 @@
             class="doctor-section alert-history-section"
         >
 
+
             <div class="doctor-section-title">
 
                 <div class="doctor-section-icon">
                     🔔
                 </div>
 
+
                 <div>
 
                     <h3>
                         Alert History
                     </h3>
+
 
                     <p>
                         Previous high-concern alerts and
@@ -2891,11 +3009,13 @@
             </div>
 
 
+
             <div id="alert-history">
 
                 <!-- Alert history generated by doctor.js -->
 
             </div>
+
 
         </section>
 
@@ -2907,17 +3027,20 @@
 
         <section class="doctor-section doctor-info">
 
+
             <div class="doctor-section-title">
 
                 <div class="doctor-section-icon">
                     ℹ️
                 </div>
 
+
                 <div>
 
                     <h3>
                         Monitoring Information
                     </h3>
+
 
                     <p>
                         Important information about
@@ -2936,6 +3059,7 @@
                 concern level and risk score are prototype
                 indicators and are not medical diagnoses.
             </p>
+
 
         </section>
 
@@ -3165,12 +3289,6 @@
                             }
 
 
-                            const statusElement =
-                                alert.querySelector(
-                                    ".alert-status"
-                                );
-
-
                             const alertText =
                                 alert.textContent
                                     .toLowerCase();
@@ -3182,6 +3300,7 @@
                                     alertText.includes(
                                         "pending"
                                     );
+
 
                                 alert.style.display =
                                     isPending
