@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
 <title>Doctor Dashboard - HEKSAA</title>
 
@@ -20,6 +20,7 @@
 
 .patient-list-section,
 .distress-alert-center,
+.risk-prediction-section,
 .risk-timeline-section,
 .alert-history-section {
 
@@ -50,13 +51,6 @@
     border:1px solid #e5e7eb;
     border-radius:10px;
     cursor:pointer;
-    transition:.2s;
-
-}
-
-.patient-card:hover {
-
-    border-color:#4f46e5;
 
 }
 
@@ -90,7 +84,6 @@
 .patient-card-info strong {
 
     display:block;
-    color:#1f2937;
 
 }
 
@@ -135,7 +128,7 @@
 
 
 /* =========================
-   ALERT CENTER
+   DISTRESS ALERT
 ========================= */
 
 .alert-center-header {
@@ -153,9 +146,7 @@
     border-radius:20px;
     background:#dcfce7;
     color:#166534;
-    font-size:13px;
     font-weight:600;
-    white-space:nowrap;
 
 }
 
@@ -200,14 +191,7 @@
     justify-content:center;
     background:#fee2e2;
     border-radius:50%;
-    font-size:21px;
     flex-shrink:0;
-
-}
-
-.alert-item.acknowledged .alert-icon {
-
-    background:#e5e7eb;
 
 }
 
@@ -220,15 +204,6 @@
 .alert-details strong {
 
     display:block;
-    color:#7f1d1d;
-    font-size:16px;
-
-}
-
-.alert-item.acknowledged
-.alert-details strong {
-
-    color:#374151;
 
 }
 
@@ -236,7 +211,6 @@
 
     display:block;
     margin-top:4px;
-    color:#991b1b;
     font-size:13px;
 
 }
@@ -255,7 +229,6 @@
     padding:4px 8px;
     border-radius:20px;
     font-size:11px !important;
-    font-weight:600;
 
 }
 
@@ -296,28 +269,26 @@
 .alert-view-button {
 
     background:#4f46e5;
-    color:#fff;
+    color:white;
 
 }
 
 .alert-details-button {
 
     background:#e5e7eb;
-    color:#374151;
 
 }
 
 .alert-acknowledge-button {
 
     background:#16a34a;
-    color:#fff;
+    color:white;
 
 }
 
 .alert-acknowledge-button:disabled {
 
     background:#9ca3af;
-    cursor:default;
 
 }
 
@@ -327,7 +298,7 @@
     margin-top:14px;
     margin-left:57px;
     padding:15px;
-    background:#fff;
+    background:white;
     border:1px solid #e5e7eb;
     border-radius:9px;
 
@@ -360,25 +331,168 @@
     display:block;
     color:#6b7280;
     font-size:12px;
-    margin-bottom:5px;
-
-}
-
-.alert-data-box strong {
-
-    color:#1f2937;
 
 }
 
 
 /* =========================
-   RISK TIMELINE
+   RISK PREDICTION
+========================= */
+
+.risk-prediction-card {
+
+    margin-top:20px;
+    padding:22px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+
+}
+
+.risk-score-row {
+
+    display:flex;
+    align-items:center;
+    gap:22px;
+
+}
+
+.risk-score-circle {
+
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:#dcfce7;
+    color:#166534;
+    border:8px solid #bbf7d0;
+    flex-shrink:0;
+
+}
+
+.risk-score-circle strong {
+
+    font-size:32px;
+
+}
+
+.risk-score-circle span {
+
+    font-size:12px;
+
+}
+
+.risk-score-info {
+
+    flex:1;
+
+}
+
+.risk-level {
+
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:20px;
+    font-weight:600;
+    margin-bottom:8px;
+
+}
+
+.risk-low {
+
+    background:#dcfce7;
+    color:#166534;
+
+}
+
+.risk-moderate {
+
+    background:#fef3c7;
+    color:#92400e;
+
+}
+
+.risk-high {
+
+    background:#fee2e2;
+    color:#991b1b;
+
+}
+
+.risk-meter {
+
+    height:10px;
+    margin-top:18px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+
+}
+
+.risk-meter-fill {
+
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    transition:.4s;
+
+}
+
+.risk-factor-grid {
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
+
+}
+
+.risk-factor {
+
+    padding:13px;
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+
+}
+
+.risk-factor span {
+
+    display:block;
+    color:#6b7280;
+    font-size:12px;
+    margin-bottom:5px;
+
+}
+
+.risk-factor strong {
+
+    font-size:15px;
+
+}
+
+.risk-note {
+
+    margin-top:16px;
+    padding:12px;
+    background:#fff;
+    border-radius:8px;
+    color:#6b7280;
+    font-size:13px;
+
+}
+
+
+/* =========================
+   TIMELINE
 ========================= */
 
 .risk-timeline {
 
     margin-top:20px;
-    position:relative;
 
 }
 
@@ -388,12 +502,6 @@
     gap:15px;
     position:relative;
     padding-bottom:22px;
-
-}
-
-.timeline-item:last-child {
-
-    padding-bottom:0;
 
 }
 
@@ -408,13 +516,6 @@
 
 }
 
-.timeline-item:last-child
-.timeline-line {
-
-    display:none;
-
-}
-
 .timeline-dot {
 
     width:24px;
@@ -423,7 +524,6 @@
     align-items:center;
     justify-content:center;
     border-radius:50%;
-    font-size:12px;
     z-index:1;
     flex-shrink:0;
 
@@ -452,8 +552,8 @@
     flex:1;
     padding:12px 15px;
     background:#f8fafc;
-    border-radius:9px;
     border:1px solid #e5e7eb;
+    border-radius:9px;
 
 }
 
@@ -467,10 +567,10 @@
 
 .timeline-status {
 
-    font-size:12px;
-    font-weight:600;
     padding:5px 9px;
     border-radius:20px;
+    font-size:12px;
+    font-weight:600;
 
 }
 
@@ -514,7 +614,7 @@
 .timeline-data div {
 
     padding:9px;
-    background:#fff;
+    background:white;
     border-radius:7px;
 
 }
@@ -524,14 +624,6 @@
     display:block;
     color:#6b7280;
     font-size:11px;
-
-}
-
-.timeline-data strong {
-
-    display:block;
-    margin-top:3px;
-    font-size:13px;
 
 }
 
@@ -554,13 +646,6 @@
 
     display:flex;
     justify-content:space-between;
-    gap:10px;
-
-}
-
-.history-alert-header strong {
-
-    color:#1f2937;
 
 }
 
@@ -575,7 +660,7 @@
 .history-alert-data {
 
     display:flex;
-    gap:10px;
+    gap:8px;
     margin-top:10px;
     flex-wrap:wrap;
 
@@ -584,7 +669,7 @@
 .history-alert-data span {
 
     padding:5px 8px;
-    background:#fff;
+    background:white;
     border-radius:6px;
     font-size:12px;
 
@@ -614,9 +699,27 @@
 
     }
 
-    .alert-center-header {
+    .risk-score-row {
+
+        align-items:flex-start;
+
+    }
+
+    .risk-factor-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+    .timeline-header {
 
         flex-direction:column;
+
+    }
+
+    .timeline-data {
+
+        grid-template-columns:1fr;
 
     }
 
@@ -633,18 +736,6 @@
     }
 
     .alert-data-grid {
-
-        grid-template-columns:1fr;
-
-    }
-
-    .timeline-header {
-
-        flex-direction:column;
-
-    }
-
-    .timeline-data {
 
         grid-template-columns:1fr;
 
@@ -681,7 +772,7 @@ and identify changes that may require attention.
 </p>
 
 
-<!-- PATIENT LIST -->
+<!-- PATIENTS -->
 
 <div class="patient-list-section">
 
@@ -694,7 +785,7 @@ Select a patient to view their monitoring data.
 </p>
 
 <div id="patient-list"
-     class="patient-list">
+class="patient-list">
 
 Loading patients...
 
@@ -722,7 +813,7 @@ Review and acknowledge high-concern patient alerts.
 </div>
 
 <div id="active-alert-count"
-     class="active-alert-count">
+class="active-alert-count">
 
 0 Active Alerts
 
@@ -730,10 +821,7 @@ Review and acknowledge high-concern patient alerts.
 
 </div>
 
-
-<div id="distress-alert-list">
-
-</div>
+<div id="distress-alert-list"></div>
 
 </div>
 
@@ -774,9 +862,8 @@ Not available
 
 </div>
 
-
 <div id="doctor-latest-status"
-     class="doctor-status">
+class="doctor-status">
 
 No Data
 
@@ -785,11 +872,11 @@ No Data
 </div>
 
 
-<!-- SELECTED PATIENT ALERT -->
+<!-- ATTENTION -->
 
 <div id="distress-alert"
-     class="distress-alert"
-     style="display:none;">
+class="distress-alert"
+style="display:none;">
 
 <h3>⚠️ Attention Required</h3>
 
@@ -801,6 +888,130 @@ has been classified as
 by the HEKSAA prototype monitoring system.
 
 </p>
+
+</div>
+
+
+<!-- =========================
+     DYNAMIC RISK PREDICTION
+========================= -->
+
+<div class="risk-prediction-section">
+
+<h3>🧠 Dynamic Distress Prediction</h3>
+
+<p class="section-description">
+
+Prototype risk estimation based on recent
+self-reported mental health check-ins.
+
+</p>
+
+
+<div class="risk-prediction-card">
+
+<div class="risk-score-row">
+
+
+<div id="risk-score-circle"
+class="risk-score-circle">
+
+<strong id="risk-score">
+0
+</strong>
+
+<span>/ 100</span>
+
+</div>
+
+
+<div class="risk-score-info">
+
+<div id="risk-level"
+class="risk-level risk-low">
+
+Low Risk
+
+</div>
+
+<p id="risk-description">
+
+Insufficient data for a meaningful
+risk estimate.
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="risk-meter">
+
+<div id="risk-meter-fill"
+class="risk-meter-fill">
+
+</div>
+
+</div>
+
+
+<div class="risk-factor-grid">
+
+
+<div class="risk-factor">
+
+<span>
+Latest Concern
+</span>
+
+<strong id="risk-latest">
+No Data
+</strong>
+
+</div>
+
+
+<div class="risk-factor">
+
+<span>
+Recent Pattern
+</span>
+
+<strong id="risk-pattern">
+No Data
+</strong>
+
+</div>
+
+
+<div class="risk-factor">
+
+<span>
+High Concern Rate
+</span>
+
+<strong id="risk-high-rate">
+0%
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="risk-note">
+
+⚠️ This score is a prototype indicator
+for the HEKSAA demonstration. It is not
+a medical diagnosis or clinically validated
+risk assessment.
+
+</div>
+
+</div>
 
 </div>
 
@@ -871,7 +1082,7 @@ by the HEKSAA prototype monitoring system.
 </div>
 
 
-<!-- CHECK-IN HISTORY -->
+<!-- MONITORING -->
 
 <div class="patient-monitoring">
 
@@ -948,7 +1159,7 @@ No Data
 </div>
 
 
-<!-- RISK TIMELINE -->
+<!-- TIMELINE -->
 
 <div class="risk-timeline-section">
 
@@ -962,7 +1173,7 @@ reported concern levels.
 </p>
 
 <div id="risk-timeline"
-     class="risk-timeline">
+class="risk-timeline">
 
 </div>
 
@@ -982,9 +1193,7 @@ review status.
 
 </p>
 
-<div id="alert-history">
-
-</div>
+<div id="alert-history"></div>
 
 </div>
 
@@ -1000,8 +1209,8 @@ review status.
 HEKSAA uses patient self-reported
 check-in information to support
 mental health monitoring. The displayed
-concern level is a prototype indicator
-and is not a medical diagnosis.
+concern level and risk score are prototype
+indicators and are not medical diagnoses.
 
 </p>
 
@@ -1013,7 +1222,7 @@ and is not a medical diagnosis.
 </main>
 
 
-<script src="doctor.js?v=8"></script>
+<script src="doctor.js?v=9"></script>
 
 </body>
 
