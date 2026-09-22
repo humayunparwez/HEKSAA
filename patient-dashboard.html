@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Patient Login - HEKSAA</title>
+    <title>Patient Dashboard - HEKSAA</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -18,7 +18,6 @@
 
 
 <body>
-
 
     <header>
 
@@ -29,44 +28,317 @@
 
     <main>
 
-        <section class="login-section">
+        <section class="dashboard">
 
 
             <h2>
-                Patient Login
+                Patient Dashboard
             </h2>
 
 
             <p>
-                Sign in to access your HEKSAA account.
+                Welcome to your personal mental health dashboard.
             </p>
 
 
-            <form id="patient-login-form">
+            <!-- =========================
+                 Patient Profile
+            ========================= -->
+
+            <div class="profile-card">
+
+                <h3>👤 Patient Profile</h3>
+
+                <p class="profile-description">
+                    Enter your basic information for your HEKSAA profile.
+                </p>
 
 
-                <input
-                    type="email"
-                    id="patient-email"
-                    placeholder="Email address"
-                    required
-                >
+                <form id="profile-form">
 
 
-                <input
-                    type="password"
-                    id="patient-password"
-                    placeholder="Password"
-                    required
-                >
+                    <label for="patient-name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="patient-name"
+                        placeholder="Enter your full name"
+                        required
+                    >
 
 
-                <button type="submit">
-                    Login
-                </button>
+                    <label for="patient-id">
+                        Patient ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="patient-id"
+                        placeholder="Example: HK-001"
+                        required
+                    >
 
 
-            </form>
+                    <label for="patient-age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="patient-age"
+                        placeholder="Enter your age"
+                        min="1"
+                        max="120"
+                        required
+                    >
+
+
+                    <button type="submit">
+                        Save Profile
+                    </button>
+
+
+                    <div
+                        id="profile-success"
+                        class="success-message"
+                        style="display: none;"
+                    >
+                        ✓ Profile saved successfully.
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================
+                 Mental Health Check-in
+            ========================= -->
+
+            <div class="checkin-card">
+
+                <h3>
+                    🧠 Mental Health Check-in
+                </h3>
+
+
+                <p>
+                    Take a quick check-in to help monitor your mental well-being.
+                </p>
+
+
+                <form>
+
+
+                    <label for="mood">
+                        How are you feeling today?
+                    </label>
+
+
+                    <select id="mood" name="mood">
+
+                        <option value="">
+                            Select your mood
+                        </option>
+
+                        <option value="very-happy">
+                            Very Happy
+                        </option>
+
+                        <option value="happy">
+                            Happy
+                        </option>
+
+                        <option value="neutral">
+                            Neutral
+                        </option>
+
+                        <option value="sad">
+                            Sad
+                        </option>
+
+                        <option value="very-sad">
+                            Very Sad
+                        </option>
+
+                    </select>
+
+
+                    <label for="stress">
+                        How would you rate your stress level?
+                    </label>
+
+
+                    <select id="stress" name="stress">
+
+                        <option value="">
+                            Select stress level
+                        </option>
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="moderate">
+                            Moderate
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                        <option value="very-high">
+                            Very High
+                        </option>
+
+                    </select>
+
+
+                    <label for="anxiety">
+                        How would you rate your anxiety level?
+                    </label>
+
+
+                    <select id="anxiety" name="anxiety">
+
+                        <option value="">
+                            Select anxiety level
+                        </option>
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="moderate">
+                            Moderate
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                        <option value="very-high">
+                            Very High
+                        </option>
+
+                    </select>
+
+
+                    <button type="submit">
+                        Submit Check-in
+                    </button>
+
+
+                    <div
+                        id="success-message"
+                        class="success-message"
+                        style="display: none;"
+                    >
+                        ✓ Check-in recorded successfully.
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================
+                 Mental Health Status
+            ========================= -->
+
+            <div class="status-card">
+
+                <h3>
+                    📊 Mental Health Status
+                </h3>
+
+
+                <p class="status-description">
+                    Your latest check-in overview.
+                </p>
+
+
+                <div class="status-item">
+
+                    <span>
+                        Mood
+                    </span>
+
+                    <strong id="status-mood">
+                        Not available
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        Stress Level
+                    </span>
+
+                    <strong id="status-stress">
+                        Not available
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        Anxiety Level
+                    </span>
+
+                    <strong id="status-anxiety">
+                        Not available
+                    </strong>
+
+                </div>
+
+
+                <div class="overall-status">
+
+                    <span>
+                        Overall Status
+                    </span>
+
+                    <strong id="overall-status">
+                        Not available
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Check-in History
+            ========================= -->
+
+            <div class="history-card">
+
+                <h3>
+                    🕒 Check-in History
+                </h3>
+
+
+                <p class="history-description">
+                    Your previous mental health check-ins.
+                </p>
+
+
+                <div id="checkin-history">
+
+                    <p class="no-history">
+                        No previous check-ins available.
+                    </p>
+
+                </div>
+
+            </div>
 
 
         </section>
@@ -74,25 +346,7 @@
     </main>
 
 
-    <script>
-
-        document
-            .getElementById("patient-login-form")
-            .addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
-
-
-                    window.location.href =
-                        "patient-dashboard.html";
-
-                }
-            );
-
-    </script>
-
+    <script src="script.js?v=6"></script>
 
 </body>
 
