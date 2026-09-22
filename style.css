@@ -2470,3 +2470,22 @@ header h1 {
         font-size: 10px;
     }
 }
+/* =====================================================
+   DOCTOR DASHBOARD — HEADER SCROLL FIX
+   ===================================================== */
+
+.doctor-dashboard-page .heksaa-header {
+    position: relative !important;
+    top: auto !important;
+    z-index: 10;
+}
+
+.doctor-dashboard-page {
+    overflow-x: hidden;
+}
+
+/* Keep section navigation clean while scrolling */
+.doctor-dashboard-page .doctor-quick-nav {
+    position: relative;
+    z-index: 1;
+}
