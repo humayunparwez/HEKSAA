@@ -2,102 +2,95 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       Elements
+       ELEMENTS
     ========================= */
 
     const patientList =
-        document.getElementById(
-            "patient-list"
-        );
-
+        document.getElementById("patient-list");
 
     const patientName =
         document.getElementById(
             "doctor-patient-name"
         );
 
-
     const patientId =
         document.getElementById(
             "doctor-patient-id"
         );
-
 
     const patientAge =
         document.getElementById(
             "doctor-patient-age"
         );
 
-
     const latestStatus =
         document.getElementById(
             "doctor-latest-status"
         );
-
 
     const totalCheckins =
         document.getElementById(
             "total-checkins"
         );
 
-
     const lowCount =
         document.getElementById(
             "low-count"
         );
-
 
     const moderateCount =
         document.getElementById(
             "moderate-count"
         );
 
-
     const highCount =
         document.getElementById(
             "high-count"
         );
-
 
     const doctorHistory =
         document.getElementById(
             "doctor-history"
         );
 
-
     const trendMood =
         document.getElementById(
             "trend-mood"
         );
-
 
     const trendStress =
         document.getElementById(
             "trend-stress"
         );
 
-
     const trendAnxiety =
         document.getElementById(
             "trend-anxiety"
         );
-
 
     const trendDirection =
         document.getElementById(
             "trend-direction"
         );
 
-
     const distressAlert =
         document.getElementById(
             "distress-alert"
         );
 
+    const distressAlertList =
+        document.getElementById(
+            "distress-alert-list"
+        );
+
+    const activeAlertCount =
+        document.getElementById(
+            "active-alert-count"
+        );
 
 
     /* =========================
-       Utilities
+       UTILITY FUNCTIONS
     ========================= */
 
     function formatValue(value) {
@@ -116,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
     }
-
 
 
     function getConcernScore(status) {
@@ -141,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     function getStatusClass(status) {
 
         if (status === "Low Concern") {
@@ -164,9 +155,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "Time unavailable";
+        }
+
+
+        const date =
+            new Date(dateValue);
+
+
+        if (isNaN(date.getTime())) {
+            return "Time unavailable";
+        }
+
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
 
     /* =========================
-       Create / Migrate Patients
+       GET PATIENTS
     ========================= */
 
     function getPatients() {
@@ -194,9 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
-            }
-
-            catch (error) {
+            } catch (error) {
 
                 console.log(
                     "Unable to read patients."
@@ -208,8 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Migrate existing single
-         * patient data.
+         * If the multi-patient data
+         * doesn't exist, migrate the
+         * old single-patient data.
          */
 
         let patients = [];
@@ -243,11 +262,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     try {
 
                         history =
-                            JSON.parse(oldHistory);
+                            JSON.parse(
+                                oldHistory
+                            );
 
-                    }
-
-                    catch (error) {
+                    } catch (error) {
 
                         history = [];
 
@@ -275,9 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 });
 
-            }
-
-            catch (error) {
+            } catch (error) {
 
                 console.log(
                     "Unable to migrate patient."
@@ -289,10 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * Demo patients.
-         *
-         * These make the prototype
-         * demonstrate multiple patients.
+         * Demo patients
          */
 
         patients.push({
@@ -306,29 +320,41 @@ document.addEventListener("DOMContentLoaded", function () {
             history: [
 
                 {
+
                     mood: "neutral",
+
                     stress: "moderate",
+
                     anxiety: "moderate",
+
                     overallStatus:
                         "Moderate Concern",
+
                     date:
                         new Date(
                             Date.now() -
                             3600000
                         ).toISOString()
+
                 },
 
                 {
+
                     mood: "happy",
+
                     stress: "low",
+
                     anxiety: "low",
+
                     overallStatus:
                         "Low Concern",
+
                     date:
                         new Date(
                             Date.now() -
                             86400000
                         ).toISOString()
+
                 }
 
             ]
@@ -347,29 +373,41 @@ document.addEventListener("DOMContentLoaded", function () {
             history: [
 
                 {
+
                     mood: "sad",
+
                     stress: "high",
+
                     anxiety: "high",
+
                     overallStatus:
                         "High Concern",
+
                     date:
                         new Date(
                             Date.now() -
                             1800000
                         ).toISOString()
+
                 },
 
                 {
+
                     mood: "very-sad",
+
                     stress: "very-high",
+
                     anxiety: "high",
+
                     overallStatus:
                         "High Concern",
+
                     date:
                         new Date(
                             Date.now() -
                             86400000
                         ).toISOString()
+
                 }
 
             ]
@@ -388,16 +426,22 @@ document.addEventListener("DOMContentLoaded", function () {
             history: [
 
                 {
+
                     mood: "happy",
+
                     stress: "low",
+
                     anxiety: "low",
+
                     overallStatus:
                         "Low Concern",
+
                     date:
                         new Date(
                             Date.now() -
                             7200000
                         ).toISOString()
+
                 }
 
             ]
@@ -419,29 +463,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
-    /* =========================
-       Save Patients
-    ========================= */
-
-    function savePatients(patients) {
-
-        localStorage.setItem(
-
-            "heksaaPatients",
-
-            JSON.stringify(patients)
-
-        );
-
-    }
-
-
-
-    /* =========================
-       Current Patient
-    ========================= */
-
     let patients =
         getPatients();
 
@@ -452,9 +473,226 @@ document.addEventListener("DOMContentLoaded", function () {
             : null;
 
 
+    /* =========================
+       DISTRESS ALERT CENTER
+    ========================= */
+
+    function displayDistressAlerts() {
+
+        if (!distressAlertList) {
+            return;
+        }
+
+
+        const activeAlerts =
+            patients.filter(
+                function (patient) {
+
+                    const history =
+                        patient.history || [];
+
+
+                    if (
+                        history.length === 0
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    return (
+                        history[0]
+                            .overallStatus ===
+                        "High Concern"
+                    );
+
+                }
+            );
+
+
+        /* Alert count */
+
+        if (activeAlertCount) {
+
+            activeAlertCount.textContent =
+                activeAlerts.length +
+                (
+                    activeAlerts.length === 1
+                        ? " Active Alert"
+                        : " Active Alerts"
+                );
+
+
+            if (
+                activeAlerts.length > 0
+            ) {
+
+                activeAlertCount.classList.add(
+                    "has-alerts"
+                );
+
+            } else {
+
+                activeAlertCount.classList.remove(
+                    "has-alerts"
+                );
+
+            }
+
+        }
+
+
+        /* No alerts */
+
+        if (
+            activeAlerts.length === 0
+        ) {
+
+            distressAlertList.innerHTML = `
+
+                <div class="alert-empty">
+
+                    <div class="alert-empty-icon">
+                        ✅
+                    </div>
+
+                    <h4>
+                        No Active Distress Alerts
+                    </h4>
+
+                    <p>
+
+                        No patient's latest
+                        check-in is currently
+                        classified as High Concern.
+
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        distressAlertList.innerHTML = "";
+
+
+        /* Create alert for every
+           high-concern patient */
+
+        activeAlerts.forEach(
+            function (patient) {
+
+                const latest =
+                    patient.history[0];
+
+
+                const alertItem =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                alertItem.className =
+                    "alert-item";
+
+
+                alertItem.innerHTML = `
+
+                    <div class="alert-icon">
+                        ⚠️
+                    </div>
+
+
+                    <div class="alert-details">
+
+                        <strong>
+                            ${patient.name}
+                        </strong>
+
+
+                        <span>
+
+                            ID: ${patient.id}
+                            • High Concern
+
+                        </span>
+
+
+                        <span
+                            class="alert-time"
+                        >
+
+                            Latest check-in:
+                            ${formatDate(
+                                latest.date
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="alert-view-button"
+                        type="button"
+                    >
+
+                        View Patient
+
+                    </button>
+
+                `;
+
+
+                const button =
+                    alertItem.querySelector(
+                        ".alert-view-button"
+                    );
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedPatientId =
+                            patient.id;
+
+
+                        displayPatientList();
+
+
+                        displaySelectedPatient();
+
+
+                        window.scrollTo({
+
+                            top: 0,
+
+                            behavior: "smooth"
+
+                        });
+
+                    }
+                );
+
+
+                distressAlertList.appendChild(
+                    alertItem
+                );
+
+            }
+        );
+
+    }
+
 
     /* =========================
-       Patient List
+       PATIENT LIST
     ========================= */
 
     function displayPatientList() {
@@ -484,113 +722,122 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        patients.forEach(function (patient) {
+        patients.forEach(
+            function (patient) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            const card =
-                document.createElement("div");
+                card.className =
+                    "patient-card";
 
 
-            card.className =
-                "patient-card";
+                if (
+                    patient.id ===
+                    selectedPatientId
+                ) {
+
+                    card.classList.add(
+                        "active"
+                    );
+
+                }
 
 
-            if (
-                patient.id ===
-                selectedPatientId
-            ) {
+                const history =
+                    patient.history || [];
 
-                card.classList.add(
-                    "active"
+
+                const latest =
+                    history.length > 0
+                        ? history[0]
+                        : null;
+
+
+                const status =
+                    latest
+                        ? latest.overallStatus
+                        : "No Data";
+
+
+                const statusClass =
+                    getStatusClass(
+                        status
+                    );
+
+
+                card.innerHTML = `
+
+                    <div
+                        class="patient-list-avatar"
+                    >
+                        👤
+                    </div>
+
+
+                    <div
+                        class="patient-card-info"
+                    >
+
+                        <strong>
+                            ${patient.name}
+                        </strong>
+
+
+                        <span>
+
+                            ${patient.id}
+                            • Age ${patient.age}
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="patient-card-status
+                        ${statusClass}"
+                    >
+
+                        ${status}
+
+                    </div>
+
+                `;
+
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedPatientId =
+                            patient.id;
+
+
+                        displayPatientList();
+
+
+                        displaySelectedPatient();
+
+                    }
+                );
+
+
+                patientList.appendChild(
+                    card
                 );
 
             }
-
-
-            const history =
-                patient.history || [];
-
-
-            const latest =
-                history.length > 0
-                    ? history[0]
-                    : null;
-
-
-            const status =
-                latest
-                    ? latest.overallStatus
-                    : "No Data";
-
-
-            const statusClass =
-                getStatusClass(status);
-
-
-            card.innerHTML = `
-
-                <div class="patient-list-avatar">
-
-                    👤
-
-                </div>
-
-
-                <div class="patient-card-info">
-
-                    <strong>
-                        ${patient.name}
-                    </strong>
-
-                    <span>
-
-                        ${patient.id}
-                        • Age ${patient.age}
-
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="patient-card-status
-                    ${statusClass}"
-                >
-
-                    ${status}
-
-                </div>
-
-            `;
-
-
-            card.addEventListener(
-                "click",
-                function () {
-
-                    selectedPatientId =
-                        patient.id;
-
-                    displayPatientList();
-
-                    displaySelectedPatient();
-
-                }
-            );
-
-
-            patientList.appendChild(
-                card
-            );
-
-        });
+        );
 
     }
 
 
-
     /* =========================
-       Display Selected Patient
+       SELECTED PATIENT
     ========================= */
 
     function displaySelectedPatient() {
@@ -631,28 +878,24 @@ document.addEventListener("DOMContentLoaded", function () {
             patient.age;
 
 
-
         /* Latest Status */
+
+        latestStatus.classList.remove(
+            "status-low",
+            "status-moderate",
+            "status-high"
+        );
+
 
         if (history.length > 0) {
 
             const status =
-                history[0].overallStatus;
+                history[0]
+                    .overallStatus;
 
 
             latestStatus.textContent =
                 status;
-
-
-            latestStatus.classList.remove(
-
-                "status-low",
-
-                "status-moderate",
-
-                "status-high"
-
-            );
 
 
             const statusClass =
@@ -667,15 +910,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
-        }
-
-        else {
+        } else {
 
             latestStatus.textContent =
                 "No Data";
 
         }
 
+
+        /* Selected patient alert */
+
+        if (
+            history.length > 0 &&
+            history[0]
+                .overallStatus ===
+            "High Concern"
+        ) {
+
+            distressAlert.style.display =
+                "block";
+
+        } else {
+
+            distressAlert.style.display =
+                "none";
+
+        }
 
 
         /* Summary */
@@ -691,36 +951,34 @@ document.addEventListener("DOMContentLoaded", function () {
         let high = 0;
 
 
-        history.forEach(function (item) {
+        history.forEach(
+            function (item) {
 
-            if (
-                item.overallStatus ===
-                "Low Concern"
-            ) {
+                if (
+                    item.overallStatus ===
+                    "Low Concern"
+                ) {
 
-                low++;
+                    low++;
+
+                } else if (
+                    item.overallStatus ===
+                    "Moderate Concern"
+                ) {
+
+                    moderate++;
+
+                } else if (
+                    item.overallStatus ===
+                    "High Concern"
+                ) {
+
+                    high++;
+
+                }
 
             }
-
-            else if (
-                item.overallStatus ===
-                "Moderate Concern"
-            ) {
-
-                moderate++;
-
-            }
-
-            else if (
-                item.overallStatus ===
-                "High Concern"
-            ) {
-
-                high++;
-
-            }
-
-        });
+        );
 
 
         lowCount.textContent =
@@ -735,44 +993,16 @@ document.addEventListener("DOMContentLoaded", function () {
             high;
 
 
-
-        /* Alert */
-
-        if (
-            history.length > 0 &&
-            history[0].overallStatus ===
-            "High Concern"
-        ) {
-
-            distressAlert.style.display =
-                "block";
-
-        }
-
-        else {
-
-            distressAlert.style.display =
-                "none";
-
-        }
-
-
-
-        /* History */
-
         displayHistory(history);
 
-
-        /* Trend */
 
         displayTrend(history);
 
     }
 
 
-
     /* =========================
-       History
+       CHECK-IN HISTORY
     ========================= */
 
     function displayHistory(history) {
@@ -792,13 +1022,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         📋
                     </div>
 
+
                     <h4>
                         No patient check-ins available
                     </h4>
 
+
                     <p>
+
                         Patient check-in information
                         will appear here when available.
+
                     </p>
 
                 </div>
@@ -813,154 +1047,141 @@ document.addEventListener("DOMContentLoaded", function () {
         doctorHistory.innerHTML = "";
 
 
-        history.forEach(function (item) {
+        history.forEach(
+            function (item) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            const card =
-                document.createElement("div");
+                card.className =
+                    "doctor-checkin";
 
 
-            card.className =
-                "doctor-checkin";
+                card.innerHTML = `
+
+                    <div
+                        class="doctor-checkin-header"
+                    >
+
+                        <div>
+
+                            <h4>
+                                Patient Check-in
+                            </h4>
 
 
-            const date =
-                new Date(item.date);
+                            <span
+                                class="doctor-date"
+                            >
 
+                                ${formatDate(
+                                    item.date
+                                )}
 
-            const formattedDate =
-                date.toLocaleString(
-                    "en-IN",
-                    {
+                            </span>
 
-                        day: "2-digit",
+                        </div>
 
-                        month: "short",
-
-                        year: "numeric",
-
-                        hour: "2-digit",
-
-                        minute: "2-digit"
-
-                    }
-                );
-
-
-            card.innerHTML = `
-
-                <div
-                    class="doctor-checkin-header"
-                >
-
-                    <div>
-
-                        <h4>
-                            Patient Check-in
-                        </h4>
 
                         <span
-                            class="doctor-date"
+                            class="doctor-status
+                            ${getStatusClass(
+                                item.overallStatus
+                            )}"
                         >
 
-                            ${formattedDate}
+                            ${item.overallStatus}
 
                         </span>
-
-                    </div>
-
-
-                    <span
-                        class="doctor-status
-                        ${getStatusClass(
-                            item.overallStatus
-                        )}"
-                    >
-
-                        ${item.overallStatus}
-
-                    </span>
-
-                </div>
-
-
-                <div class="doctor-data">
-
-
-                    <div
-                        class="doctor-data-item"
-                    >
-
-                        <span>
-                            Mood
-                        </span>
-
-                        <strong>
-
-                            ${formatValue(
-                                item.mood
-                            )}
-
-                        </strong>
 
                     </div>
 
 
                     <div
-                        class="doctor-data-item"
+                        class="doctor-data"
                     >
 
-                        <span>
-                            Stress
-                        </span>
 
-                        <strong>
+                        <div
+                            class="doctor-data-item"
+                        >
 
-                            ${formatValue(
-                                item.stress
-                            )}
+                            <span>
+                                Mood
+                            </span>
 
-                        </strong>
+
+                            <strong>
+
+                                ${formatValue(
+                                    item.mood
+                                )}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            class="doctor-data-item"
+                        >
+
+                            <span>
+                                Stress
+                            </span>
+
+
+                            <strong>
+
+                                ${formatValue(
+                                    item.stress
+                                )}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            class="doctor-data-item"
+                        >
+
+                            <span>
+                                Anxiety
+                            </span>
+
+
+                            <strong>
+
+                                ${formatValue(
+                                    item.anxiety
+                                )}
+
+                            </strong>
+
+                        </div>
+
 
                     </div>
 
-
-                    <div
-                        class="doctor-data-item"
-                    >
-
-                        <span>
-                            Anxiety
-                        </span>
-
-                        <strong>
-
-                            ${formatValue(
-                                item.anxiety
-                            )}
-
-                        </strong>
-
-                    </div>
+                `;
 
 
-                </div>
+                doctorHistory.appendChild(
+                    card
+                );
 
-            `;
-
-
-            doctorHistory.appendChild(
-                card
-            );
-
-        });
+            }
+        );
 
     }
 
 
-
     /* =========================
-       Trend
+       MENTAL HEALTH TREND
     ========================= */
 
     function displayTrend(history) {
@@ -1015,8 +1236,10 @@ document.addEventListener("DOMContentLoaded", function () {
             trendDirection.textContent =
                 "Not enough data";
 
+
             trendDirection.className =
                 "";
+
 
             return;
 
@@ -1025,13 +1248,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const latestScore =
             getConcernScore(
-                history[0].overallStatus
+                history[0]
+                    .overallStatus
             );
 
 
         const previousScore =
             getConcernScore(
-                history[1].overallStatus
+                history[1]
+                    .overallStatus
             );
 
 
@@ -1043,12 +1268,11 @@ document.addEventListener("DOMContentLoaded", function () {
             trendDirection.textContent =
                 "Increasing Concern";
 
+
             trendDirection.className =
                 "trend-warning";
 
-        }
-
-        else if (
+        } else if (
             latestScore <
             previousScore
         ) {
@@ -1056,15 +1280,15 @@ document.addEventListener("DOMContentLoaded", function () {
             trendDirection.textContent =
                 "Improving";
 
+
             trendDirection.className =
                 "trend-good";
 
-        }
-
-        else {
+        } else {
 
             trendDirection.textContent =
                 "Stable";
+
 
             trendDirection.className =
                 "trend-stable";
@@ -1074,10 +1298,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-
     /* =========================
-       Start
+       START DASHBOARD
     ========================= */
+
+    displayDistressAlerts();
 
     displayPatientList();
 
