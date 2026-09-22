@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -10,19 +12,27 @@
 
     <title>Patient Dashboard - HEKSAA</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css?v=5"
+    >
+
 </head>
 
 
 <body>
 
-    <!-- =========================
+
+    <!-- =====================================================
          HEADER
-    ========================== -->
+    ====================================================== -->
 
     <header class="heksaa-header">
 
         <div class="heksaa-header-inner">
+
+
+            <!-- BRAND -->
 
             <div class="heksaa-brand">
 
@@ -31,16 +41,26 @@
                 </div>
 
                 <div>
-                    <h1>HEKSAA</h1>
-                    <span>Mental Health Support</span>
+
+                    <h1>
+                        HEKSAA
+                    </h1>
+
+                    <span>
+                        Mental Health Support
+                    </span>
+
                 </div>
 
             </div>
 
 
+            <!-- ROLE -->
+
             <div class="header-role">
                 👤 Patient
             </div>
+
 
         </div>
 
@@ -48,11 +68,45 @@
 
 
 
+    <!-- =====================================================
+         PATIENT NAVIGATION
+    ====================================================== -->
+
+    <nav class="patient-resource-nav">
+
+        <a
+            href="patient-dashboard.html"
+            class="active"
+        >
+            🏠 Dashboard
+        </a>
+
+        <a href="patient-settings.html">
+            ⚙️ Settings
+        </a>
+
+        <a href="help.html">
+            🆘 Help
+        </a>
+
+        <a href="about.html">
+            ℹ️ About
+        </a>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         MAIN PATIENT DASHBOARD
+    ====================================================== -->
+
     <main class="patient-dashboard-page">
 
-        <!-- =========================
+
+        <!-- =================================================
              WELCOME SECTION
-        ========================== -->
+        ================================================== -->
 
         <section class="patient-welcome">
 
@@ -62,10 +116,12 @@
                     PATIENT PORTAL
                 </span>
 
+
                 <h2>
                     Patient<br>
                     Dashboard
                 </h2>
+
 
                 <p>
                     Monitor your mental well-being,
@@ -85,9 +141,9 @@
 
 
 
-        <!-- =========================
+        <!-- =================================================
              INFORMATION BANNER
-        ========================== -->
+        ================================================== -->
 
         <section class="patient-info-banner">
 
@@ -95,11 +151,13 @@
                 🔐
             </div>
 
+
             <div>
 
                 <h3>
                     Your mental health matters
                 </h3>
+
 
                 <p>
                     Regular check-ins help HEKSAA
@@ -114,17 +172,19 @@
 
 
 
-        <!-- =========================
+        <!-- =================================================
              PATIENT PROFILE
-        ========================== -->
+        ================================================== -->
 
         <section class="profile-card">
+
 
             <div class="section-heading">
 
                 <div class="section-heading-icon">
                     👤
                 </div>
+
 
                 <div>
 
@@ -141,6 +201,7 @@
             </div>
 
 
+
             <p class="profile-description">
 
                 Enter your basic information for your
@@ -151,11 +212,16 @@
             </p>
 
 
+
             <form id="profile-form">
+
+
+                <!-- FULL NAME -->
 
                 <label for="patient-name">
                     Full Name
                 </label>
+
 
                 <input
                     type="text"
@@ -165,9 +231,13 @@
                 >
 
 
+
+                <!-- PATIENT ID -->
+
                 <label for="patient-id">
                     Patient ID
                 </label>
+
 
                 <input
                     type="text"
@@ -177,9 +247,13 @@
                 >
 
 
+
+                <!-- AGE -->
+
                 <label for="patient-age">
                     Age
                 </label>
+
 
                 <input
                     type="number"
@@ -191,6 +265,9 @@
                 >
 
 
+
+                <!-- SAVE PROFILE -->
+
                 <button
                     type="submit"
                     class="primary-action-button"
@@ -198,6 +275,9 @@
                     ✓ Save Profile
                 </button>
 
+
+
+                <!-- PROFILE SUCCESS -->
 
                 <div
                     id="profile-success"
@@ -207,23 +287,26 @@
                     ✓ Profile saved successfully.
                 </div>
 
+
             </form>
 
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              MENTAL HEALTH CHECK-IN
-        ========================== -->
+        ================================================== -->
 
         <section class="checkin-card">
+
 
             <div class="section-heading">
 
                 <div class="section-heading-icon">
                     🧠
                 </div>
+
 
                 <div>
 
@@ -240,6 +323,9 @@
             </div>
 
 
+
+            <!-- INTRODUCTION -->
+
             <div class="checkin-introduction">
 
                 Take a moment to reflect on your
@@ -249,13 +335,18 @@
             </div>
 
 
-            <form>
 
-                <!-- MOOD -->
+            <form id="mental-health-checkin-form">
+
+
+                <!-- =================================================
+                     MOOD
+                ================================================== -->
 
                 <label for="mood">
                     How are you feeling today?
                 </label>
+
 
                 <select
                     id="mood"
@@ -267,21 +358,26 @@
                         Select your mood
                     </option>
 
+
                     <option value="very-happy">
                         Very Happy
                     </option>
+
 
                     <option value="happy">
                         Happy
                     </option>
 
+
                     <option value="neutral">
                         Neutral
                     </option>
 
+
                     <option value="sad">
                         Sad
                     </option>
+
 
                     <option value="very-sad">
                         Very Sad
@@ -291,11 +387,14 @@
 
 
 
-                <!-- STRESS -->
+                <!-- =================================================
+                     STRESS
+                ================================================== -->
 
                 <label for="stress">
                     How would you rate your stress level?
                 </label>
+
 
                 <select
                     id="stress"
@@ -307,17 +406,21 @@
                         Select stress level
                     </option>
 
+
                     <option value="low">
                         Low
                     </option>
+
 
                     <option value="moderate">
                         Moderate
                     </option>
 
+
                     <option value="high">
                         High
                     </option>
+
 
                     <option value="very-high">
                         Very High
@@ -327,11 +430,14 @@
 
 
 
-                <!-- ANXIETY -->
+                <!-- =================================================
+                     ANXIETY
+                ================================================== -->
 
                 <label for="anxiety">
                     How would you rate your anxiety level?
                 </label>
+
 
                 <select
                     id="anxiety"
@@ -343,17 +449,21 @@
                         Select anxiety level
                     </option>
 
+
                     <option value="low">
                         Low
                     </option>
+
 
                     <option value="moderate">
                         Moderate
                     </option>
 
+
                     <option value="high">
                         High
                     </option>
+
 
                     <option value="very-high">
                         Very High
@@ -363,6 +473,8 @@
 
 
 
+                <!-- SUBMIT CHECK-IN -->
+
                 <button
                     type="submit"
                     class="primary-action-button"
@@ -370,6 +482,9 @@
                     Submit Check-in
                 </button>
 
+
+
+                <!-- CHECK-IN NOTE -->
 
                 <div class="checkin-note">
 
@@ -380,6 +495,9 @@
                 </div>
 
 
+
+                <!-- SUCCESS MESSAGE -->
+
                 <div
                     id="success-message"
                     class="success-message"
@@ -388,23 +506,26 @@
                     ✓ Check-in submitted successfully.
                 </div>
 
+
             </form>
 
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              MENTAL HEALTH STATUS
-        ========================== -->
+        ================================================== -->
 
         <section class="status-card">
+
 
             <div class="section-heading">
 
                 <div class="section-heading-icon status-icon">
                     📊
                 </div>
+
 
                 <div>
 
@@ -421,6 +542,7 @@
             </div>
 
 
+
             <p class="profile-description">
 
                 This overview is based on your latest
@@ -429,9 +551,15 @@
             </p>
 
 
+
+            <!-- MOOD -->
+
             <div class="status-row">
 
-                <span>Mood</span>
+                <span>
+                    Mood
+                </span>
+
 
                 <strong id="status-mood">
                     Not available
@@ -440,9 +568,15 @@
             </div>
 
 
+
+            <!-- STRESS -->
+
             <div class="status-row">
 
-                <span>Stress Level</span>
+                <span>
+                    Stress Level
+                </span>
+
 
                 <strong id="status-stress">
                     Not available
@@ -451,9 +585,15 @@
             </div>
 
 
+
+            <!-- ANXIETY -->
+
             <div class="status-row">
 
-                <span>Anxiety Level</span>
+                <span>
+                    Anxiety Level
+                </span>
+
 
                 <strong id="status-anxiety">
                     Not available
@@ -462,11 +602,15 @@
             </div>
 
 
+
+            <!-- OVERALL STATUS -->
+
             <div class="status-overall">
 
                 <span>
                     Overall Status
                 </span>
+
 
                 <strong id="overall-status">
                     Not available
@@ -474,6 +618,9 @@
 
             </div>
 
+
+
+            <!-- DISCLAIMER -->
 
             <div class="status-disclaimer">
 
@@ -483,21 +630,24 @@
 
             </div>
 
+
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              CHECK-IN HISTORY
-        ========================== -->
+        ================================================== -->
 
         <section class="history-card">
+
 
             <div class="section-heading">
 
                 <div class="section-heading-icon history-icon">
                     🕐
                 </div>
+
 
                 <div>
 
@@ -514,6 +664,7 @@
             </div>
 
 
+
             <p class="profile-description">
 
                 Review your recent check-ins and
@@ -521,6 +672,7 @@
                 over time.
 
             </p>
+
 
 
             <div id="checkin-history">
@@ -531,25 +683,29 @@
 
             </div>
 
+
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              SUPPORT MESSAGE
-        ========================== -->
+        ================================================== -->
 
         <section class="patient-support-card">
+
 
             <div class="support-icon">
                 💙
             </div>
+
 
             <div>
 
                 <h3>
                     You don't have to face it alone.
                 </h3>
+
 
                 <p>
                     If you're experiencing distress,
@@ -560,25 +716,65 @@
 
             </div>
 
+
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              DISTRESS ALERT
-             Generated by distress.js
-        ========================== -->
+             
+             distress.js dynamically inserts:
+             "Feeling Distressed?" card here.
+        ================================================== -->
 
-        <!-- distress.js inserts the
-             "Feeling Distressed?" card here -->
 
     </main>
 
 
 
-    <!-- =========================
+    <!-- =====================================================
+         FOOTER NAVIGATION
+    ====================================================== -->
+
+    <footer class="patient-dashboard-footer">
+
+        <div>
+
+            <a href="patient-settings.html">
+                Settings
+            </a>
+
+            <a href="help.html">
+                Help
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="privacy.html">
+                Privacy
+            </a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+        </div>
+
+
+        <p>
+            HEKSAA • Mental Health Monitoring Prototype
+        </p>
+
+    </footer>
+
+
+
+    <!-- =====================================================
          SCRIPTS
-    ========================== -->
+    ====================================================== -->
 
     <script src="script.js?v=7"></script>
 
