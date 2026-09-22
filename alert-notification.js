@@ -4,30 +4,16 @@ document.addEventListener("DOMContentLoaded", function () {
        HEKSAA REAL-TIME ALERT NOTIFICATION SYSTEM
     ===================================================== */
 
-    const ALERT_STORAGE_KEY = "heksaaDistressAlerts";
+    const ALERT_STORAGE_KEY =
+        "heksaaDistressAlerts";
 
-    /*
-       Prototype escalation time.
+    const ESCALATION_TIME =
+        60 * 1000;
 
-       60 seconds = 1 minute.
-
-       Later, when backend is connected, this can be
-       changed to a server-side escalation rule.
-    */
-    const ESCALATION_TIME = 60 * 1000;
-
-
-    /*
-       Store alerts that have already generated
-       a notification on this doctor session.
-    */
     let notifiedAlerts = [];
 
-
-    /*
-       Store currently visible notification
-    */
-    let currentNotificationAlertId = null;
+    let currentNotificationAlertId =
+        null;
 
 
     /* =====================================================
@@ -74,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       DATE FORMAT
+       TIME
     ===================================================== */
 
     function formatTime(value) {
@@ -102,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CREATE NOTIFICATION CONTAINER
+       NOTIFICATION CONTAINER
     ===================================================== */
 
     function createNotificationContainer() {
@@ -137,7 +123,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             <div class="heksaa-notification-content">
 
-                <div class="heksaa-notification-title">
+                <div
+                    id="heksaa-notification-title"
+                    class="heksaa-notification-title"
+                >
                     New Distress Alert
                 </div>
 
@@ -145,9 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div
                     id="heksaa-notification-message"
                     class="heksaa-notification-message"
-                >
-                    A patient has requested help.
-                </div>
+                ></div>
 
 
                 <div
@@ -185,10 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        /*
-           Close notification
-        */
-
         document
             .getElementById(
                 "heksaa-notification-close"
@@ -202,10 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             );
 
-
-        /*
-           View alert
-        */
 
         document
             .getElementById(
@@ -240,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SHOW NOTIFICATION
+       SHOW NEW ALERT
     ===================================================== */
 
     function showNotification(alert) {
@@ -251,6 +230,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const notification =
             document.getElementById(
                 "heksaa-alert-notification"
+            );
+
+
+        const title =
+            document.getElementById(
+                "heksaa-notification-title"
             );
 
 
@@ -275,6 +260,10 @@ document.addEventListener("DOMContentLoaded", function () {
             alert.alertId;
 
 
+        title.textContent =
+            "New Distress Alert";
+
+
         message.textContent =
             `${alert.patientName} (${alert.patientId}) has reported that they are currently in distress.`;
 
@@ -295,27 +284,92 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        /*
-           Browser title notification
-        */
-
         document.title =
             "🚨 New Distress Alert | HEKSAA";
 
 
-        /*
-           Try browser notification
-           if permission already exists.
-        */
-
         sendBrowserNotification(
-            alert
+            alert,
+            false
         );
 
 
-        /*
-           Try notification sound
-        */
+        playAlertSound();
+
+    }
+
+
+    /* =====================================================
+       SHOW ESCALATION NOTIFICATION
+    ===================================================== */
+
+    function showEscalationNotification(
+        alert
+    ) {
+
+        createNotificationContainer();
+
+
+        const notification =
+            document.getElementById(
+                "heksaa-alert-notification"
+            );
+
+
+        const title =
+            document.getElementById(
+                "heksaa-notification-title"
+            );
+
+
+        const message =
+            document.getElementById(
+                "heksaa-notification-message"
+            );
+
+
+        const time =
+            document.getElementById(
+                "heksaa-notification-time"
+            );
+
+
+        if (!notification) {
+            return;
+        }
+
+
+        currentNotificationAlertId =
+            alert.alertId;
+
+
+        title.textContent =
+            "⚠️ Distress Alert Escalated";
+
+
+        message.textContent =
+            `${alert.patientName} (${alert.patientId}) has an unacknowledged distress alert.`;
+
+
+        time.textContent =
+            "Escalation threshold reached.";
+
+
+        notification.classList.add(
+            "show",
+            "escalated"
+        );
+
+
+        document.title =
+            "⚠️ ESCALATED ALERT | HEKSAA";
+
+
+        sendBrowserNotification(
+            alert,
+            true
+        );
+
 
         playAlertSound();
 
@@ -354,16 +408,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function sendBrowserNotification(
-        alert
+        alert,
+        escalated
     ) {
-
-        /*
-           Only use browser notification if permission
-           has already been granted.
-
-           We don't automatically request permission
-           because browsers may block it.
-        */
 
         if (
             typeof Notification ===
@@ -374,27 +421,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (
-            Notification.permission ===
+            Notification.permission !==
             "granted"
         ) {
+            return;
+        }
 
-            try {
 
-                new Notification(
-                    "HEKSAA — Distress Alert",
-                    {
-                        body:
-                            `${alert.patientName} (${alert.patientId}) requested help.`,
-                        icon:
-                            "https://humayunparwez.github.io/HEKSAA/favicon.ico"
-                    }
-                );
+        try {
 
-            } catch (error) {
+            new Notification(
+                escalated
+                    ? "⚠️ HEKSAA Alert Escalated"
+                    : "🚨 HEKSAA Distress Alert",
+                {
+                    body:
+                        `${alert.patientName} (${alert.patientId}) ${
+                            escalated
+                                ? "has an unacknowledged distress alert."
+                                : "requested help."
+                        }`
+                }
+            );
 
-                /* Ignore browser notification errors */
+        } catch (error) {
 
-            }
+            /* Browser notification unavailable */
 
         }
 
@@ -402,7 +454,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       REQUEST BROWSER NOTIFICATION PERMISSION
+       REQUEST NOTIFICATION PERMISSION
     ===================================================== */
 
     function requestNotificationPermission() {
@@ -489,10 +541,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
 
-            /*
-               Browser may block autoplay audio.
-               That's okay.
-            */
+            /* Audio may be blocked by browser */
 
         }
 
@@ -500,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       FIND NEW ALERTS
+       CHECK NEW ALERTS
     ===================================================== */
 
     function checkForNewAlerts() {
@@ -513,10 +562,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
-        /*
-           Find newest pending alert
-        */
 
         const pendingAlerts =
             alerts
@@ -546,8 +591,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           First alert on page load:
-           don't show an old alert as "new".
+           Initialize existing alerts without
+           treating them as new.
         */
 
         if (
@@ -570,10 +615,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /*
-           Find genuinely new alert
-        */
-
         const isNew =
             !notifiedAlerts.includes(
                 newest.alertId
@@ -593,10 +634,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-
-        /*
-           Check escalation
-        */
 
         checkEscalation(
             alerts
@@ -625,6 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
             function (alert) {
 
                 /*
+                   IMPORTANT:
                    Only pending alerts can escalate.
                 */
 
@@ -635,10 +673,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-
-                /*
-                   Don't escalate twice.
-                */
 
                 if (
                     alert.escalatedAt
@@ -665,10 +699,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     created;
 
 
-                /*
-                   Escalate after configured time.
-                */
-
                 if (
                     elapsed >=
                     ESCALATION_TIME
@@ -693,23 +723,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 alerts
             );
 
-            updateEscalatedUI(
-                alerts
-            );
-
-        } else {
-
-            updateEscalatedUI(
-                alerts
-            );
-
         }
+
+
+        updateEscalatedUI(
+            alerts
+        );
 
     }
 
 
     /* =====================================================
-       UPDATE ESCALATED ALERT UI
+       ESCALATED CARD UI
     ===================================================== */
 
     function updateEscalatedUI(
@@ -719,7 +744,15 @@ document.addEventListener("DOMContentLoaded", function () {
         alerts.forEach(
             function (alert) {
 
+                /*
+                   IMPORTANT:
+                   Acknowledged alerts should NEVER
+                   show the active escalation badge.
+                */
+
                 if (
+                    alert.status !==
+                    "Pending" ||
                     !alert.escalatedAt
                 ) {
                     return;
@@ -744,18 +777,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        /*
-                           Add escalation class
-                        */
-
                         card.classList.add(
                             "distress-escalated"
                         );
 
-
-                        /*
-                           Prevent duplicate badge
-                        */
 
                         if (
                             card.querySelector(
@@ -780,15 +805,22 @@ document.addEventListener("DOMContentLoaded", function () {
                             `⚠️ ESCALATED — Unacknowledged for more than 1 minute`;
 
 
-                        const alertMain =
+                        /*
+                           Put the badge BELOW
+                           the patient information,
+                           not inside the horizontal
+                           alert-main row.
+                        */
+
+                        const alertDetails =
                             card.querySelector(
-                                ".alert-main"
+                                ".alert-details"
                             );
 
 
-                        if (alertMain) {
+                        if (alertDetails) {
 
-                            alertMain.appendChild(
+                            alertDetails.appendChild(
                                 badge
                             );
 
@@ -804,7 +836,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       ACTIVE ESCALATION CHECK
+       ESCALATION NOTIFICATION CHECK
     ===================================================== */
 
     function checkEscalationNotification() {
@@ -816,17 +848,18 @@ document.addEventListener("DOMContentLoaded", function () {
         alerts.forEach(
             function (alert) {
 
+                /*
+                   Only pending + escalated alerts
+                */
+
                 if (
+                    alert.status !==
+                    "Pending" ||
                     !alert.escalatedAt
                 ) {
                     return;
                 }
 
-
-                /*
-                   If escalation just happened,
-                   show an escalation notification.
-                */
 
                 const escalationKey =
                     "escalation-" +
@@ -858,76 +891,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       ESCALATION NOTIFICATION
-    ===================================================== */
-
-    function showEscalationNotification(
-        alert
-    ) {
-
-        createNotificationContainer();
-
-
-        const notification =
-            document.getElementById(
-                "heksaa-alert-notification"
-            );
-
-
-        const message =
-            document.getElementById(
-                "heksaa-notification-message"
-            );
-
-
-        const time =
-            document.getElementById(
-                "heksaa-notification-time"
-            );
-
-
-        if (!notification) {
-            return;
-        }
-
-
-        currentNotificationAlertId =
-            alert.alertId;
-
-
-        message.textContent =
-            `⚠️ ${alert.patientName} (${alert.patientId}) has an unacknowledged distress alert.`;
-
-
-        time.textContent =
-            "Escalation threshold reached.";
-
-
-        notification.classList.add(
-            "show",
-            "escalated"
-        );
-
-
-        document.title =
-            "⚠️ ESCALATED DISTRESS ALERT | HEKSAA";
-
-
-        playAlertSound();
-
-
-        sendBrowserNotification(
-            alert
-        );
-
-    }
-
-
-    /* =====================================================
-       REQUEST NOTIFICATION PERMISSION
-       
-       Clicking the notification area can enable
-       browser notifications.
+       ENABLE BROWSER NOTIFICATIONS
     ===================================================== */
 
     document.addEventListener(
@@ -944,12 +908,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       INITIALIZATION
+       INITIALIZE
     ===================================================== */
-
-    /*
-       Only run on doctor dashboard.
-    */
 
     if (
         !document.getElementById(
@@ -963,15 +923,11 @@ document.addEventListener("DOMContentLoaded", function () {
     createNotificationContainer();
 
 
-    /*
-       Initial check
-    */
-
     checkForNewAlerts();
 
 
     /*
-       Check every second.
+       Check every second
     */
 
     setInterval(
