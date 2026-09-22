@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - HEKSAA</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 6%;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .brand h1 {
+            color: #4f46e5;
+            font-size: 29px;
+        }
+
+        .brand p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .back {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 55px 20px;
+        }
+
+        .hero {
+            margin-bottom: 35px;
+        }
+
+        .label {
+            color: #4f46e5;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 42px;
+            line-height: 1.15;
+            margin: 10px 0 15px;
+        }
+
+        .hero p {
+            color: #64748b;
+            font-size: 18px;
+            max-width: 700px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e1e5ed;
+            border-radius: 20px;
+            padding: 27px;
+            margin-bottom: 18px;
+            box-shadow: 0 7px 25px rgba(15, 23, 42, 0.04);
+        }
+
+        .card h3 {
+            font-size: 21px;
+            margin-bottom: 9px;
+        }
+
+        .card p {
+            color: #64748b;
+        }
+
+        .emergency {
+            background: #fff5f5;
+            border-color: #fecaca;
+        }
+
+        .emergency h3 {
+            color: #991b1b;
+        }
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 17px 20px;
+            }
+
+            .brand-icon {
+                width: 47px;
+                height: 47px;
+            }
+
+            .brand h1 {
+                font-size: 25px;
+            }
+
+            .brand p {
+                font-size: 12px;
+            }
+
+            .back {
+                font-size: 13px;
+            }
+
+            .container {
+                padding: 40px 18px;
+            }
+
+            h2 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .card {
+                padding: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <div class="brand">
+            <div class="brand-icon">H</div>
+
+            <div>
+                <h1>HEKSAA</h1>
+                <p>Mental Health Monitoring</p>
+            </div>
+        </div>
+
+        <a href="index.html" class="back">
+            ← Home
+        </a>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="label">Support Center</div>
+
+        <h2>How can we help?</h2>
+
+        <p>
+            Find information about using HEKSAA, submitting
+            check-ins, distress alerts, and accessing support.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>🧠 Mental Health Check-ins</h3>
+
+        <p>
+            Patients can regularly report their mood, stress,
+            and anxiety levels from the Patient Dashboard.
+            These responses help track changes over time.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>🚨 Distress Support</h3>
+
+        <p>
+            If you are experiencing significant distress,
+            you can use the "I Need Help" option on the
+            Patient Dashboard to notify the connected
+            doctor or counselor.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>👨‍⚕️ Doctor / Counselor Dashboard</h3>
+
+        <p>
+            Healthcare professionals can review patient
+            check-ins, monitoring trends, risk indicators,
+            and reported distress alerts.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>🔐 Account & Privacy</h3>
+
+        <p>
+            HEKSAA is designed to handle mental health
+            information carefully. Production authentication,
+            secure storage, and access controls will be
+            connected during backend development.
+        </p>
+
+    </section>
+
+
+    <section class="card emergency">
+
+        <h3>⚠️ Immediate Assistance</h3>
+
+        <p>
+            HEKSAA is a monitoring prototype and does not
+            replace emergency services or professional care.
+            If someone is in immediate danger, contact local
+            emergency services or a qualified healthcare
+            professional.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    HEKSAA • Mental Health Monitoring Prototype
+</footer>
+
+</body>
+</html>
