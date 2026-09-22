@@ -3,1299 +3,1017 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>Doctor Dashboard - HEKSAA</title>
+<title>Doctor Dashboard - HEKSAA</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
+<style>
 
-    <style>
+/* =========================
+   PATIENT LIST
+========================= */
 
-        /* =========================
-           Patient List
-        ========================= */
+.patient-list-section,
+.distress-alert-center,
+.risk-timeline-section,
+.alert-history-section {
 
-        .patient-list-section {
+    margin-top:25px;
+    padding:24px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
 
-            margin-top: 25px;
+}
 
-            padding: 24px;
+.patient-list {
 
-            background: #ffffff;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:18px;
 
-            border: 1px solid #e5e7eb;
+}
 
-            border-radius: 12px;
+.patient-card {
 
-        }
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
 
+}
 
-        .patient-list {
+.patient-card:hover {
 
-            display: grid;
+    border-color:#4f46e5;
 
-            grid-template-columns:
-                repeat(2, 1fr);
+}
 
-            gap: 14px;
+.patient-card.active {
 
-            margin-top: 18px;
+    border:2px solid #4f46e5;
+    background:#eef2ff;
 
-        }
+}
 
+.patient-list-avatar {
 
-        .patient-card {
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#e0e7ff;
+    border-radius:50%;
+    font-size:22px;
+    flex-shrink:0;
 
-            display: flex;
+}
 
-            align-items: center;
+.patient-card-info {
 
-            gap: 14px;
+    flex:1;
 
-            padding: 16px;
+}
 
-            background: #f8fafc;
+.patient-card-info strong {
 
-            border: 1px solid #e5e7eb;
+    display:block;
+    color:#1f2937;
 
-            border-radius: 10px;
+}
 
-            cursor: pointer;
+.patient-card-info span {
 
-            transition: 0.2s;
+    display:block;
+    margin-top:4px;
+    color:#6b7280;
+    font-size:13px;
 
-        }
+}
 
+.patient-card-status {
 
-        .patient-card:hover {
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    white-space:nowrap;
 
-            border-color: #4f46e5;
+}
 
-            transform: translateY(-1px);
+.patient-card-status.status-low {
 
-        }
+    background:#dcfce7;
+    color:#166534;
 
+}
 
-        .patient-card.active {
+.patient-card-status.status-moderate {
 
-            border: 2px solid #4f46e5;
+    background:#fef3c7;
+    color:#92400e;
 
-            background: #eef2ff;
+}
 
-        }
+.patient-card-status.status-high {
 
+    background:#fee2e2;
+    color:#991b1b;
 
-        .patient-list-avatar {
+}
 
-            width: 44px;
 
-            height: 44px;
+/* =========================
+   ALERT CENTER
+========================= */
 
-            display: flex;
+.alert-center-header {
 
-            align-items: center;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
 
-            justify-content: center;
+}
 
-            border-radius: 50%;
+.active-alert-count {
 
-            background: #e0e7ff;
+    padding:7px 12px;
+    height:fit-content;
+    border-radius:20px;
+    background:#dcfce7;
+    color:#166534;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
 
-            font-size: 22px;
+}
 
-            flex-shrink: 0;
+.active-alert-count.has-alerts {
 
-        }
+    background:#fee2e2;
+    color:#991b1b;
 
+}
 
-        .patient-card-info {
+.alert-item {
 
-            flex: 1;
+    margin-top:15px;
+    padding:16px;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    border-radius:10px;
 
-            min-width: 0;
+}
 
-        }
+.alert-item.acknowledged {
 
+    background:#f8fafc;
+    border-color:#d1d5db;
 
-        .patient-card-info strong {
+}
 
-            display: block;
+.alert-main {
 
-            font-size: 16px;
+    display:flex;
+    gap:15px;
+    align-items:center;
 
-            color: #1f2937;
+}
 
-        }
+.alert-icon {
 
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fee2e2;
+    border-radius:50%;
+    font-size:21px;
+    flex-shrink:0;
 
-        .patient-card-info span {
+}
 
-            display: block;
+.alert-item.acknowledged .alert-icon {
 
-            margin-top: 4px;
+    background:#e5e7eb;
 
-            font-size: 13px;
+}
 
-            color: #6b7280;
+.alert-details {
 
-        }
+    flex:1;
 
+}
 
-        .patient-card-status {
+.alert-details strong {
 
-            font-size: 12px;
+    display:block;
+    color:#7f1d1d;
+    font-size:16px;
 
-            padding: 6px 10px;
+}
 
-            border-radius: 20px;
+.alert-item.acknowledged
+.alert-details strong {
 
-            white-space: nowrap;
+    color:#374151;
 
-        }
+}
 
+.alert-details span {
 
-        .patient-card-status.status-low {
+    display:block;
+    margin-top:4px;
+    color:#991b1b;
+    font-size:13px;
 
-            background: #dcfce7;
+}
 
-            color: #166534;
+.alert-time {
 
-        }
+    color:#6b7280 !important;
+    font-size:12px !important;
 
+}
 
-        .patient-card-status.status-moderate {
+.alert-status {
 
-            background: #fef3c7;
+    display:inline-block !important;
+    width:fit-content;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px !important;
+    font-weight:600;
 
-            color: #92400e;
+}
 
-        }
+.alert-status.pending {
 
+    background:#fee2e2;
+    color:#991b1b;
 
-        .patient-card-status.status-high {
+}
 
-            background: #fee2e2;
+.alert-status.reviewed {
 
-            color: #991b1b;
+    background:#dcfce7;
+    color:#166534;
 
-        }
+}
 
+.alert-actions {
 
-        /* =========================
-           Distress Alert Center
-        ========================= */
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+    padding-left:57px;
+    flex-wrap:wrap;
 
-        .distress-alert-center {
+}
 
-            margin-top: 25px;
+.alert-actions button {
 
-            padding: 24px;
+    border:0;
+    padding:9px 13px;
+    border-radius:7px;
+    font-weight:600;
+    cursor:pointer;
 
-            background: #ffffff;
+}
 
-            border: 1px solid #e5e7eb;
+.alert-view-button {
 
-            border-radius: 12px;
+    background:#4f46e5;
+    color:#fff;
 
-        }
+}
 
+.alert-details-button {
 
-        .alert-center-header {
+    background:#e5e7eb;
+    color:#374151;
 
-            display: flex;
+}
 
-            justify-content: space-between;
+.alert-acknowledge-button {
 
-            align-items: flex-start;
+    background:#16a34a;
+    color:#fff;
 
-            gap: 15px;
+}
 
-        }
+.alert-acknowledge-button:disabled {
 
+    background:#9ca3af;
+    cursor:default;
 
-        .alert-center-header h3 {
+}
 
-            margin: 0 0 6px 0;
+.alert-details-panel {
 
-            color: #1f2937;
+    display:none;
+    margin-top:14px;
+    margin-left:57px;
+    padding:15px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:9px;
 
-        }
+}
 
+.alert-details-panel.show {
 
-        .active-alert-count {
+    display:block;
 
-            padding: 7px 12px;
+}
 
-            border-radius: 20px;
+.alert-data-grid {
 
-            background: #dcfce7;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 
-            color: #166534;
+}
 
-            font-size: 13px;
+.alert-data-box {
 
-            font-weight: 600;
+    padding:11px;
+    background:#f8fafc;
+    border-radius:8px;
 
-            white-space: nowrap;
+}
 
-        }
+.alert-data-box span {
 
+    display:block;
+    color:#6b7280;
+    font-size:12px;
+    margin-bottom:5px;
 
-        .active-alert-count.has-alerts {
+}
 
-            background: #fee2e2;
+.alert-data-box strong {
 
-            color: #991b1b;
+    color:#1f2937;
 
-        }
+}
 
 
-        /* =========================
-           Alert Item
-        ========================= */
+/* =========================
+   RISK TIMELINE
+========================= */
 
-        .alert-item {
+.risk-timeline {
 
-            margin-top: 15px;
+    margin-top:20px;
+    position:relative;
 
-            padding: 16px;
+}
 
-            background: #fef2f2;
+.timeline-item {
 
-            border: 1px solid #fecaca;
+    display:flex;
+    gap:15px;
+    position:relative;
+    padding-bottom:22px;
 
-            border-radius: 10px;
+}
 
-        }
+.timeline-item:last-child {
 
+    padding-bottom:0;
 
-        .alert-item.acknowledged {
+}
 
-            background: #f8fafc;
+.timeline-line {
 
-            border-color: #d1d5db;
+    position:absolute;
+    left:11px;
+    top:25px;
+    bottom:0;
+    width:2px;
+    background:#e5e7eb;
 
-        }
+}
 
+.timeline-item:last-child
+.timeline-line {
 
-        .alert-main {
+    display:none;
 
-            display: flex;
+}
 
-            align-items: center;
+.timeline-dot {
 
-            gap: 15px;
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:12px;
+    z-index:1;
+    flex-shrink:0;
 
-        }
+}
 
+.timeline-dot.low {
 
-        .alert-icon {
+    background:#dcfce7;
 
-            width: 42px;
+}
 
-            height: 42px;
+.timeline-dot.moderate {
 
-            display: flex;
+    background:#fef3c7;
 
-            align-items: center;
+}
 
-            justify-content: center;
+.timeline-dot.high {
 
-            background: #fee2e2;
+    background:#fee2e2;
 
-            border-radius: 50%;
+}
 
-            font-size: 21px;
+.timeline-content {
 
-            flex-shrink: 0;
+    flex:1;
+    padding:12px 15px;
+    background:#f8fafc;
+    border-radius:9px;
+    border:1px solid #e5e7eb;
 
-        }
+}
 
+.timeline-header {
 
-        .alert-item.acknowledged
-        .alert-icon {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
 
-            background: #e5e7eb;
+}
 
-        }
+.timeline-status {
 
+    font-size:12px;
+    font-weight:600;
+    padding:5px 9px;
+    border-radius:20px;
 
-        .alert-details {
+}
 
-            flex: 1;
+.timeline-status.low {
 
-            min-width: 0;
+    background:#dcfce7;
+    color:#166534;
 
-        }
+}
 
+.timeline-status.moderate {
 
-        .alert-details strong {
+    background:#fef3c7;
+    color:#92400e;
 
-            display: block;
+}
 
-            color: #7f1d1d;
+.timeline-status.high {
 
-            font-size: 16px;
+    background:#fee2e2;
+    color:#991b1b;
 
-        }
+}
 
+.timeline-date {
 
-        .alert-item.acknowledged
-        .alert-details strong {
+    color:#6b7280;
+    font-size:12px;
 
-            color: #374151;
+}
 
-        }
+.timeline-data {
 
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:12px;
 
-        .alert-details span {
+}
 
-            display: block;
+.timeline-data div {
 
-            margin-top: 4px;
+    padding:9px;
+    background:#fff;
+    border-radius:7px;
 
-            color: #991b1b;
+}
 
-            font-size: 13px;
+.timeline-data span {
 
-        }
+    display:block;
+    color:#6b7280;
+    font-size:11px;
 
+}
 
-        .alert-item.acknowledged
-        .alert-details span {
+.timeline-data strong {
 
-            color: #6b7280;
+    display:block;
+    margin-top:3px;
+    font-size:13px;
 
-        }
+}
 
 
-        .alert-time {
+/* =========================
+   ALERT HISTORY
+========================= */
 
-            color: #6b7280 !important;
+.history-alert-item {
 
-            font-size: 12px !important;
+    margin-top:12px;
+    padding:15px;
+    border:1px solid #e5e7eb;
+    background:#f8fafc;
+    border-radius:9px;
 
-        }
+}
 
+.history-alert-header {
 
-        .alert-status {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
 
-            display: inline-block;
+}
 
-            margin-top: 6px;
+.history-alert-header strong {
 
-            padding: 4px 8px;
+    color:#1f2937;
 
-            border-radius: 20px;
+}
 
-            font-size: 11px;
+.history-alert-meta {
 
-            font-weight: 600;
+    color:#6b7280;
+    font-size:12px;
+    margin-top:5px;
 
-        }
+}
 
+.history-alert-data {
 
-        .alert-status.pending {
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+    flex-wrap:wrap;
 
-            background: #fee2e2;
+}
 
-            color: #991b1b;
+.history-alert-data span {
 
-        }
+    padding:5px 8px;
+    background:#fff;
+    border-radius:6px;
+    font-size:12px;
 
+}
 
-        .alert-status.reviewed {
+.history-empty {
 
-            background: #dcfce7;
+    margin-top:15px;
+    padding:25px;
+    text-align:center;
+    background:#f8fafc;
+    border-radius:10px;
+    color:#6b7280;
 
-            color: #166534;
+}
 
-        }
 
+/* =========================
+   MOBILE
+========================= */
 
-        /* =========================
-           Alert Buttons
-        ========================= */
+@media(max-width:600px) {
 
-        .alert-actions {
+    .patient-list {
 
-            display: flex;
+        grid-template-columns:1fr;
 
-            gap: 8px;
+    }
 
-            margin-top: 14px;
+    .alert-center-header {
 
-            padding-left: 57px;
+        flex-direction:column;
 
-        }
+    }
 
+    .alert-actions {
 
-        .alert-view-button,
-        .alert-details-button,
-        .alert-acknowledge-button {
+        padding-left:0;
 
-            border: none;
+    }
 
-            padding: 9px 13px;
+    .alert-details-panel {
 
-            border-radius: 7px;
+        margin-left:0;
 
-            font-size: 13px;
+    }
 
-            font-weight: 600;
+    .alert-data-grid {
 
-            cursor: pointer;
+        grid-template-columns:1fr;
 
-        }
+    }
 
+    .timeline-header {
 
-        .alert-view-button {
+        flex-direction:column;
 
-            background: #4f46e5;
+    }
 
-            color: #ffffff;
+    .timeline-data {
 
-        }
+        grid-template-columns:1fr;
 
+    }
 
-        .alert-view-button:hover {
+}
 
-            background: #4338ca;
-
-        }
-
-
-        .alert-details-button {
-
-            background: #e5e7eb;
-
-            color: #374151;
-
-        }
-
-
-        .alert-details-button:hover {
-
-            background: #d1d5db;
-
-        }
-
-
-        .alert-acknowledge-button {
-
-            background: #16a34a;
-
-            color: #ffffff;
-
-        }
-
-
-        .alert-acknowledge-button:hover {
-
-            background: #15803d;
-
-        }
-
-
-        .alert-acknowledge-button:disabled {
-
-            background: #9ca3af;
-
-            cursor: default;
-
-        }
-
-
-        /* =========================
-           Alert Details
-        ========================= */
-
-        .alert-details-panel {
-
-            display: none;
-
-            margin-top: 14px;
-
-            margin-left: 57px;
-
-            padding: 15px;
-
-            background: #ffffff;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 9px;
-
-        }
-
-
-        .alert-details-panel.show {
-
-            display: block;
-
-        }
-
-
-        .alert-details-title {
-
-            margin-bottom: 12px;
-
-            font-size: 14px;
-
-            font-weight: 600;
-
-            color: #374151;
-
-        }
-
-
-        .alert-data-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 10px;
-
-        }
-
-
-        .alert-data-box {
-
-            padding: 11px;
-
-            background: #f8fafc;
-
-            border-radius: 8px;
-
-        }
-
-
-        .alert-data-box span {
-
-            display: block;
-
-            margin: 0 0 5px 0;
-
-            color: #6b7280;
-
-            font-size: 12px;
-
-        }
-
-
-        .alert-data-box strong {
-
-            display: block;
-
-            color: #1f2937;
-
-            font-size: 14px;
-
-        }
-
-
-        /* =========================
-           Empty Alerts
-        ========================= */
-
-        .alert-empty {
-
-            margin-top: 15px;
-
-            padding: 25px;
-
-            text-align: center;
-
-            background: #f8fafc;
-
-            border-radius: 10px;
-
-        }
-
-
-        .alert-empty-icon {
-
-            font-size: 28px;
-
-            margin-bottom: 8px;
-
-        }
-
-
-        .alert-empty h4 {
-
-            margin: 0 0 5px 0;
-
-            color: #374151;
-
-        }
-
-
-        .alert-empty p {
-
-            margin: 0;
-
-            color: #6b7280;
-
-            font-size: 13px;
-
-        }
-
-
-        /* =========================
-           Selected Patient Alert
-        ========================= */
-
-        .distress-alert {
-
-            margin-top: 20px;
-
-            padding: 18px;
-
-            background: #fef2f2;
-
-            border: 1px solid #fecaca;
-
-            border-radius: 12px;
-
-        }
-
-
-        .distress-alert h3 {
-
-            margin: 0 0 6px 0;
-
-            color: #b91c1c;
-
-        }
-
-
-        .distress-alert p {
-
-            margin: 0;
-
-            color: #7f1d1d;
-
-            line-height: 1.5;
-
-        }
-
-
-        /* =========================
-           Empty Patient List
-        ========================= */
-
-        .patient-list-empty {
-
-            padding: 25px;
-
-            text-align: center;
-
-            color: #6b7280;
-
-        }
-
-
-        /* =========================
-           Mobile
-        ========================= */
-
-        @media (max-width: 600px) {
-
-            .patient-list {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-            .alert-center-header {
-
-                flex-direction: column;
-
-            }
-
-
-            .alert-main {
-
-                align-items: flex-start;
-
-            }
-
-
-            .alert-actions {
-
-                padding-left: 0;
-
-                flex-wrap: wrap;
-
-            }
-
-
-            .alert-details-panel {
-
-                margin-left: 0;
-
-            }
-
-
-            .alert-data-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
 
 <body>
 
-
 <header>
 
-    <h1>HEKSAA</h1>
+<h1>HEKSAA</h1>
 
 </header>
 
 
 <main>
 
-
 <section class="doctor-dashboard">
 
 
-    <h2>
-        Doctor / Counselor Dashboard
-    </h2>
+<h2>Doctor / Counselor Dashboard</h2>
 
+<p class="dashboard-subtitle">
 
-    <p class="dashboard-subtitle">
+Monitor patient mental health check-ins
+and identify changes that may require attention.
 
-        Monitor patient mental health
-        check-ins and identify changes
-        that may require attention.
+</p>
 
-    </p>
 
+<!-- PATIENT LIST -->
 
-    <!-- =========================
-         Patient List
-    ========================= -->
+<div class="patient-list-section">
 
-    <div class="patient-list-section">
+<h3>👥 Patients</h3>
 
+<p class="section-description">
 
-        <h3>
-            👥 Patients
-        </h3>
+Select a patient to view their monitoring data.
 
+</p>
 
-        <p class="section-description">
+<div id="patient-list"
+     class="patient-list">
 
-            Select a patient to view their
-            mental health monitoring data.
+Loading patients...
 
-        </p>
+</div>
 
+</div>
 
-        <div
-            id="patient-list"
-            class="patient-list"
-        >
 
-            <div class="patient-list-empty">
+<!-- ALERT CENTER -->
 
-                Loading patients...
+<div class="distress-alert-center">
 
-            </div>
+<div class="alert-center-header">
 
-        </div>
+<div>
 
+<h3>🚨 Distress Alert Center</h3>
 
-    </div>
+<p class="section-description">
 
+Review and acknowledge high-concern patient alerts.
 
-    <!-- =========================
-         Distress Alert Center
-    ========================= -->
+</p>
 
-    <div class="distress-alert-center">
+</div>
 
+<div id="active-alert-count"
+     class="active-alert-count">
 
-        <div class="alert-center-header">
+0 Active Alerts
 
+</div>
 
-            <div>
+</div>
 
-                <h3>
-                    🚨 Distress Alert Center
-                </h3>
 
+<div id="distress-alert-list">
 
-                <p class="section-description">
+</div>
 
-                    Review and acknowledge
-                    high-concern patient alerts.
+</div>
 
-                </p>
 
-            </div>
+<!-- SELECTED PATIENT -->
 
+<div class="patient-profile-overview">
 
-            <div
-                id="active-alert-count"
-                class="active-alert-count"
-            >
+<div class="patient-avatar">👤</div>
 
-                0 Active Alerts
+<div class="patient-profile-info">
 
-            </div>
+<span class="profile-label">
+Selected Patient
+</span>
 
+<h3 id="doctor-patient-name">
+Patient
+</h3>
 
-        </div>
+<div class="patient-details">
 
+<span>
+ID:
+<strong id="doctor-patient-id">
+Not available
+</strong>
+</span>
 
-        <div id="distress-alert-list">
+<span>
+Age:
+<strong id="doctor-patient-age">
+Not available
+</strong>
+</span>
 
+</div>
 
-            <div class="alert-empty">
+</div>
 
-                <div class="alert-empty-icon">
-                    ✅
-                </div>
 
+<div id="doctor-latest-status"
+     class="doctor-status">
 
-                <h4>
-                    No Active Distress Alerts
-                </h4>
+No Data
 
+</div>
 
-                <p>
+</div>
 
-                    No patient's latest check-in
-                    is currently classified as
-                    High Concern.
 
-                </p>
+<!-- SELECTED PATIENT ALERT -->
 
+<div id="distress-alert"
+     class="distress-alert"
+     style="display:none;">
 
-            </div>
+<h3>⚠️ Attention Required</h3>
 
+<p>
 
-        </div>
+The latest check-in for this patient
+has been classified as
+<strong>High Concern</strong>
+by the HEKSAA prototype monitoring system.
 
+</p>
 
-    </div>
+</div>
 
 
-    <!-- =========================
-         Selected Patient
-    ========================= -->
+<!-- SUMMARY -->
 
-    <div class="patient-profile-overview">
+<div class="doctor-summary">
 
+<div class="summary-card">
 
-        <div class="patient-avatar">
+<span class="summary-icon">👥</span>
 
-            👤
+<div>
 
-        </div>
+<p>Total Check-ins</p>
 
+<strong id="total-checkins">0</strong>
 
-        <div class="patient-profile-info">
+</div>
 
+</div>
 
-            <span class="profile-label">
 
-                Selected Patient
+<div class="summary-card">
 
-            </span>
+<span class="summary-icon">🟢</span>
 
+<div>
 
-            <h3 id="doctor-patient-name">
+<p>Low Concern</p>
 
-                Patient
+<strong id="low-count">0</strong>
 
-            </h3>
+</div>
 
+</div>
 
-            <div class="patient-details">
 
+<div class="summary-card">
 
-                <span>
+<span class="summary-icon">🟡</span>
 
-                    ID:
+<div>
 
-                    <strong
-                        id="doctor-patient-id"
-                    >
-                        Not available
-                    </strong>
+<p>Moderate Concern</p>
 
-                </span>
+<strong id="moderate-count">0</strong>
 
+</div>
 
-                <span>
+</div>
 
-                    Age:
 
-                    <strong
-                        id="doctor-patient-age"
-                    >
-                        Not available
-                    </strong>
+<div class="summary-card">
 
-                </span>
+<span class="summary-icon">🔴</span>
 
+<div>
 
-            </div>
+<p>High Concern</p>
 
+<strong id="high-count">0</strong>
 
-        </div>
+</div>
 
+</div>
 
-        <div
-            id="doctor-latest-status"
-            class="doctor-status"
-        >
+</div>
 
-            No Data
 
-        </div>
+<!-- CHECK-IN HISTORY -->
 
+<div class="patient-monitoring">
 
-    </div>
+<h3>📊 Patient Mental Health Monitoring</h3>
 
+<p class="section-description">
 
-    <!-- =========================
-         Selected Patient Alert
-    ========================= -->
+Recent check-ins recorded by HEKSAA.
 
-    <div
-        id="distress-alert"
-        class="distress-alert"
-        style="display:none;"
-    >
+</p>
 
+<div id="doctor-history"></div>
 
-        <h3>
-            ⚠️ Attention Required
-        </h3>
 
+<!-- TREND -->
 
-        <p>
+<div class="health-trend">
 
-            The latest check-in for this
-            patient has been classified as
-            <strong>High Concern</strong>
-            by the HEKSAA prototype
-            monitoring system.
+<h3>📈 Mental Health Trend</h3>
 
-        </p>
+<p class="section-description">
 
+Overview of the patient's recent
+self-reported mental health levels.
 
-        <p style="margin-top:8px;">
+</p>
 
-            Review the recent check-in
-            information and consider
-            appropriate follow-up.
+<div class="trend-grid">
 
-        </p>
+<div class="trend-card">
 
+<span>Latest Mood</span>
 
-    </div>
+<strong id="trend-mood">
+No Data
+</strong>
 
+</div>
 
-    <!-- =========================
-         Summary
-    ========================= -->
+<div class="trend-card">
 
-    <div class="doctor-summary">
+<span>Latest Stress</span>
 
+<strong id="trend-stress">
+No Data
+</strong>
 
-        <div class="summary-card">
+</div>
 
-            <span class="summary-icon">
-                👥
-            </span>
+<div class="trend-card">
 
+<span>Latest Anxiety</span>
 
-            <div>
+<strong id="trend-anxiety">
+No Data
+</strong>
 
-                <p>
-                    Total Check-ins
-                </p>
+</div>
 
+<div class="trend-card">
 
-                <strong id="total-checkins">
-                    0
-                </strong>
+<span>Recent Trend</span>
 
-            </div>
+<strong id="trend-direction">
+No Data
+</strong>
 
+</div>
 
-        </div>
+</div>
 
+</div>
 
-        <div class="summary-card">
+</div>
 
-            <span class="summary-icon">
-                🟢
-            </span>
 
+<!-- RISK TIMELINE -->
 
-            <div>
+<div class="risk-timeline-section">
 
-                <p>
-                    Low Concern
-                </p>
+<h3>📈 Patient Risk Timeline</h3>
 
+<p class="section-description">
 
-                <strong id="low-count">
-                    0
-                </strong>
+Chronological view of the patient's
+reported concern levels.
 
-            </div>
+</p>
 
+<div id="risk-timeline"
+     class="risk-timeline">
 
-        </div>
+</div>
 
+</div>
 
-        <div class="summary-card">
 
-            <span class="summary-icon">
-                🟡
-            </span>
+<!-- ALERT HISTORY -->
 
+<div class="alert-history-section">
 
-            <div>
+<h3>🔔 Alert History</h3>
 
-                <p>
-                    Moderate Concern
-                </p>
+<p class="section-description">
 
+Previous high-concern alerts and their
+review status.
 
-                <strong id="moderate-count">
-                    0
-                </strong>
+</p>
 
-            </div>
+<div id="alert-history">
 
+</div>
 
-        </div>
+</div>
 
 
-        <div class="summary-card">
+<!-- INFORMATION -->
 
-            <span class="summary-icon">
-                🔴
-            </span>
+<div class="doctor-info">
 
+<h3>ℹ️ Monitoring Information</h3>
 
-            <div>
+<p>
 
-                <p>
-                    High Concern
-                </p>
+HEKSAA uses patient self-reported
+check-in information to support
+mental health monitoring. The displayed
+concern level is a prototype indicator
+and is not a medical diagnosis.
 
+</p>
 
-                <strong id="high-count">
-                    0
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-    <!-- =========================
-         Patient Monitoring
-    ========================= -->
-
-    <div class="patient-monitoring">
-
-
-        <h3>
-            📊 Patient Mental Health Monitoring
-        </h3>
-
-
-        <p class="section-description">
-
-            Recent check-ins recorded by HEKSAA.
-
-        </p>
-
-
-        <div id="doctor-history">
-
-
-            <div class="doctor-empty">
-
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-
-                <h4>
-                    No patient check-ins available
-                </h4>
-
-
-                <p>
-
-                    Patient check-in information
-                    will appear here when available.
-
-                </p>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =========================
-             Mental Health Trend
-        ========================= -->
-
-        <div class="health-trend">
-
-
-            <h3>
-                📈 Mental Health Trend
-            </h3>
-
-
-            <p class="section-description">
-
-                Overview of the patient's recent
-                self-reported mental health levels.
-
-            </p>
-
-
-            <div class="trend-grid">
-
-
-                <div class="trend-card">
-
-                    <span>
-                        Latest Mood
-                    </span>
-
-
-                    <strong id="trend-mood">
-                        No Data
-                    </strong>
-
-                </div>
-
-
-                <div class="trend-card">
-
-                    <span>
-                        Latest Stress
-                    </span>
-
-
-                    <strong id="trend-stress">
-                        No Data
-                    </strong>
-
-                </div>
-
-
-                <div class="trend-card">
-
-                    <span>
-                        Latest Anxiety
-                    </span>
-
-
-                    <strong id="trend-anxiety">
-                        No Data
-                    </strong>
-
-                </div>
-
-
-                <div class="trend-card">
-
-                    <span>
-                        Recent Trend
-                    </span>
-
-
-                    <strong id="trend-direction">
-                        No Data
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-    <!-- =========================
-         Monitoring Information
-    ========================= -->
-
-    <div class="doctor-info">
-
-
-        <h3>
-            ℹ️ Monitoring Information
-        </h3>
-
-
-        <p>
-
-            HEKSAA uses patient self-reported
-            check-in information to support
-            mental health monitoring. The
-            displayed concern level is a
-            prototype indicator and is not
-            a medical diagnosis.
-
-        </p>
-
-
-    </div>
+</div>
 
 
 </section>
 
-
 </main>
 
 
-<script src="doctor.js?v=6"></script>
-
+<script src="doctor.js?v=8"></script>
 
 </body>
 
