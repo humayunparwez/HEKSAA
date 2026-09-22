@@ -147,6 +147,64 @@ document.addEventListener("DOMContentLoaded", function () {
                     JSON.stringify(profile)
                 );
 
+                let patients = [];
+
+const savedPatients =
+    localStorage.getItem("heksaaPatients");
+
+if (savedPatients) {
+
+    try {
+        patients = JSON.parse(savedPatients);
+    }
+
+    catch (error) {
+        patients = [];
+    }
+
+}
+
+
+const existingIndex =
+    patients.findIndex(function (patient) {
+
+        return patient.id === profile.id;
+
+    });
+
+
+if (existingIndex >= 0) {
+
+    patients[existingIndex].name =
+        profile.name;
+
+    patients[existingIndex].age =
+        profile.age;
+
+}
+
+else {
+
+    patients.push({
+
+        id: profile.id,
+
+        name: profile.name,
+
+        age: profile.age,
+
+        history: []
+
+    });
+
+}
+
+
+localStorage.setItem(
+    "heksaaPatients",
+    JSON.stringify(patients)
+);
+
 
                 if (profileSuccess) {
 
