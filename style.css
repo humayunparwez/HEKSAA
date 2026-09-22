@@ -1057,5 +1057,156 @@ header h1 {
     .trend-grid {
         grid-template-columns: 1fr;
     }
+/* =====================================================
+   PATIENT DISTRESS ALERT
+===================================================== */
 
+.patient-distress-card {
+    margin-top: 24px;
+    padding: 24px;
+    background: #fff7f7;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+
+.distress-patient-icon {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #fee2e2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+
+.distress-patient-content {
+    flex: 1;
+}
+
+
+.distress-patient-content h3 {
+    margin: 0 0 8px;
+
+    color: #991b1b;
+
+    font-size: 20px;
+}
+
+
+.distress-patient-content p {
+    margin: 0 0 16px;
+
+    color: #6b7280;
+
+    line-height: 1.6;
+}
+
+
+.distress-help-button {
+    padding: 13px 20px;
+
+    background: #dc2626;
+
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.distress-help-button:hover {
+    background: #b91c1c;
+}
+
+
+.distress-help-button.distress-sent {
+    background: #16a34a;
+
+    cursor: default;
+}
+
+
+.distress-help-button:disabled {
+    opacity: 1;
+}
+
+
+.distress-help-message {
+    margin-top: 12px !important;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.distress-help-message.success {
+    color: #15803d;
+}
+
+
+.distress-help-message.error {
+    color: #b91c1c;
+}
+
+
+/* =====================================================
+   SELF REPORTED DISTRESS ALERT
+===================================================== */
+
+.self-distress-alert {
+    border-left: 4px solid #dc2626;
+}
+
+
+.self-distress-alert.acknowledged {
+    border-left-color: #16a34a;
+}
+
+
+.self-distress-alert .alert-icon {
+    font-size: 20px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .patient-distress-card {
+        flex-direction: column;
+    }
+
+    .distress-patient-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .distress-help-button {
+        width: 100%;
+    }
+
+}
 }
