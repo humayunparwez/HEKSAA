@@ -90,41 +90,124 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
+       ACKNOWLEDGED ALERT STORAGE
+    ========================= */
+
+    function getAcknowledgedAlerts() {
+
+        const saved =
+            localStorage.getItem(
+                "heksaaAcknowledgedAlerts"
+            );
+
+
+        if (!saved) {
+
+            return {};
+
+        }
+
+
+        try {
+
+            return JSON.parse(saved);
+
+        } catch (error) {
+
+            return {};
+
+        }
+
+    }
+
+
+    function saveAcknowledgedAlerts(
+        alerts
+    ) {
+
+        localStorage.setItem(
+
+            "heksaaAcknowledgedAlerts",
+
+            JSON.stringify(alerts)
+
+        );
+
+    }
+
+
+    function getAlertKey(
+        patient,
+        checkin
+    ) {
+
+        return (
+            patient.id +
+            "_" +
+            checkin.date
+        );
+
+    }
+
+
+    /* =========================
        UTILITY FUNCTIONS
     ========================= */
 
     function formatValue(value) {
 
         if (!value) {
+
             return "No Data";
+
         }
 
 
         return String(value)
+
             .replace(/-/g, " ")
-            .replace(/\b\w/g, function (letter) {
 
-                return letter.toUpperCase();
+            .replace(
+                /\b\w/g,
+                function (letter) {
 
-            });
+                    return letter.toUpperCase();
+
+                }
+            );
 
     }
 
 
     function getConcernScore(status) {
 
-        if (status === "Low Concern") {
+        if (
+            status ===
+            "Low Concern"
+        ) {
+
             return 1;
+
         }
 
 
-        if (status === "Moderate Concern") {
+        if (
+            status ===
+            "Moderate Concern"
+        ) {
+
             return 2;
+
         }
 
 
-        if (status === "High Concern") {
+        if (
+            status ===
+            "High Concern"
+        ) {
+
             return 3;
+
         }
 
 
@@ -135,18 +218,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function getStatusClass(status) {
 
-        if (status === "Low Concern") {
+        if (
+            status ===
+            "Low Concern"
+        ) {
+
             return "status-low";
+
         }
 
 
-        if (status === "Moderate Concern") {
+        if (
+            status ===
+            "Moderate Concern"
+        ) {
+
             return "status-moderate";
+
         }
 
 
-        if (status === "High Concern") {
+        if (
+            status ===
+            "High Concern"
+        ) {
+
             return "status-high";
+
         }
 
 
@@ -158,7 +256,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function formatDate(dateValue) {
 
         if (!dateValue) {
+
             return "Time unavailable";
+
         }
 
 
@@ -166,20 +266,35 @@ document.addEventListener("DOMContentLoaded", function () {
             new Date(dateValue);
 
 
-        if (isNaN(date.getTime())) {
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
             return "Time unavailable";
+
         }
 
 
         return date.toLocaleString(
+
             "en-IN",
+
             {
+
                 day: "2-digit",
+
                 month: "short",
+
                 year: "numeric",
+
                 hour: "2-digit",
+
                 minute: "2-digit"
+
             }
+
         );
 
     }
@@ -206,8 +321,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 if (
-                    Array.isArray(patients) &&
+
+                    Array.isArray(
+                        patients
+                    ) &&
+
                     patients.length > 0
+
                 ) {
 
                     return patients;
@@ -226,9 +346,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-         * If the multi-patient data
-         * doesn't exist, migrate the
-         * old single-patient data.
+         * Migrate old
+         * single-patient data.
          */
 
         let patients = [];
@@ -251,7 +370,9 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
 
                 const profile =
-                    JSON.parse(oldProfile);
+                    JSON.parse(
+                        oldProfile
+                    );
 
 
                 let history = [];
@@ -305,9 +426,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /*
-         * Demo patients
-         */
+        /* Demo Patient 1 */
 
         patients.push({
 
@@ -362,6 +481,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
+        /* Demo Patient 2 */
+
         patients.push({
 
             id: "HK-004",
@@ -415,6 +536,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
+        /* Demo Patient 3 */
+
         patients.push({
 
             id: "HK-005",
@@ -453,7 +576,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             "heksaaPatients",
 
-            JSON.stringify(patients)
+            JSON.stringify(
+                patients
+            )
 
         );
 
@@ -469,7 +594,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let selectedPatientId =
         patients.length > 0
+
             ? patients[0].id
+
             : null;
 
 
@@ -480,16 +607,28 @@ document.addEventListener("DOMContentLoaded", function () {
     function displayDistressAlerts() {
 
         if (!distressAlertList) {
+
             return;
+
         }
 
+
+        const acknowledged =
+            getAcknowledgedAlerts();
+
+
+        /*
+         * Only latest High Concern
+         * check-ins create alerts.
+         */
 
         const activeAlerts =
             patients.filter(
                 function (patient) {
 
                     const history =
-                        patient.history || [];
+                        patient.history ||
+                        [];
 
 
                     if (
@@ -502,30 +641,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     return (
+
                         history[0]
                             .overallStatus ===
                         "High Concern"
+
                     );
 
                 }
             );
 
 
-        /* Alert count */
+        /*
+         * Count only alerts that
+         * have not been acknowledged.
+         */
+
+        const pendingAlerts =
+            activeAlerts.filter(
+                function (patient) {
+
+                    const latest =
+                        patient.history[0];
+
+
+                    const key =
+                        getAlertKey(
+                            patient,
+                            latest
+                        );
+
+
+                    return !acknowledged[key];
+
+                }
+            );
+
 
         if (activeAlertCount) {
 
             activeAlertCount.textContent =
-                activeAlerts.length +
+
+                pendingAlerts.length +
+
                 (
-                    activeAlerts.length === 1
+
+                    pendingAlerts.length === 1
+
                         ? " Active Alert"
+
                         : " Active Alerts"
+
                 );
 
 
             if (
-                activeAlerts.length > 0
+                pendingAlerts.length > 0
             ) {
 
                 activeAlertCount.classList.add(
@@ -543,8 +714,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /* No alerts */
-
         if (
             activeAlerts.length === 0
         ) {
@@ -557,9 +726,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         ✅
                     </div>
 
+
                     <h4>
                         No Active Distress Alerts
                     </h4>
+
 
                     <p>
 
@@ -581,14 +752,25 @@ document.addEventListener("DOMContentLoaded", function () {
         distressAlertList.innerHTML = "";
 
 
-        /* Create alert for every
-           high-concern patient */
-
         activeAlerts.forEach(
             function (patient) {
 
+
                 const latest =
                     patient.history[0];
+
+
+                const key =
+                    getAlertKey(
+                        patient,
+                        latest
+                    );
+
+
+                const isAcknowledged =
+                    Boolean(
+                        acknowledged[key]
+                    );
 
 
                 const alertItem =
@@ -601,61 +783,219 @@ document.addEventListener("DOMContentLoaded", function () {
                     "alert-item";
 
 
+                if (isAcknowledged) {
+
+                    alertItem.classList.add(
+                        "acknowledged"
+                    );
+
+                }
+
+
                 alertItem.innerHTML = `
 
-                    <div class="alert-icon">
-                        ⚠️
+                    <div class="alert-main">
+
+
+                        <div class="alert-icon">
+
+                            ${
+                                isAcknowledged
+                                    ? "✓"
+                                    : "⚠️"
+                            }
+
+                        </div>
+
+
+                        <div class="alert-details">
+
+
+                            <strong>
+
+                                ${patient.name}
+
+                            </strong>
+
+
+                            <span>
+
+                                ID: ${patient.id}
+                                • High Concern
+
+                            </span>
+
+
+                            <span
+                                class="alert-time"
+                            >
+
+                                Latest check-in:
+                                ${formatDate(
+                                    latest.date
+                                )}
+
+                            </span>
+
+
+                            <span
+                                class="alert-status
+                                ${
+                                    isAcknowledged
+                                        ? "reviewed"
+                                        : "pending"
+                                }"
+                            >
+
+                                ${
+                                    isAcknowledged
+                                        ? "✓ Acknowledged"
+                                        : "⚠ Awaiting Review"
+                                }
+
+                            </span>
+
+
+                        </div>
+
+
                     </div>
 
 
-                    <div class="alert-details">
-
-                        <strong>
-                            ${patient.name}
-                        </strong>
+                    <div class="alert-actions">
 
 
-                        <span>
-
-                            ID: ${patient.id}
-                            • High Concern
-
-                        </span>
-
-
-                        <span
-                            class="alert-time"
+                        <button
+                            class="alert-view-button"
+                            type="button"
                         >
 
-                            Latest check-in:
-                            ${formatDate(
-                                latest.date
-                            )}
+                            View Patient
 
-                        </span>
+                        </button>
+
+
+                        <button
+                            class="alert-details-button"
+                            type="button"
+                        >
+
+                            View Details
+
+                        </button>
+
+
+                        <button
+                            class="alert-acknowledge-button"
+                            type="button"
+                            ${
+                                isAcknowledged
+                                    ? "disabled"
+                                    : ""
+                            }
+                        >
+
+                            ${
+                                isAcknowledged
+                                    ? "Acknowledged"
+                                    : "Acknowledge Alert"
+                            }
+
+                        </button>
+
 
                     </div>
 
 
-                    <button
-                        class="alert-view-button"
-                        type="button"
+                    <div
+                        class="alert-details-panel"
                     >
 
-                        View Patient
 
-                    </button>
+                        <div
+                            class="alert-details-title"
+                        >
+
+                            Check-in Details
+
+                        </div>
+
+
+                        <div
+                            class="alert-data-grid"
+                        >
+
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Mood
+                                </span>
+
+                                <strong>
+                                    ${formatValue(
+                                        latest.mood
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Stress
+                                </span>
+
+                                <strong>
+                                    ${formatValue(
+                                        latest.stress
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Anxiety
+                                </span>
+
+                                <strong>
+                                    ${formatValue(
+                                        latest.anxiety
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
 
                 `;
 
 
-                const button =
+                /* =========================
+                   View Patient
+                ========================= */
+
+                const viewButton =
                     alertItem.querySelector(
                         ".alert-view-button"
                     );
 
 
-                button.addEventListener(
+                viewButton.addEventListener(
                     "click",
                     function () {
 
@@ -681,9 +1021,98 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                distressAlertList.appendChild(
-                    alertItem
+                /* =========================
+                   View Details
+                ========================= */
+
+                const detailsButton =
+                    alertItem.querySelector(
+                        ".alert-details-button"
+                    );
+
+
+                const detailsPanel =
+                    alertItem.querySelector(
+                        ".alert-details-panel"
+                    );
+
+
+                detailsButton.addEventListener(
+                    "click",
+                    function () {
+
+                        detailsPanel.classList.toggle(
+                            "show"
+                        );
+
+
+                        if (
+                            detailsPanel.classList.contains(
+                                "show"
+                            )
+                        ) {
+
+                            detailsButton.textContent =
+                                "Hide Details";
+
+                        } else {
+
+                            detailsButton.textContent =
+                                "View Details";
+
+                        }
+
+                    }
                 );
+
+
+                /* =========================
+                   Acknowledge Alert
+                ========================= */
+
+                const acknowledgeButton =
+                    alertItem.querySelector(
+                        ".alert-acknowledge-button"
+                    );
+
+
+                if (!isAcknowledged) {
+
+                    acknowledgeButton.addEventListener(
+                        "click",
+                        function () {
+
+
+                            const currentAlerts =
+                                getAcknowledgedAlerts();
+
+
+                            currentAlerts[key] = {
+
+                                acknowledgedAt:
+                                    new Date()
+                                        .toISOString(),
+
+                                patientId:
+                                    patient.id,
+
+                                patientName:
+                                    patient.name
+
+                            };
+
+
+                            saveAcknowledgedAlerts(
+                                currentAlerts
+                            );
+
+
+                            displayDistressAlerts();
+
+                        }
+                    );
+
+                }
 
             }
         );
@@ -698,18 +1127,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function displayPatientList() {
 
         if (!patientList) {
+
             return;
+
         }
 
 
         patientList.innerHTML = "";
 
 
-        if (patients.length === 0) {
+        if (
+            patients.length === 0
+        ) {
 
             patientList.innerHTML = `
 
-                <div class="patient-list-empty">
+                <div
+                    class="patient-list-empty"
+                >
 
                     No patients available.
 
@@ -724,6 +1159,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         patients.forEach(
             function (patient) {
+
 
                 const card =
                     document.createElement(
@@ -748,18 +1184,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 const history =
-                    patient.history || [];
+                    patient.history ||
+                    [];
 
 
                 const latest =
                     history.length > 0
+
                         ? history[0]
+
                         : null;
 
 
                 const status =
                     latest
+
                         ? latest.overallStatus
+
                         : "No Data";
 
 
@@ -783,7 +1224,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     >
 
                         <strong>
+
                             ${patient.name}
+
                         </strong>
 
 
@@ -812,6 +1255,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.addEventListener(
                     "click",
                     function () {
+
 
                         selectedPatientId =
                             patient.id;
@@ -847,8 +1291,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 function (item) {
 
                     return (
+
                         item.id ===
                         selectedPatientId
+
                     );
 
                 }
@@ -856,12 +1302,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (!patient) {
+
             return;
+
         }
 
 
         const history =
-            patient.history || [];
+            patient.history ||
+            [];
 
 
         /* Profile */
@@ -881,13 +1330,19 @@ document.addEventListener("DOMContentLoaded", function () {
         /* Latest Status */
 
         latestStatus.classList.remove(
+
             "status-low",
+
             "status-moderate",
+
             "status-high"
+
         );
 
 
-        if (history.length > 0) {
+        if (
+            history.length > 0
+        ) {
 
             const status =
                 history[0]
@@ -899,7 +1354,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             const statusClass =
-                getStatusClass(status);
+                getStatusClass(
+                    status
+                );
 
 
             if (statusClass) {
@@ -918,13 +1375,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /* Selected patient alert */
+        /* Patient alert */
 
         if (
+
             history.length > 0 &&
+
             history[0]
                 .overallStatus ===
             "High Concern"
+
         ) {
 
             distressAlert.style.display =
@@ -954,23 +1414,36 @@ document.addEventListener("DOMContentLoaded", function () {
         history.forEach(
             function (item) {
 
+
                 if (
+
                     item.overallStatus ===
                     "Low Concern"
+
                 ) {
 
                     low++;
 
-                } else if (
+                }
+
+
+                else if (
+
                     item.overallStatus ===
                     "Moderate Concern"
+
                 ) {
 
                     moderate++;
 
-                } else if (
+                }
+
+
+                else if (
+
                     item.overallStatus ===
                     "High Concern"
+
                 ) {
 
                     high++;
@@ -1008,11 +1481,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function displayHistory(history) {
 
         if (!doctorHistory) {
+
             return;
+
         }
 
 
-        if (history.length === 0) {
+        if (
+            history.length === 0
+        ) {
 
             doctorHistory.innerHTML = `
 
@@ -1024,14 +1501,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     <h4>
-                        No patient check-ins available
+
+                        No patient check-ins
+                        available
+
                     </h4>
 
 
                     <p>
 
-                        Patient check-in information
-                        will appear here when available.
+                        Patient check-in
+                        information will appear
+                        here when available.
 
                     </p>
 
@@ -1049,6 +1530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         history.forEach(
             function (item) {
+
 
                 const card =
                     document.createElement(
@@ -1186,7 +1668,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function displayTrend(history) {
 
-        if (history.length === 0) {
+        if (
+            history.length === 0
+        ) {
 
             trendMood.textContent =
                 "No Data";
@@ -1231,7 +1715,9 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        if (history.length < 2) {
+        if (
+            history.length < 2
+        ) {
 
             trendDirection.textContent =
                 "Not enough data";
@@ -1248,15 +1734,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const latestScore =
             getConcernScore(
+
                 history[0]
                     .overallStatus
+
             );
 
 
         const previousScore =
             getConcernScore(
+
                 history[1]
                     .overallStatus
+
             );
 
 
@@ -1272,7 +1762,10 @@ document.addEventListener("DOMContentLoaded", function () {
             trendDirection.className =
                 "trend-warning";
 
-        } else if (
+        }
+
+
+        else if (
             latestScore <
             previousScore
         ) {
@@ -1284,7 +1777,10 @@ document.addEventListener("DOMContentLoaded", function () {
             trendDirection.className =
                 "trend-good";
 
-        } else {
+        }
+
+
+        else {
 
             trendDirection.textContent =
                 "Stable";
@@ -1299,7 +1795,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================
-       START DASHBOARD
+       START
     ========================= */
 
     displayDistressAlerts();
