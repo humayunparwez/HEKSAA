@@ -10,47 +10,173 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="description"
+        content="HEKSAA Patient Mental Health Dashboard"
+    >
+
     <title>Patient Dashboard - HEKSAA</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
 
 <body>
 
-    <header>
 
-        <h1>HEKSAA</h1>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="heksaa-header">
+
+        <div class="heksaa-header-inner">
+
+            <div class="heksaa-brand">
+
+                <div class="heksaa-brand-icon">
+                    H
+                </div>
+
+                <div>
+
+                    <h1>
+                        HEKSAA
+                    </h1>
+
+                    <span>
+                        Mental Health Support
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-role">
+
+                <span class="header-role-icon">
+                    👤
+                </span>
+
+                Patient
+
+            </div>
+
+        </div>
 
     </header>
 
 
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
     <main>
 
-        <section class="dashboard">
+        <section class="dashboard patient-dashboard-page">
 
 
-            <h2>
-                Patient Dashboard
-            </h2>
+            <!-- =================================================
+                 WELCOME SECTION
+            ================================================== -->
+
+            <div class="patient-welcome">
+
+                <div class="welcome-content">
+
+                    <span class="welcome-label">
+                        PATIENT PORTAL
+                    </span>
+
+                    <h2>
+                        Patient Dashboard
+                    </h2>
+
+                    <p>
+                        Monitor your mental well-being,
+                        complete regular check-ins, and
+                        stay connected with your support team.
+                    </p>
+
+                </div>
 
 
-            <p>
-                Welcome to your personal mental health dashboard.
-            </p>
+                <div class="welcome-icon">
+                    🧠
+                </div>
+
+            </div>
 
 
-            <!-- =========================
-                 Patient Profile
-            ========================= -->
+
+            <!-- =================================================
+                 PRIVACY / INFORMATION BANNER
+            ================================================== -->
+
+            <div class="patient-info-banner">
+
+                <div class="patient-info-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your mental health matters
+                    </strong>
+
+                    <p>
+                        Regular check-ins help HEKSAA monitor
+                        changes in your well-being and identify
+                        when additional support may be needed.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PATIENT PROFILE
+            ================================================== -->
 
             <div class="profile-card">
 
-                <h3>👤 Patient Profile</h3>
+                <div class="section-heading">
+
+                    <div class="section-heading-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Patient Profile
+                        </h3>
+
+                        <p>
+                            Keep your basic information up to date.
+                        </p>
+
+                    </div>
+
+                </div>
+
 
                 <p class="profile-description">
-                    Enter your basic information for your HEKSAA profile.
+
+                    Enter your basic information for your
+                    HEKSAA profile. This information helps
+                    your doctor or counselor identify your
+                    records.
+
                 </p>
 
 
@@ -65,6 +191,7 @@
                         type="text"
                         id="patient-name"
                         placeholder="Enter your full name"
+                        autocomplete="name"
                         required
                     >
 
@@ -95,8 +222,11 @@
                     >
 
 
-                    <button type="submit">
-                        Save Profile
+                    <button
+                        type="submit"
+                        class="primary-action-button"
+                    >
+                        ✓ Save Profile
                     </button>
 
 
@@ -113,23 +243,45 @@
             </div>
 
 
-            <!-- =========================
-                 Mental Health Check-in
-            ========================= -->
+
+            <!-- =================================================
+                 MENTAL HEALTH CHECK-IN
+            ================================================== -->
 
             <div class="checkin-card">
 
-                <h3>
-                    🧠 Mental Health Check-in
-                </h3>
+
+                <div class="section-heading">
+
+                    <div class="section-heading-icon checkin-icon">
+                        🧠
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Mental Health Check-in
+                        </h3>
+
+                        <p>
+                            A quick check-in about how you're feeling.
+                        </p>
+
+                    </div>
+
+                </div>
 
 
-                <p>
-                    Take a quick check-in to help monitor your mental well-being.
+                <p class="checkin-introduction">
+
+                    Take a moment to reflect on your current
+                    emotional state. There are no right or wrong
+                    answers.
+
                 </p>
 
 
-                <form>
+                <form id="mental-health-checkin-form">
 
 
                     <label for="mood">
@@ -137,30 +289,33 @@
                     </label>
 
 
-                    <select id="mood" name="mood">
+                    <select
+                        id="mood"
+                        name="mood"
+                    >
 
                         <option value="">
                             Select your mood
                         </option>
 
                         <option value="very-happy">
-                            Very Happy
+                            😊 Very Happy
                         </option>
 
                         <option value="happy">
-                            Happy
+                            🙂 Happy
                         </option>
 
                         <option value="neutral">
-                            Neutral
+                            😐 Neutral
                         </option>
 
                         <option value="sad">
-                            Sad
+                            😔 Sad
                         </option>
 
                         <option value="very-sad">
-                            Very Sad
+                            😢 Very Sad
                         </option>
 
                     </select>
@@ -171,26 +326,29 @@
                     </label>
 
 
-                    <select id="stress" name="stress">
+                    <select
+                        id="stress"
+                        name="stress"
+                    >
 
                         <option value="">
                             Select stress level
                         </option>
 
                         <option value="low">
-                            Low
+                            🟢 Low
                         </option>
 
                         <option value="moderate">
-                            Moderate
+                            🟡 Moderate
                         </option>
 
                         <option value="high">
-                            High
+                            🟠 High
                         </option>
 
                         <option value="very-high">
-                            Very High
+                            🔴 Very High
                         </option>
 
                     </select>
@@ -201,32 +359,38 @@
                     </label>
 
 
-                    <select id="anxiety" name="anxiety">
+                    <select
+                        id="anxiety"
+                        name="anxiety"
+                    >
 
                         <option value="">
                             Select anxiety level
                         </option>
 
                         <option value="low">
-                            Low
+                            🟢 Low
                         </option>
 
                         <option value="moderate">
-                            Moderate
+                            🟡 Moderate
                         </option>
 
                         <option value="high">
-                            High
+                            🟠 High
                         </option>
 
                         <option value="very-high">
-                            Very High
+                            🔴 Very High
                         </option>
 
                     </select>
 
 
-                    <button type="submit">
+                    <button
+                        type="submit"
+                        class="primary-action-button"
+                    >
                         Submit Check-in
                     </button>
 
@@ -241,22 +405,56 @@
 
                 </form>
 
+
+                <div class="checkin-note">
+
+                    <span>
+                        💡
+                    </span>
+
+                    <p>
+                        Regular check-ins help identify changes
+                        in your mental well-being over time.
+                    </p>
+
+                </div>
+
             </div>
 
 
-            <!-- =========================
-                 Mental Health Status
-            ========================= -->
+
+            <!-- =================================================
+                 MENTAL HEALTH STATUS
+            ================================================== -->
 
             <div class="status-card">
 
-                <h3>
-                    📊 Mental Health Status
-                </h3>
+                <div class="section-heading">
+
+                    <div class="section-heading-icon status-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Mental Health Status
+                        </h3>
+
+                        <p>
+                            Your latest check-in overview.
+                        </p>
+
+                    </div>
+
+                </div>
 
 
                 <p class="status-description">
-                    Your latest check-in overview.
+
+                    This overview is based on your latest
+                    self-reported check-in.
+
                 </p>
 
 
@@ -311,22 +509,57 @@
 
                 </div>
 
+
+                <div class="status-disclaimer">
+
+                    <span>
+                        ℹ️
+                    </span>
+
+                    <p>
+                        This status is a prototype monitoring
+                        indicator based on your check-in responses.
+                        It is not a medical diagnosis.
+                    </p>
+
+                </div>
+
             </div>
 
 
-            <!-- =========================
-                 Check-in History
-            ========================= -->
+
+            <!-- =================================================
+                 CHECK-IN HISTORY
+            ================================================== -->
 
             <div class="history-card">
 
-                <h3>
-                    🕒 Check-in History
-                </h3>
+                <div class="section-heading">
+
+                    <div class="section-heading-icon history-icon">
+                        🕒
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Check-in History
+                        </h3>
+
+                        <p>
+                            Your previous mental health check-ins.
+                        </p>
+
+                    </div>
+
+                </div>
 
 
                 <p class="history-description">
-                    Your previous mental health check-ins.
+
+                    Review your recent check-ins and observe
+                    changes in your responses over time.
+
                 </p>
 
 
@@ -341,13 +574,48 @@
             </div>
 
 
+
+            <!-- =================================================
+                 SUPPORT MESSAGE
+            ================================================== -->
+
+            <div class="patient-support-card">
+
+                <div class="support-icon">
+                    💙
+                </div>
+
+                <div>
+
+                    <h3>
+                        You don't have to face it alone.
+                    </h3>
+
+                    <p>
+                        If you're experiencing distress,
+                        use the emergency support option
+                        below to notify your support team.
+                    </p>
+
+                </div>
+
+            </div>
+
+
         </section>
 
     </main>
 
 
-    <script src="script.js?v=6"></script>
-    <script src="distress.js?v=1"></script>
+
+    <!-- =====================================================
+         SCRIPTS
+    ====================================================== -->
+
+    <script src="script.js?v=7"></script>
+
+    <script src="distress.js?v=2"></script>
+
 
 </body>
 
