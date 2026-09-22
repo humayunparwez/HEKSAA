@@ -956,5 +956,16 @@ header h1 {
         gap: 5px;
 
     }
-
+.login-button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #4f46e5;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
 }
