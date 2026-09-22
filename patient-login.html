@@ -14,6 +14,37 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <style>
+
+        .login-error {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: -5px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .login-button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #4f46e5;
+            color: #ffffff;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #4338ca;
+        }
+
+    </style>
+
 </head>
 
 
@@ -37,32 +68,109 @@
             </p>
 
 
-            <form>
+            <form id="patient-login-form">
 
                 <input
                     type="email"
+                    id="patient-email"
                     placeholder="Email address"
+                    required
                 >
 
 
                 <input
                     type="password"
+                    id="patient-password"
                     placeholder="Password"
+                    required
                 >
 
 
-                <a
-    href="./patient-dashboard.html"
-    class="login-button"
->
-    Login
-                </a>
+                <p
+                    id="login-error"
+                    class="login-error"
+                ></p>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Login
+                </button>
 
             </form>
 
         </section>
 
     </main>
+
+
+    <script>
+
+        document
+            .getElementById("patient-login-form")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                    .getElementById("patient-email")
+                    .value
+                    .trim();
+
+
+                const password =
+                    document
+                    .getElementById("patient-password")
+                    .value
+                    .trim();
+
+
+                const error =
+                    document
+                    .getElementById("login-error");
+
+
+                /* Check empty fields */
+
+                if (email === "" || password === "") {
+
+                    error.textContent =
+                        "Please enter your email and password.";
+
+                    return;
+
+                }
+
+
+                /* Check email */
+
+                if (!email.includes("@")) {
+
+                    error.textContent =
+                        "Please enter a valid email address.";
+
+                    return;
+
+                }
+
+
+                /* Clear error */
+
+                error.textContent = "";
+
+
+                /* Login successful */
+
+                window.location.href =
+                    "patient-dashboard.html";
+
+            });
+
+    </script>
 
 </body>
 
