@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Privacy & Disclaimer - HEKSAA</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            color: #172033;
+            line-height: 1.7;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 6%;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .brand h1 {
+            color: #4f46e5;
+            font-size: 29px;
+        }
+
+        .brand p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .back {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+            padding: 55px 20px;
+        }
+
+        .label {
+            color: #4f46e5;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 42px;
+            line-height: 1.15;
+            margin: 10px 0 15px;
+        }
+
+        .intro {
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e1e5ed;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #64748b;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border-color: #fed7aa;
+        }
+
+        .warning h3 {
+            color: #9a3412;
+        }
+
+        .danger {
+            background: #fff5f5;
+            border-color: #fecaca;
+        }
+
+        .danger h3 {
+            color: #991b1b;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 17px 20px;
+            }
+
+            .brand-icon {
+                width: 47px;
+                height: 47px;
+            }
+
+            .brand h1 {
+                font-size: 25px;
+            }
+
+            .brand p {
+                font-size: 12px;
+            }
+
+            main {
+                padding: 40px 18px;
+            }
+
+            h2 {
+                font-size: 34px;
+            }
+
+            .intro {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="brand-icon">H</div>
+
+            <div>
+                <h1>HEKSAA</h1>
+                <p>Mental Health Monitoring</p>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="back">
+            ← Home
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <div class="label">
+        Privacy & Disclaimer
+    </div>
+
+    <h2>
+        Your information and
+        responsible use.
+    </h2>
+
+    <p class="intro">
+        This page explains the current prototype's
+        limitations and how mental health information
+        should be treated.
+    </p>
+
+
+    <section class="card">
+
+        <h3>🔐 Data Privacy</h3>
+
+        <p>
+            The current HEKSAA frontend prototype stores
+            demonstration information locally in the browser.
+            Production deployment should use secure,
+            authenticated backend storage with appropriate
+            access controls.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>📋 Self-Reported Information</h3>
+
+        <p>
+            Mental health information displayed by HEKSAA
+            is based on information reported by the patient.
+            Self-reported information may not represent a
+            complete clinical assessment.
+        </p>
+
+    </section>
+
+
+    <section class="card warning">
+
+        <h3>⚠️ Prototype Indicators</h3>
+
+        <p>
+            Risk scores, concern levels, trends, and other
+            indicators currently shown in the prototype are
+            demonstrations of the proposed system workflow.
+            They are not medical diagnoses or clinically
+            validated assessments.
+        </p>
+
+    </section>
+
+
+    <section class="card danger">
+
+        <h3>🚨 Emergency Disclaimer</h3>
+
+        <p>
+            HEKSAA is not an emergency response service and
+            should not be relied upon as a substitute for
+            emergency services or professional healthcare.
+            In an immediate emergency, contact the appropriate
+            local emergency service or qualified professional.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>🔒 Future Security</h3>
+
+        <p>
+            Future versions are intended to include secure
+            authentication, database access controls,
+            appropriate encryption, audit mechanisms, and
+            privacy-aware handling of sensitive information.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+    HEKSAA • Mental Health Monitoring Prototype
+</footer>
+
+</body>
+</html>
