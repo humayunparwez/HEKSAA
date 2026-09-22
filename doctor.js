@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-
 const patientList =
 document.getElementById("patient-list");
 
@@ -58,9 +57,30 @@ document.getElementById("risk-timeline");
 const alertHistory =
 document.getElementById("alert-history");
 
+const riskScore =
+document.getElementById("risk-score");
+
+const riskLevel =
+document.getElementById("risk-level");
+
+const riskDescription =
+document.getElementById("risk-description");
+
+const riskMeterFill =
+document.getElementById("risk-meter-fill");
+
+const riskLatest =
+document.getElementById("risk-latest");
+
+const riskPattern =
+document.getElementById("risk-pattern");
+
+const riskHighRate =
+document.getElementById("risk-high-rate");
+
 
 /* =========================
-   PATIENT DATA
+   LOAD PATIENTS
 ========================= */
 
 function getPatients() {
@@ -105,7 +125,7 @@ function formatValue(value) {
 if (!value) return "No Data";
 
 return String(value)
-.replace(/-/g," ")
+.replace(/-/g, " ")
 .replace(/\b\w/g,
 letter => letter.toUpperCase());
 
@@ -223,12 +243,357 @@ return patient.id + "_" + checkin.date;
 
 
 /* =========================
+   DYNAMIC RISK ENGINE
+========================= */
+
+function calculateRisk(history) {
+
+if (!history.length) {
+
+return {
+score:0,
+level:"Low Risk",
+description:
+"Insufficient data for a meaningful risk estimate.",
+pattern:"No Data",
+highRate:0
+};
+
+}
+
+
+/*
+   Latest concern score
+   Low      = 20
+   Moderate = 55
+   High     = 90
+*/
+
+const latest =
+history[0];
+
+let latestRisk = 0;
+
+
+if (latest.overallStatus ===
+"Low Concern") {
+
+latestRisk = 20;
+
+} else if (
+latest.overallStatus ===
+"Moderate Concern"
+) {
+
+latestRisk = 55;
+
+} else if (
+latest.overallStatus ===
+"High Concern"
+) {
+
+latestRisk = 90;
+
+}
+
+
+/*
+   Recent history
+*/
+
+const recent =
+history.slice(
+0,
+Math.min(5, history.length)
+);
+
+
+let totalScore = 0;
+
+recent.forEach(item => {
+
+totalScore +=
+getScore(item.overallStatus);
+
+});
+
+
+const averageScore =
+totalScore / recent.length;
+
+
+/*
+   Convert average to risk
+*/
+
+let patternRisk =
+(averageScore / 3) * 100;
+
+
+/*
+   High concern frequency
+*/
+
+const highCount =
+recent.filter(
+item =>
+item.overallStatus ===
+"High Concern"
+).length;
+
+
+const highRate =
+Math.round(
+(highCount / recent.length) * 100
+);
+
+
+/*
+   Trend
+*/
+
+let trendAdjustment = 0;
+
+
+if (recent.length >= 2) {
+
+const current =
+getScore(recent[0].overallStatus);
+
+const previous =
+getScore(recent[1].overallStatus);
+
+
+if (current > previous) {
+
+trendAdjustment = 10;
+
+} else if (current < previous) {
+
+trendAdjustment = -10;
+
+}
+
+}
+
+
+/*
+   Final score
+
+   50% latest
+   30% recent pattern
+   20% high-concern frequency
+*/
+
+let finalScore =
+(latestRisk * 0.50) +
+(patternRisk * 0.30) +
+(highRate * 0.20) +
+trendAdjustment;
+
+
+/*
+   Keep score between 0 and 100
+*/
+
+finalScore =
+Math.round(
+Math.max(
+0,
+Math.min(100, finalScore)
+)
+);
+
+
+/*
+   Risk level
+*/
+
+let level;
+let description;
+let pattern;
+
+
+if (finalScore >= 70) {
+
+level = "High Risk";
+
+description =
+"Recent check-ins indicate a high level of distress and require closer monitoring.";
+
+} else if (finalScore >= 40) {
+
+level = "Moderate Risk";
+
+description =
+"Recent check-ins indicate moderate distress and should be monitored for changes.";
+
+} else {
+
+level = "Low Risk";
+
+description =
+"Recent check-ins currently indicate a lower level of reported distress.";
+
+}
+
+
+if (recent.length < 2) {
+
+pattern = "Limited data";
+
+} else if (
+getScore(recent[0].overallStatus) >
+getScore(recent[1].overallStatus)
+) {
+
+pattern = "Increasing concern";
+
+} else if (
+getScore(recent[0].overallStatus) <
+getScore(recent[1].overallStatus)
+) {
+
+pattern = "Improving";
+
+} else {
+
+pattern = "Stable";
+
+}
+
+
+return {
+score:finalScore,
+level:level,
+description:description,
+pattern:pattern,
+highRate:highRate
+};
+
+}
+
+
+/* =========================
+   DISPLAY RISK
+========================= */
+
+function displayRiskPrediction(history) {
+
+const result =
+calculateRisk(history);
+
+
+riskScore.textContent =
+result.score;
+
+
+riskLevel.textContent =
+result.level;
+
+
+riskDescription.textContent =
+result.description;
+
+
+riskPattern.textContent =
+result.pattern;
+
+
+riskHighRate.textContent =
+result.highRate + "%";
+
+
+riskLatest.textContent =
+history.length
+? history[0].overallStatus
+: "No Data";
+
+
+/* Remove old classes */
+
+riskLevel.classList.remove(
+"risk-low",
+"risk-moderate",
+"risk-high"
+);
+
+
+riskScore.parentElement.style
+.background = "#dcfce7";
+
+riskScore.parentElement.style
+.borderColor = "#bbf7d0";
+
+
+riskMeterFill.style.width =
+result.score + "%";
+
+
+/* Risk colours */
+
+if (result.level === "High Risk") {
+
+riskLevel.classList.add(
+"risk-high"
+);
+
+riskScore.parentElement.style
+.background = "#fee2e2";
+
+riskScore.parentElement.style
+.borderColor = "#fecaca";
+
+riskMeterFill.style.background =
+"#ef4444";
+
+
+} else if (
+result.level === "Moderate Risk"
+) {
+
+riskLevel.classList.add(
+"risk-moderate"
+);
+
+riskScore.parentElement.style
+.background = "#fef3c7";
+
+riskScore.parentElement.style
+.borderColor = "#fde68a";
+
+riskMeterFill.style.background =
+"#f59e0b";
+
+
+} else {
+
+riskLevel.classList.add(
+"risk-low"
+);
+
+riskScore.parentElement.style
+.background = "#dcfce7";
+
+riskScore.parentElement.style
+.borderColor = "#bbf7d0";
+
+riskMeterFill.style.background =
+"#22c55e";
+
+}
+
+}
+
+
+/* =========================
    PATIENT LIST
 ========================= */
 
 function displayPatientList() {
 
 patientList.innerHTML = "";
+
 
 if (!patients.length) {
 
@@ -247,10 +612,12 @@ Array.isArray(patient.history)
 ? patient.history
 : [];
 
+
 const latest =
 history.length
 ? history[0]
 : null;
+
 
 const status =
 latest
@@ -261,12 +628,19 @@ latest
 const card =
 document.createElement("div");
 
+
 card.className =
 "patient-card";
 
 
-if (patient.id === selectedPatientId)
+if (
+patient.id ===
+selectedPatientId
+) {
+
 card.classList.add("active");
+
+}
 
 
 card.innerHTML = `
@@ -297,7 +671,8 @@ ${status}
 `;
 
 
-card.onclick = function () {
+card.onclick =
+function () {
 
 selectedPatientId =
 patient.id;
@@ -317,7 +692,7 @@ patientList.appendChild(card);
 
 
 /* =========================
-   ALERT CENTER
+   DISTRESS ALERTS
 ========================= */
 
 function displayDistressAlerts() {
@@ -358,11 +733,16 @@ return;
 
 
 const key =
-getAlertKey(patient,latest);
+getAlertKey(
+patient,
+latest
+);
 
 
 const reviewed =
-Boolean(acknowledged[key]);
+Boolean(
+acknowledged[key]
+);
 
 
 if (!reviewed)
@@ -381,19 +761,26 @@ reviewed
 
 activeAlertCount.textContent =
 pending +
-(pending === 1
+(
+pending === 1
 ? " Active Alert"
-: " Active Alerts");
+: " Active Alerts"
+);
 
 
-if (pending)
+if (pending) {
+
 activeAlertCount.classList.add(
 "has-alerts"
 );
-else
+
+} else {
+
 activeAlertCount.classList.remove(
 "has-alerts"
 );
+
+}
 
 
 if (!alerts.length) {
@@ -407,9 +794,8 @@ distressAlertList.innerHTML = `
 </h4>
 
 <p>
-No patient's latest check-in
-is currently classified as
-High Concern.
+No patient's latest check-in is
+currently classified as High Concern.
 </p>
 
 </div>
@@ -440,7 +826,9 @@ card.innerHTML = `
 
 <div class="alert-icon">
 
-${alert.reviewed ? "✓" : "⚠️"}
+${alert.reviewed
+? "✓"
+: "⚠️"}
 
 </div>
 
@@ -477,6 +865,7 @@ ${alert.reviewed
 
 </div>
 
+
 <div class="alert-actions">
 
 <button
@@ -491,7 +880,9 @@ View Details
 
 <button
 class="alert-acknowledge-button"
-${alert.reviewed ? "disabled" : ""}>
+${alert.reviewed
+? "disabled"
+: ""}>
 
 ${alert.reviewed
 ? "Acknowledged"
@@ -501,10 +892,10 @@ ${alert.reviewed
 
 </div>
 
+
 <div class="alert-details-panel">
 
-<div
-class="alert-data-grid">
+<div class="alert-data-grid">
 
 <div class="alert-data-box">
 
@@ -548,6 +939,7 @@ card.querySelector(
 ".alert-view-button"
 );
 
+
 viewButton.onclick =
 function () {
 
@@ -571,10 +963,12 @@ card.querySelector(
 ".alert-details-button"
 );
 
+
 const detailsPanel =
 card.querySelector(
 ".alert-details-panel"
 );
+
 
 detailsButton.onclick =
 function () {
@@ -582,6 +976,7 @@ function () {
 const show =
 detailsPanel.classList
 .toggle("show");
+
 
 detailsButton.textContent =
 show
@@ -649,7 +1044,9 @@ patients.find(
 p => p.id === selectedPatientId
 );
 
-if (!patient) return;
+
+if (!patient)
+return;
 
 
 const history =
@@ -677,20 +1074,20 @@ if (history.length) {
 const status =
 history[0].overallStatus;
 
+
 latestStatus.textContent =
 status;
+
 
 latestStatus.classList.add(
 getStatusClass(status)
 );
 
 
-if (status === "High Concern")
 distressAlert.style.display =
-"block";
-else
-distressAlert.style.display =
-"none";
+status === "High Concern"
+? "block"
+: "none";
 
 } else {
 
@@ -716,25 +1113,37 @@ let high = 0;
 
 history.forEach(item => {
 
-if (item.overallStatus ===
-"Low Concern")
+if (
+item.overallStatus ===
+"Low Concern"
+)
 low++;
 
-if (item.overallStatus ===
-"Moderate Concern")
+else if (
+item.overallStatus ===
+"Moderate Concern"
+)
 moderate++;
 
-if (item.overallStatus ===
-"High Concern")
+else if (
+item.overallStatus ===
+"High Concern"
+)
 high++;
 
 });
 
 
 lowCount.textContent = low;
-moderateCount.textContent = moderate;
-highCount.textContent = high;
 
+moderateCount.textContent =
+moderate;
+
+highCount.textContent =
+high;
+
+
+displayRiskPrediction(history);
 
 displayHistory(history);
 
@@ -748,7 +1157,7 @@ displayAlertHistory();
 
 
 /* =========================
-   CHECK-IN HISTORY
+   HISTORY
 ========================= */
 
 function displayHistory(history) {
@@ -793,9 +1202,7 @@ Patient Check-in
 </h4>
 
 <span class="doctor-date">
-
 ${formatDate(item.date)}
-
 </span>
 
 </div>
@@ -811,6 +1218,7 @@ ${item.overallStatus}
 
 </div>
 
+
 <div class="doctor-data">
 
 <div class="doctor-data-item">
@@ -823,6 +1231,7 @@ ${formatValue(item.mood)}
 
 </div>
 
+
 <div class="doctor-data-item">
 
 <span>Stress</span>
@@ -832,6 +1241,7 @@ ${formatValue(item.stress)}
 </strong>
 
 </div>
+
 
 <div class="doctor-data-item">
 
@@ -905,10 +1315,14 @@ return;
 
 
 const current =
-getScore(history[0].overallStatus);
+getScore(
+history[0].overallStatus
+);
 
 const previous =
-getScore(history[1].overallStatus);
+getScore(
+history[1].overallStatus
+);
 
 
 if (current > previous) {
@@ -919,7 +1333,9 @@ trendDirection.textContent =
 trendDirection.className =
 "trend-warning";
 
-} else if (current < previous) {
+} else if (
+current < previous
+) {
 
 trendDirection.textContent =
 "Improving";
@@ -974,14 +1390,14 @@ item.overallStatus
 );
 
 
-const itemElement =
+const element =
 document.createElement("div");
 
-itemElement.className =
+element.className =
 "timeline-item";
 
 
-itemElement.innerHTML = `
+element.innerHTML = `
 
 <div class="timeline-line"></div>
 
@@ -994,6 +1410,7 @@ ${type === "high"
 : "🟢"}
 
 </div>
+
 
 <div class="timeline-content">
 
@@ -1013,6 +1430,7 @@ ${formatDate(item.date)}
 
 </div>
 
+
 <div class="timeline-status ${type}">
 
 ${item.overallStatus}
@@ -1020,6 +1438,7 @@ ${item.overallStatus}
 </div>
 
 </div>
+
 
 <div class="timeline-data">
 
@@ -1060,7 +1479,7 @@ ${formatValue(item.anxiety)}
 `;
 
 
-riskTimeline.appendChild(itemElement);
+riskTimeline.appendChild(element);
 
 });
 
@@ -1086,7 +1505,8 @@ p => p.id === selectedPatientId
 );
 
 
-if (!patient) return;
+if (!patient)
+return;
 
 
 const history =
@@ -1131,7 +1551,9 @@ item
 
 
 const reviewed =
-Boolean(acknowledged[key]);
+Boolean(
+acknowledged[key]
+);
 
 
 const element =
@@ -1146,9 +1568,7 @@ element.innerHTML = `
 <div class="history-alert-header">
 
 <strong>
-
 🚨 High Concern Alert
-
 </strong>
 
 <span class="alert-status
@@ -1164,11 +1584,13 @@ ${reviewed
 
 </div>
 
+
 <div class="history-alert-meta">
 
 ${formatDate(item.date)}
 
 </div>
+
 
 <div class="history-alert-data">
 
@@ -1197,7 +1619,7 @@ alertHistory.appendChild(element);
 
 
 /* =========================
-   START
+   INITIALIZE
 ========================= */
 
 displayPatientList();
