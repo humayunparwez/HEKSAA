@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let openDetailAlertId = null;
 
 
+
     /* =====================================================
        STORAGE
     ===================================================== */
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     function saveAlerts(alerts) {
 
         localStorage.setItem(
@@ -51,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+
 
 
     /* =====================================================
@@ -79,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     }
+
 
 
     /* =====================================================
@@ -112,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =====================================================
        PATIENT SIDE
     ===================================================== */
@@ -138,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const card =
-            document.createElement("div");
+            document.createElement("section");
 
         card.id =
             "patient-distress-card";
@@ -153,11 +158,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 🚨
             </div>
 
+
             <div class="distress-patient-content">
 
                 <h3>
                     Feeling Distressed?
                 </h3>
+
 
                 <p>
                     If you are currently experiencing
@@ -167,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     your doctor or counselor.
                 </p>
 
+
                 <button
                     type="button"
                     id="distress-help-button"
@@ -174,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 >
                     🚨 I Need Help
                 </button>
+
 
                 <p
                     id="distress-help-message"
@@ -185,10 +194,36 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
 
-        checkinCard.insertAdjacentElement(
-            "afterend",
-            card
-        );
+
+        /* =================================================
+           IMPORTANT:
+           Place distress card AFTER SUPPORT CARD
+        ================================================= */
+
+        const supportCard =
+            document.querySelector(
+                ".patient-support-card"
+            );
+
+
+        if (supportCard) {
+
+            supportCard.insertAdjacentElement(
+                "afterend",
+                card
+            );
+
+        } else {
+
+            /* Fallback */
+
+            checkinCard.insertAdjacentElement(
+                "afterend",
+                card
+            );
+
+        }
+
 
 
         const button =
@@ -200,6 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById(
                 "distress-help-message"
             );
+
 
 
         /* =================================================
@@ -223,11 +259,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         "distress-help-message error";
 
                     return;
+
                 }
+
 
 
                 const alerts =
                     getAlerts();
+
 
 
                 /*
@@ -245,6 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
+
                 if (existing) {
 
                     message.textContent =
@@ -254,7 +294,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         "distress-help-message success";
 
                     return;
+
                 }
+
 
 
                 /* =========================================
@@ -295,9 +337,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
 
 
+
                 /*
-                   Newest alert goes at beginning
-                   of storage.
+                   Newest alert goes first.
                 */
 
                 alerts.unshift(
@@ -310,11 +352,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
+
                 message.textContent =
                     "✓ Distress alert sent. Your doctor/counselor can now see this alert.";
 
                 message.className =
                     "distress-help-message success";
+
 
 
                 button.textContent =
@@ -333,8 +377,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =====================================================
-       CREATE DOCTOR ALERT
+       CREATE DOCTOR ALERT SECTION
     ===================================================== */
 
     function createDoctorDistressSection() {
@@ -353,6 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getAlerts();
 
 
+
         /*
            Remove only our generated cards.
         */
@@ -365,6 +411,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 element =>
                     element.remove()
             );
+
 
 
         /*
@@ -387,16 +434,10 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        /*
-           Create a document fragment.
-
-           This lets us insert ALL self-reported
-           alerts at the TOP while preserving
-           newest-first order.
-        */
 
         const fragment =
             document.createDocumentFragment();
+
 
 
         alerts.forEach(
@@ -413,18 +454,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /*
-                   IMPORTANT:
-                   Store the UNIQUE alert ID
-                   directly on the card.
-
-                   This fixes the problem where
-                   all alerts belonging to the
-                   same patient were being treated
-                   as the same alert.
+                   UNIQUE ALERT ID
                 */
 
                 card.dataset.alertId =
                     alert.alertId;
+
 
 
                 /*
@@ -443,9 +478,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
+
                 /*
-                   Only pending + escalated
-                   alerts get escalation styling.
+                   Escalation styling only for
+                   pending escalated alerts.
                 */
 
                 if (
@@ -459,6 +495,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                 }
+
 
 
                 card.innerHTML = `
@@ -491,12 +528,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                             <span class="alert-time">
-
                                 Reported:
                                 ${formatDate(
                                     alert.createdAt
                                 )}
-
                             </span>
 
 
@@ -504,16 +539,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                 class="alert-status ${
                                     alert.status ===
                                     "Acknowledged"
-                                    ? "reviewed"
-                                    : "pending"
+                                        ? "reviewed"
+                                        : "pending"
                                 }"
                             >
 
                                 ${
                                     alert.status ===
                                     "Acknowledged"
-                                    ? "✓ Acknowledged"
-                                    : "🚨 Patient Requested Help"
+                                        ? "✓ Acknowledged"
+                                        : "🚨 Patient Requested Help"
                                 }
 
                             </span>
@@ -542,6 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
 
+
                     <div class="alert-actions">
 
                         <button
@@ -566,21 +602,22 @@ document.addEventListener("DOMContentLoaded", function () {
                             ${
                                 alert.status ===
                                 "Acknowledged"
-                                ? "disabled"
-                                : ""
+                                    ? "disabled"
+                                    : ""
                             }
                         >
 
                             ${
                                 alert.status ===
                                 "Acknowledged"
-                                ? "Acknowledged"
-                                : "Acknowledge Alert"
+                                    ? "Acknowledged"
+                                    : "Acknowledge Alert"
                             }
 
                         </button>
 
                     </div>
+
 
 
                     <div
@@ -594,7 +631,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Patient
                                 </span>
@@ -602,14 +638,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <strong>
                                     ${alert.patientName}
                                 </strong>
-
                             </div>
 
 
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Patient ID
                                 </span>
@@ -617,14 +651,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <strong>
                                     ${alert.patientId}
                                 </strong>
-
                             </div>
 
 
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Age
                                 </span>
@@ -632,14 +664,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <strong>
                                     ${alert.patientAge}
                                 </strong>
-
                             </div>
 
 
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Alert Type
                                 </span>
@@ -647,14 +677,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <strong>
                                     Self-Reported Distress
                                 </strong>
-
                             </div>
 
 
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Reported At
                                 </span>
@@ -664,14 +692,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                         alert.createdAt
                                     )}
                                 </strong>
-
                             </div>
 
 
                             <div
                                 class="alert-data-box"
                             >
-
                                 <span>
                                     Status
                                 </span>
@@ -679,7 +705,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <strong>
                                     ${alert.status}
                                 </strong>
-
                             </div>
 
 
@@ -739,6 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
+
                 /* =================================================
                    BUTTONS
                 ================================================= */
@@ -767,6 +793,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
+
                 /* =================================================
                    RESTORE DETAILS
                 ================================================= */
@@ -784,6 +811,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Hide Details";
 
                 }
+
 
 
                 /* =================================================
@@ -828,6 +856,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
 
+
                 /* =================================================
                    ACKNOWLEDGE
                 ================================================= */
@@ -857,11 +886,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
 
-                            /*
-                               Acknowledging the alert
-                               removes active escalation.
-                            */
-
                             target.status =
                                 "Acknowledged";
 
@@ -869,16 +893,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             target.acknowledgedAt =
                                 new Date()
                                     .toISOString();
-
-
-                            /*
-                               IMPORTANT:
-                               Don't delete escalatedAt
-                               from history, but because
-                               status is now Acknowledged,
-                               it will NOT display as an
-                               active escalation.
-                            */
 
 
                             saveAlerts(
@@ -891,6 +905,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                 }
+
 
 
                 /* =================================================
@@ -939,9 +954,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
 
-                /*
-                   Add to fragment.
-                */
 
                 fragment.appendChild(
                     card
@@ -951,14 +963,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+
         /*
-           ====================================================
-           IMPORTANT:
-           Put NEW SELF-REPORTED ALERTS at the TOP.
-           
-           Because alerts are already sorted newest-first,
-           prepending the fragment preserves that order.
-           ====================================================
+           Put self-reported alerts at TOP.
         */
 
         if (
@@ -975,6 +982,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateDoctorAlertCount();
 
     }
+
 
 
     /* =====================================================
@@ -1043,6 +1051,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     /* =====================================================
        INITIALIZE
     ===================================================== */
@@ -1050,6 +1059,7 @@ document.addEventListener("DOMContentLoaded", function () {
     createPatientDistressCard();
 
     createDoctorDistressSection();
+
 
 
     /* =====================================================
