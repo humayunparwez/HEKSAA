@@ -4,12 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
        HEKSAA DISTRESS ALERT SYSTEM
     ===================================================== */
 
-    const ALERT_STORAGE_KEY = "heksaaDistressAlerts";
+    const ALERT_STORAGE_KEY =
+        "heksaaDistressAlerts";
 
-    /*
-       Stores which alert's details are currently open.
-       This prevents the 3-second refresh from closing it.
-    */
     let openDetailAlertId = null;
 
 
@@ -131,10 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /*
-           Prevent duplicate card
-        */
-
         if (
             document.getElementById(
                 "patient-distress-card"
@@ -192,10 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
 
-        /*
-           Insert after check-in card
-        */
-
         checkinCard.insertAdjacentElement(
             "afterend",
             card
@@ -214,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =================================================
-           SEND DISTRESS ALERT
+           SEND ALERT
         ================================================= */
 
         button.addEventListener(
@@ -224,10 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const profile =
                     getPatientProfile();
 
-
-                /*
-                   Profile required
-                */
 
                 if (!profile) {
 
@@ -241,16 +226,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /*
-                   Get existing alerts
-                */
-
                 const alerts =
                     getAlerts();
 
 
                 /*
-                   Prevent duplicate pending alert
+                   Prevent another pending alert
+                   for the same patient.
                 */
 
                 const existing =
@@ -275,9 +257,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /*
-                   Create new distress alert
-                */
+                /* =========================================
+                   CREATE UNIQUE ALERT
+                ========================================= */
 
                 const alert = {
 
@@ -305,13 +287,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Pending",
 
                     acknowledgedAt:
+                        null,
+
+                    escalatedAt:
                         null
 
                 };
 
 
                 /*
-                   Add alert to beginning
+                   Newest alert goes at beginning
+                   of storage.
                 */
 
                 alerts.unshift(
@@ -324,20 +310,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                /*
-                   Confirmation
-                */
-
                 message.textContent =
                     "✓ Distress alert sent. Your doctor/counselor can now see this alert.";
 
                 message.className =
                     "distress-help-message success";
 
-
-                /*
-                   Disable button
-                */
 
                 button.textContent =
                     "✓ Alert Sent";
@@ -356,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       DOCTOR SIDE
+       CREATE DOCTOR ALERT
     ===================================================== */
 
     function createDoctorDistressSection() {
@@ -371,19 +349,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /*
-           Get alerts
-        */
-
         const alerts =
             getAlerts();
 
 
         /*
-           Remove previously generated
-           self-report cards.
-
-           They will be recreated below.
+           Remove only our generated cards.
         */
 
         document
@@ -397,7 +368,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           Sort newest first
+           Newest first.
         */
 
         alerts.sort(
@@ -416,9 +387,17 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        /* =================================================
-           CREATE SELF-REPORTED ALERT CARDS
-        ================================================= */
+        /*
+           Create a document fragment.
+
+           This lets us insert ALL self-reported
+           alerts at the TOP while preserving
+           newest-first order.
+        */
+
+        const fragment =
+            document.createDocumentFragment();
+
 
         alerts.forEach(
             function (alert) {
@@ -434,7 +413,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /*
-                   Add acknowledged class
+                   IMPORTANT:
+                   Store the UNIQUE alert ID
+                   directly on the card.
+
+                   This fixes the problem where
+                   all alerts belonging to the
+                   same patient were being treated
+                   as the same alert.
+                */
+
+                card.dataset.alertId =
+                    alert.alertId;
+
+
+                /*
+                   Acknowledged styling
                 */
 
                 if (
@@ -450,8 +444,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /*
-                   Alert HTML
+                   Only pending + escalated
+                   alerts get escalation styling.
                 */
+
+                if (
+                    alert.status ===
+                        "Pending" &&
+                    alert.escalatedAt
+                ) {
+
+                    card.classList.add(
+                        "distress-escalated"
+                    );
+
+                }
+
 
                 card.innerHTML = `
 
@@ -510,17 +518,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             </span>
 
+
+                            ${
+                                alert.status ===
+                                    "Pending" &&
+                                alert.escalatedAt
+                                ? `
+
+                                    <div
+                                        class="distress-escalated-badge"
+                                    >
+                                        ⚠️ ESCALATED —
+                                        Unacknowledged for more than
+                                        1 minute
+                                    </div>
+
+                                `
+                                : ""
+                            }
+
                         </div>
 
                     </div>
 
 
                     <div class="alert-actions">
-
-                        <!--
-                           Same class as the original
-                           View Patient button
-                        -->
 
                         <button
                             class="self-view-patient alert-view-button"
@@ -530,11 +552,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         </button>
 
 
-                        <!--
-                           Same class as the original
-                           View Details button
-                        -->
-
                         <button
                             class="self-view-details alert-details-button"
                             type="button"
@@ -542,11 +559,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             View Details
                         </button>
 
-
-                        <!--
-                           Same class as the original
-                           Acknowledge button
-                        -->
 
                         <button
                             class="self-acknowledge alert-acknowledge-button"
@@ -570,10 +582,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     </div>
 
-
-                    <!--
-                       Hidden details panel
-                    -->
 
                     <div
                         class="alert-details-panel"
@@ -676,6 +684,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                             ${
+                                alert.escalatedAt
+                                ? `
+
+                                    <div
+                                        class="alert-data-box"
+                                    >
+
+                                        <span>
+                                            Escalated At
+                                        </span>
+
+                                        <strong>
+                                            ${formatDate(
+                                                alert.escalatedAt
+                                            )}
+                                        </strong>
+
+                                    </div>
+
+                                `
+                                : ""
+                            }
+
+
+                            ${
                                 alert.acknowledgedAt
                                 ? `
 
@@ -707,7 +740,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* =================================================
-                   BUTTON REFERENCES
+                   BUTTONS
                 ================================================= */
 
                 const detailsButton =
@@ -735,12 +768,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* =================================================
-                   RESTORE OPEN DETAILS
-                   
-                   Important:
-                   The dashboard refreshes every 3 seconds.
-                   If this alert was open before the refresh,
-                   open it again automatically.
+                   RESTORE DETAILS
                 ================================================= */
 
                 if (
@@ -765,19 +793,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 detailsButton.onclick =
                     function () {
 
-                        const currentlyVisible =
+                        const visible =
                             detailsPanel.classList.contains(
                                 "show"
                             );
 
 
-                        if (
-                            currentlyVisible
-                        ) {
-
-                            /*
-                               Close details
-                            */
+                        if (visible) {
 
                             detailsPanel.classList.remove(
                                 "show"
@@ -791,20 +813,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         } else {
 
-                            /*
-                               Open details
-                            */
-
                             detailsPanel.classList.add(
                                 "show"
                             );
 
                             detailsButton.textContent =
                                 "Hide Details";
-
-                            /*
-                               Remember this alert
-                            */
 
                             openDetailAlertId =
                                 alert.alertId;
@@ -815,7 +829,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* =================================================
-                   ACKNOWLEDGE ALERT
+                   ACKNOWLEDGE
                 ================================================= */
 
                 if (
@@ -844,7 +858,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                             /*
-                               Change status
+                               Acknowledging the alert
+                               removes active escalation.
                             */
 
                             target.status =
@@ -857,18 +872,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                             /*
-                               Save
+                               IMPORTANT:
+                               Don't delete escalatedAt
+                               from history, but because
+                               status is now Acknowledged,
+                               it will NOT display as an
+                               active escalation.
                             */
+
 
                             saveAlerts(
                                 currentAlerts
                             );
 
-
-                            /*
-                               Keep details open
-                               after rerender
-                            */
 
                             createDoctorDistressSection();
 
@@ -884,18 +900,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 viewPatientButton.onclick =
                     function () {
 
-                        /*
-                           Find matching patient card
-                        */
-
                         const patientCards =
                             document.querySelectorAll(
                                 ".patient-card"
                             );
-
-
-                        let found =
-                            false;
 
 
                         patientCards.forEach(
@@ -913,18 +921,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     patientCard.click();
 
-                                    found =
-                                        true;
-
                                 }
 
                             }
                         );
 
-
-                        /*
-                           Scroll to patient area
-                        */
 
                         window.scrollTo({
 
@@ -939,10 +940,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /*
-                   Add card to alert list
+                   Add to fragment.
                 */
 
-                alertList.appendChild(
+                fragment.appendChild(
                     card
                 );
 
@@ -951,8 +952,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           Update active alert count
+           ====================================================
+           IMPORTANT:
+           Put NEW SELF-REPORTED ALERTS at the TOP.
+           
+           Because alerts are already sorted newest-first,
+           prepending the fragment preserves that order.
+           ====================================================
         */
+
+        if (
+            fragment.children.length > 0
+        ) {
+
+            alertList.prepend(
+                fragment
+            );
+
+        }
+
 
         updateDoctorAlertCount();
 
@@ -960,7 +978,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       UPDATE ACTIVE ALERT COUNT
+       ACTIVE ALERT COUNT
     ===================================================== */
 
     function updateDoctorAlertCount() {
@@ -976,10 +994,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        /*
-           Self-reported alerts
-        */
-
         const selfAlerts =
             getAlerts();
 
@@ -992,28 +1006,16 @@ document.addEventListener("DOMContentLoaded", function () {
             ).length;
 
 
-        /*
-           Existing HEKSAA generated alerts
-        */
-
         const existingPending =
             document.querySelectorAll(
                 "#distress-alert-list .alert-item:not(.acknowledged):not(.self-distress-alert)"
             ).length;
 
 
-        /*
-           Total
-        */
-
         const total =
             pendingSelfAlerts +
             existingPending;
 
-
-        /*
-           Display count
-        */
 
         counter.textContent =
             total +
@@ -1023,10 +1025,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     : " Active Alerts"
             );
 
-
-        /*
-           Add/remove alert indicator
-        */
 
         if (total > 0) {
 
@@ -1056,11 +1054,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
        AUTO REFRESH
-       
-       Prototype refresh every 3 seconds.
-       
-       The openDetailAlertId variable makes sure that
-       View Details does not disappear during refresh.
     ===================================================== */
 
     if (
