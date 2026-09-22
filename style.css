@@ -2489,3 +2489,110 @@ header h1 {
     position: relative;
     z-index: 1;
 }
+/* =====================================================
+   PATIENT RESOURCE NAVIGATION
+   ===================================================== */
+
+.patient-resource-nav {
+    max-width: 1100px;
+    margin: 0 auto 20px;
+    padding: 14px 18px;
+
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    background: #ffffff;
+    border: 1px solid #e2e5eb;
+    border-radius: 16px;
+
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+}
+
+.patient-resource-nav a {
+    text-decoration: none;
+    color: #475569;
+
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.patient-resource-nav a:hover {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+@media (max-width: 600px) {
+
+    .patient-resource-nav {
+        margin: 0 12px 18px;
+        gap: 6px;
+    }
+
+    .patient-resource-nav a {
+        flex: 1;
+        min-width: 44%;
+        text-align: center;
+        font-size: 13px;
+    }
+
+}
+/* =====================================================
+   PATIENT DASHBOARD FOOTER
+   ===================================================== */
+
+.patient-dashboard-footer {
+    max-width: 1100px;
+    margin: 10px auto 40px;
+    padding: 25px 20px;
+
+    text-align: center;
+
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.patient-dashboard-footer div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+
+    margin-bottom: 12px;
+}
+
+.patient-dashboard-footer a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.patient-dashboard-footer a:hover {
+    color: #4f46e5;
+}
+
+.patient-dashboard-footer p {
+    margin: 0;
+}
+
+
+@media (max-width: 600px) {
+
+    .patient-dashboard-footer {
+        margin-bottom: 25px;
+        padding: 22px 15px;
+    }
+
+    .patient-dashboard-footer div {
+        gap: 12px 16px;
+    }
+
+}
