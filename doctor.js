@@ -1,1192 +1,1209 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =========================
-       ELEMENTS
-    ========================= */
 
-    const patientList = document.getElementById("patient-list");
-    const patientName = document.getElementById("doctor-patient-name");
-    const patientId = document.getElementById("doctor-patient-id");
-    const patientAge = document.getElementById("doctor-patient-age");
-    const latestStatus = document.getElementById("doctor-latest-status");
+const patientList =
+document.getElementById("patient-list");
 
-    const totalCheckins = document.getElementById("total-checkins");
-    const lowCount = document.getElementById("low-count");
-    const moderateCount = document.getElementById("moderate-count");
-    const highCount = document.getElementById("high-count");
+const patientName =
+document.getElementById("doctor-patient-name");
 
-    const doctorHistory = document.getElementById("doctor-history");
+const patientId =
+document.getElementById("doctor-patient-id");
 
-    const trendMood = document.getElementById("trend-mood");
-    const trendStress = document.getElementById("trend-stress");
-    const trendAnxiety = document.getElementById("trend-anxiety");
-    const trendDirection = document.getElementById("trend-direction");
+const patientAge =
+document.getElementById("doctor-patient-age");
 
-    const distressAlert = document.getElementById("distress-alert");
-    const distressAlertList =
-        document.getElementById("distress-alert-list");
+const latestStatus =
+document.getElementById("doctor-latest-status");
 
-    const activeAlertCount =
-        document.getElementById("active-alert-count");
+const totalCheckins =
+document.getElementById("total-checkins");
 
+const lowCount =
+document.getElementById("low-count");
 
-    /* =========================
-       DATA
-    ========================= */
+const moderateCount =
+document.getElementById("moderate-count");
 
-    function getPatients() {
+const highCount =
+document.getElementById("high-count");
 
-        const saved =
-            localStorage.getItem("heksaaPatients");
+const doctorHistory =
+document.getElementById("doctor-history");
 
-        if (!saved) {
-            return [];
-        }
+const trendMood =
+document.getElementById("trend-mood");
 
-        try {
+const trendStress =
+document.getElementById("trend-stress");
 
-            const data = JSON.parse(saved);
+const trendAnxiety =
+document.getElementById("trend-anxiety");
 
-            return Array.isArray(data) ? data : [];
+const trendDirection =
+document.getElementById("trend-direction");
 
-        } catch (error) {
+const distressAlert =
+document.getElementById("distress-alert");
 
-            console.error(
-                "HEKSAA: Unable to read patients",
-                error
-            );
+const distressAlertList =
+document.getElementById("distress-alert-list");
 
-            return [];
-        }
-    }
+const activeAlertCount =
+document.getElementById("active-alert-count");
 
+const riskTimeline =
+document.getElementById("risk-timeline");
 
-    let patients = getPatients();
+const alertHistory =
+document.getElementById("alert-history");
 
-    let selectedPatientId =
-        patients.length > 0
-            ? patients[0].id
-            : null;
 
+/* =========================
+   PATIENT DATA
+========================= */
 
-    /* =========================
-       UTILITIES
-    ========================= */
+function getPatients() {
 
-    function formatValue(value) {
+const saved =
+localStorage.getItem("heksaaPatients");
 
-        if (!value) {
-            return "No Data";
-        }
+if (!saved) return [];
 
-        return String(value)
-            .replace(/-/g, " ")
-            .replace(/\b\w/g, function (letter) {
-                return letter.toUpperCase();
-            });
-    }
+try {
 
+const data =
+JSON.parse(saved);
 
-    function formatDate(value) {
+return Array.isArray(data)
+? data
+: [];
 
-        if (!value) {
-            return "Time unavailable";
-        }
+} catch {
 
-        const date = new Date(value);
+return [];
 
-        if (isNaN(date.getTime())) {
-            return "Time unavailable";
-        }
+}
 
-        return date.toLocaleString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-    }
+}
 
 
-    function statusClass(status) {
+let patients = getPatients();
 
-        if (status === "Low Concern") {
-            return "status-low";
-        }
+let selectedPatientId =
+patients.length
+? patients[0].id
+: null;
 
-        if (status === "Moderate Concern") {
-            return "status-moderate";
-        }
 
-        if (status === "High Concern") {
-            return "status-high";
-        }
+/* =========================
+   HELPERS
+========================= */
 
-        return "";
-    }
+function formatValue(value) {
 
+if (!value) return "No Data";
 
-    function concernScore(status) {
+return String(value)
+.replace(/-/g," ")
+.replace(/\b\w/g,
+letter => letter.toUpperCase());
 
-        if (status === "Low Concern") {
-            return 1;
-        }
+}
 
-        if (status === "Moderate Concern") {
-            return 2;
-        }
 
-        if (status === "High Concern") {
-            return 3;
-        }
+function formatDate(value) {
 
-        return 0;
-    }
+if (!value)
+return "Time unavailable";
 
+const date =
+new Date(value);
 
-    /* =========================
-       ACKNOWLEDGED ALERTS
-    ========================= */
+if (isNaN(date.getTime()))
+return "Time unavailable";
 
-    function getAcknowledgedAlerts() {
+return date.toLocaleString(
+"en-IN",
+{
+day:"2-digit",
+month:"short",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
-        try {
+}
 
-            return JSON.parse(
-                localStorage.getItem(
-                    "heksaaAcknowledgedAlerts"
-                )
-            ) || {};
 
-        } catch (error) {
+function getStatusClass(status) {
 
-            return {};
-        }
-    }
+if (status === "Low Concern")
+return "status-low";
 
+if (status === "Moderate Concern")
+return "status-moderate";
 
-    function saveAcknowledgedAlerts(data) {
+if (status === "High Concern")
+return "status-high";
 
-        localStorage.setItem(
-            "heksaaAcknowledgedAlerts",
-            JSON.stringify(data)
-        );
-    }
+return "";
 
+}
 
-    function alertKey(patient, checkin) {
 
-        return (
-            String(patient.id) +
-            "_" +
-            String(checkin.date)
-        );
-    }
+function getTimelineClass(status) {
 
+if (status === "Low Concern")
+return "low";
 
-    /* =========================
-       DISTRESS ALERT CENTER
-    ========================= */
+if (status === "Moderate Concern")
+return "moderate";
 
-    function displayDistressAlerts() {
+return "high";
 
-        if (!distressAlertList) {
-            console.error(
-                "HEKSAA: distress-alert-list not found"
-            );
-            return;
-        }
+}
 
 
-        const acknowledged =
-            getAcknowledgedAlerts();
+function getScore(status) {
 
+if (status === "Low Concern")
+return 1;
 
-        /* Find patients whose latest
-           check-in is High Concern */
+if (status === "Moderate Concern")
+return 2;
 
-        const highConcernPatients =
-            patients.filter(function (patient) {
+if (status === "High Concern")
+return 3;
 
-                const history =
-                    Array.isArray(patient.history)
-                        ? patient.history
-                        : [];
+return 0;
 
+}
 
-                if (history.length === 0) {
-                    return false;
-                }
 
+/* =========================
+   ACKNOWLEDGED ALERTS
+========================= */
 
-                return (
-                    history[0].overallStatus ===
-                    "High Concern"
-                );
+function getAcknowledgedAlerts() {
 
-            });
+try {
 
+return JSON.parse(
+localStorage.getItem(
+"heksaaAcknowledgedAlerts"
+)
+) || {};
 
-        /* Count pending alerts */
+} catch {
 
-        let pendingCount = 0;
+return {};
 
+}
 
-        highConcernPatients.forEach(
-            function (patient) {
+}
 
-                const latest =
-                    patient.history[0];
 
-                const key =
-                    alertKey(
-                        patient,
-                        latest
-                    );
+function saveAcknowledgedAlerts(data) {
 
-                if (!acknowledged[key]) {
-                    pendingCount++;
-                }
+localStorage.setItem(
+"heksaaAcknowledgedAlerts",
+JSON.stringify(data)
+);
 
-            }
-        );
+}
 
 
-        /* Update counter */
+function getAlertKey(patient, checkin) {
 
-        if (activeAlertCount) {
+return patient.id + "_" + checkin.date;
 
-            activeAlertCount.textContent =
-                pendingCount +
-                (
-                    pendingCount === 1
-                        ? " Active Alert"
-                        : " Active Alerts"
-                );
+}
 
 
-            if (pendingCount > 0) {
+/* =========================
+   PATIENT LIST
+========================= */
 
-                activeAlertCount.classList.add(
-                    "has-alerts"
-                );
+function displayPatientList() {
 
-            } else {
+patientList.innerHTML = "";
 
-                activeAlertCount.classList.remove(
-                    "has-alerts"
-                );
+if (!patients.length) {
 
-            }
-        }
+patientList.innerHTML =
+"No patients available.";
 
+return;
 
-        /* Clear old cards */
+}
 
-        distressAlertList.innerHTML = "";
 
+patients.forEach(patient => {
 
-        /* No high-concern patients */
+const history =
+Array.isArray(patient.history)
+? patient.history
+: [];
 
-        if (highConcernPatients.length === 0) {
+const latest =
+history.length
+? history[0]
+: null;
 
-            distressAlertList.innerHTML = `
+const status =
+latest
+? latest.overallStatus
+: "No Data";
 
-                <div class="alert-empty">
 
-                    <div class="alert-empty-icon">
-                        ✅
-                    </div>
+const card =
+document.createElement("div");
 
-                    <h4>
-                        No Active Distress Alerts
-                    </h4>
+card.className =
+"patient-card";
 
-                    <p>
-                        No patient's latest
-                        check-in is currently
-                        classified as High Concern.
-                    </p>
 
-                </div>
+if (patient.id === selectedPatientId)
+card.classList.add("active");
 
-            `;
 
-            return;
-        }
+card.innerHTML = `
 
+<div class="patient-list-avatar">
+👤
+</div>
 
-        /* =========================
-           CREATE ALERT CARDS
-        ========================= */
+<div class="patient-card-info">
 
-        highConcernPatients.forEach(
-            function (patient) {
+<strong>
+${patient.name}
+</strong>
 
-                const latest =
-                    patient.history[0];
+<span>
+${patient.id} • Age ${patient.age}
+</span>
 
+</div>
 
-                const key =
-                    alertKey(
-                        patient,
-                        latest
-                    );
+<div class="patient-card-status
+${getStatusClass(status)}">
 
+${status}
 
-                const isAcknowledged =
-                    Boolean(
-                        acknowledged[key]
-                    );
+</div>
 
+`;
 
-                /* Main card */
 
-                const card =
-                    document.createElement("div");
+card.onclick = function () {
 
-                card.className =
-                    "alert-item";
+selectedPatientId =
+patient.id;
 
+displayPatientList();
 
-                if (isAcknowledged) {
-                    card.classList.add(
-                        "acknowledged"
-                    );
-                }
+displaySelectedPatient();
 
+};
 
-                /* Main row */
 
-                const main =
-                    document.createElement("div");
+patientList.appendChild(card);
 
-                main.className =
-                    "alert-main";
+});
 
+}
 
-                /* Icon */
 
-                const icon =
-                    document.createElement("div");
+/* =========================
+   ALERT CENTER
+========================= */
 
-                icon.className =
-                    "alert-icon";
+function displayDistressAlerts() {
 
-                icon.textContent =
-                    isAcknowledged
-                        ? "✓"
-                        : "⚠️";
+const acknowledged =
+getAcknowledgedAlerts();
 
 
-                /* Details */
+distressAlertList.innerHTML = "";
 
-                const details =
-                    document.createElement("div");
 
-                details.className =
-                    "alert-details";
+let pending = 0;
 
+const alerts = [];
 
-                const name =
-                    document.createElement("strong");
 
-                name.textContent =
-                    patient.name || "Patient";
+patients.forEach(patient => {
 
+const history =
+Array.isArray(patient.history)
+? patient.history
+: [];
 
-                const idStatus =
-                    document.createElement("span");
 
-                idStatus.textContent =
-                    "ID: " +
-                    patient.id +
-                    " • High Concern";
+if (!history.length)
+return;
 
 
-                const time =
-                    document.createElement("span");
+const latest =
+history[0];
 
-                time.className =
-                    "alert-time";
 
-                time.textContent =
-                    "Latest check-in: " +
-                    formatDate(latest.date);
+if (
+latest.overallStatus !==
+"High Concern"
+)
+return;
 
 
-                const reviewStatus =
-                    document.createElement("span");
+const key =
+getAlertKey(patient,latest);
 
-                reviewStatus.className =
-                    "alert-status " +
-                    (
-                        isAcknowledged
-                            ? "reviewed"
-                            : "pending"
-                    );
 
+const reviewed =
+Boolean(acknowledged[key]);
 
-                reviewStatus.textContent =
-                    isAcknowledged
-                        ? "✓ Acknowledged"
-                        : "⚠ Awaiting Review";
 
+if (!reviewed)
+pending++;
 
-                details.appendChild(name);
-                details.appendChild(idStatus);
-                details.appendChild(time);
-                details.appendChild(reviewStatus);
 
+alerts.push({
+patient,
+latest,
+key,
+reviewed
+});
 
-                main.appendChild(icon);
-                main.appendChild(details);
+});
 
 
-                /* =========================
-                   BUTTONS
-                ========================= */
+activeAlertCount.textContent =
+pending +
+(pending === 1
+? " Active Alert"
+: " Active Alerts");
 
-                const actions =
-                    document.createElement("div");
 
-                actions.className =
-                    "alert-actions";
+if (pending)
+activeAlertCount.classList.add(
+"has-alerts"
+);
+else
+activeAlertCount.classList.remove(
+"has-alerts"
+);
 
 
-                /* View Patient */
+if (!alerts.length) {
 
-                const viewButton =
-                    document.createElement("button");
+distressAlertList.innerHTML = `
 
-                viewButton.type =
-                    "button";
+<div class="history-empty">
 
-                viewButton.className =
-                    "alert-view-button";
+<h4>
+✅ No Active Distress Alerts
+</h4>
 
-                viewButton.textContent =
-                    "View Patient";
+<p>
+No patient's latest check-in
+is currently classified as
+High Concern.
+</p>
 
+</div>
 
-                viewButton.addEventListener(
-                    "click",
-                    function () {
+`;
 
-                        selectedPatientId =
-                            patient.id;
+return;
 
-                        displayPatientList();
+}
 
-                        displaySelectedPatient();
 
-                        window.scrollTo({
-                            top: 0,
-                            behavior: "smooth"
-                        });
+alerts.forEach(alert => {
 
-                    }
-                );
+const card =
+document.createElement("div");
 
+card.className =
+"alert-item";
 
-                /* View Details */
 
-                const detailsButton =
-                    document.createElement("button");
+if (alert.reviewed)
+card.classList.add("acknowledged");
 
-                detailsButton.type =
-                    "button";
 
-                detailsButton.className =
-                    "alert-details-button";
+card.innerHTML = `
 
-                detailsButton.textContent =
-                    "View Details";
+<div class="alert-main">
 
+<div class="alert-icon">
 
-                /* Acknowledge */
+${alert.reviewed ? "✓" : "⚠️"}
 
-                const acknowledgeButton =
-                    document.createElement("button");
+</div>
 
-                acknowledgeButton.type =
-                    "button";
+<div class="alert-details">
 
-                acknowledgeButton.className =
-                    "alert-acknowledge-button";
+<strong>
+${alert.patient.name}
+</strong>
 
+<span>
+ID: ${alert.patient.id}
+• High Concern
+</span>
 
-                if (isAcknowledged) {
+<span class="alert-time">
 
-                    acknowledgeButton.textContent =
-                        "Acknowledged";
+Latest check-in:
+${formatDate(alert.latest.date)}
 
-                    acknowledgeButton.disabled =
-                        true;
+</span>
 
-                } else {
+<span class="alert-status
+${alert.reviewed
+? "reviewed"
+: "pending"}">
 
-                    acknowledgeButton.textContent =
-                        "Acknowledge Alert";
+${alert.reviewed
+? "✓ Acknowledged"
+: "⚠ Awaiting Review"}
 
+</span>
 
-                    acknowledgeButton.addEventListener(
-                        "click",
-                        function () {
+</div>
 
-                            const current =
-                                getAcknowledgedAlerts();
+</div>
 
+<div class="alert-actions">
 
-                            current[key] = {
-                                patientId:
-                                    patient.id,
+<button
+class="alert-view-button">
+View Patient
+</button>
 
-                                patientName:
-                                    patient.name,
+<button
+class="alert-details-button">
+View Details
+</button>
 
-                                acknowledgedAt:
-                                    new Date()
-                                        .toISOString()
-                            };
+<button
+class="alert-acknowledge-button"
+${alert.reviewed ? "disabled" : ""}>
 
+${alert.reviewed
+? "Acknowledged"
+: "Acknowledge Alert"}
 
-                            saveAcknowledgedAlerts(
-                                current
-                            );
+</button>
 
+</div>
 
-                            displayDistressAlerts();
+<div class="alert-details-panel">
 
-                        }
-                    );
+<div
+class="alert-data-grid">
 
-                }
+<div class="alert-data-box">
 
+<span>Mood</span>
 
-                actions.appendChild(viewButton);
-                actions.appendChild(detailsButton);
-                actions.appendChild(
-                    acknowledgeButton
-                );
+<strong>
+${formatValue(alert.latest.mood)}
+</strong>
 
+</div>
 
-                /* =========================
-                   DETAILS PANEL
-                ========================= */
+<div class="alert-data-box">
 
-                const detailsPanel =
-                    document.createElement("div");
+<span>Stress</span>
 
-                detailsPanel.className =
-                    "alert-details-panel";
+<strong>
+${formatValue(alert.latest.stress)}
+</strong>
 
+</div>
 
-                const title =
-                    document.createElement("div");
+<div class="alert-data-box">
 
-                title.className =
-                    "alert-details-title";
+<span>Anxiety</span>
 
-                title.textContent =
-                    "Check-in Details";
+<strong>
+${formatValue(alert.latest.anxiety)}
+</strong>
 
+</div>
 
-                const grid =
-                    document.createElement("div");
+</div>
 
-                grid.className =
-                    "alert-data-grid";
+</div>
 
+`;
 
-                function createDataBox(
-                    label,
-                    value
-                ) {
 
-                    const box =
-                        document.createElement("div");
+const viewButton =
+card.querySelector(
+".alert-view-button"
+);
 
-                    box.className =
-                        "alert-data-box";
+viewButton.onclick =
+function () {
 
+selectedPatientId =
+alert.patient.id;
 
-                    const labelElement =
-                        document.createElement("span");
+displayPatientList();
 
-                    labelElement.textContent =
-                        label;
+displaySelectedPatient();
 
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-                    const valueElement =
-                        document.createElement("strong");
+};
 
-                    valueElement.textContent =
-                        formatValue(value);
 
+const detailsButton =
+card.querySelector(
+".alert-details-button"
+);
 
-                    box.appendChild(
-                        labelElement
-                    );
+const detailsPanel =
+card.querySelector(
+".alert-details-panel"
+);
 
-                    box.appendChild(
-                        valueElement
-                    );
+detailsButton.onclick =
+function () {
 
+const show =
+detailsPanel.classList
+.toggle("show");
 
-                    return box;
-                }
+detailsButton.textContent =
+show
+? "Hide Details"
+: "View Details";
 
+};
 
-                grid.appendChild(
-                    createDataBox(
-                        "Mood",
-                        latest.mood
-                    )
-                );
 
+const acknowledgeButton =
+card.querySelector(
+".alert-acknowledge-button"
+);
 
-                grid.appendChild(
-                    createDataBox(
-                        "Stress",
-                        latest.stress
-                    )
-                );
 
+if (!alert.reviewed) {
 
-                grid.appendChild(
-                    createDataBox(
-                        "Anxiety",
-                        latest.anxiety
-                    )
-                );
+acknowledgeButton.onclick =
+function () {
 
+const data =
+getAcknowledgedAlerts();
 
-                detailsPanel.appendChild(title);
-                detailsPanel.appendChild(grid);
 
+data[alert.key] = {
 
-                detailsButton.addEventListener(
-                    "click",
-                    function () {
+patientId:
+alert.patient.id,
 
-                        const open =
-                            detailsPanel.classList
-                                .toggle("show");
+patientName:
+alert.patient.name,
 
+acknowledgedAt:
+new Date().toISOString()
 
-                        detailsButton.textContent =
-                            open
-                                ? "Hide Details"
-                                : "View Details";
+};
 
-                    }
-                );
 
+saveAcknowledgedAlerts(data);
 
-                /* =========================
-                   BUILD CARD
-                ========================= */
+displayDistressAlerts();
 
-                card.appendChild(main);
-                card.appendChild(actions);
-                card.appendChild(detailsPanel);
+displayAlertHistory();
 
+};
 
-                distressAlertList.appendChild(
-                    card
-                );
+}
 
-            }
-        );
 
-    }
+distressAlertList.appendChild(card);
 
+});
 
-    /* =========================
-       PATIENT LIST
-    ========================= */
+}
 
-    function displayPatientList() {
 
-        if (!patientList) {
-            return;
-        }
+/* =========================
+   SELECTED PATIENT
+========================= */
 
+function displaySelectedPatient() {
 
-        patientList.innerHTML = "";
+const patient =
+patients.find(
+p => p.id === selectedPatientId
+);
 
+if (!patient) return;
 
-        if (patients.length === 0) {
 
-            patientList.innerHTML = `
+const history =
+Array.isArray(patient.history)
+? patient.history
+: [];
 
-                <div class="patient-list-empty">
-                    No patients available.
-                </div>
 
-            `;
+patientName.textContent =
+patient.name;
 
-            return;
-        }
+patientId.textContent =
+patient.id;
 
+patientAge.textContent =
+patient.age;
 
-        patients.forEach(function (patient) {
 
-            const card =
-                document.createElement("div");
+latestStatus.className =
+"doctor-status";
 
 
-            card.className =
-                "patient-card";
+if (history.length) {
 
+const status =
+history[0].overallStatus;
 
-            if (
-                patient.id ===
-                selectedPatientId
-            ) {
+latestStatus.textContent =
+status;
 
-                card.classList.add("active");
+latestStatus.classList.add(
+getStatusClass(status)
+);
 
-            }
 
+if (status === "High Concern")
+distressAlert.style.display =
+"block";
+else
+distressAlert.style.display =
+"none";
 
-            const history =
-                Array.isArray(patient.history)
-                    ? patient.history
-                    : [];
+} else {
 
+latestStatus.textContent =
+"No Data";
 
-            const latest =
-                history.length > 0
-                    ? history[0]
-                    : null;
+distressAlert.style.display =
+"none";
 
+}
 
-            const status =
-                latest
-                    ? latest.overallStatus
-                    : "No Data";
 
+/* SUMMARY */
 
-            card.innerHTML = `
+totalCheckins.textContent =
+history.length;
 
-                <div class="patient-list-avatar">
-                    👤
-                </div>
 
-                <div class="patient-card-info">
+let low = 0;
+let moderate = 0;
+let high = 0;
 
-                    <strong>
-                        ${patient.name}
-                    </strong>
 
-                    <span>
-                        ${patient.id}
-                        • Age ${patient.age}
-                    </span>
+history.forEach(item => {
 
-                </div>
+if (item.overallStatus ===
+"Low Concern")
+low++;
 
-                <div
-                    class="patient-card-status
-                    ${statusClass(status)}"
-                >
-                    ${status}
-                </div>
+if (item.overallStatus ===
+"Moderate Concern")
+moderate++;
 
-            `;
+if (item.overallStatus ===
+"High Concern")
+high++;
 
+});
 
-            card.addEventListener(
-                "click",
-                function () {
 
-                    selectedPatientId =
-                        patient.id;
+lowCount.textContent = low;
+moderateCount.textContent = moderate;
+highCount.textContent = high;
 
-                    displayPatientList();
 
-                    displaySelectedPatient();
+displayHistory(history);
 
-                }
-            );
+displayTrend(history);
 
+displayRiskTimeline(history);
 
-            patientList.appendChild(card);
+displayAlertHistory();
 
-        });
+}
 
-    }
 
+/* =========================
+   CHECK-IN HISTORY
+========================= */
 
-    /* =========================
-       SELECTED PATIENT
-    ========================= */
+function displayHistory(history) {
 
-    function displaySelectedPatient() {
+doctorHistory.innerHTML = "";
 
-        const patient =
-            patients.find(function (item) {
 
-                return (
-                    item.id ===
-                    selectedPatientId
-                );
+if (!history.length) {
 
-            });
+doctorHistory.innerHTML = `
 
+<div class="history-empty">
 
-        if (!patient) {
-            return;
-        }
+📋 No patient check-ins available.
 
+</div>
 
-        const history =
-            Array.isArray(patient.history)
-                ? patient.history
-                : [];
+`;
 
+return;
 
-        patientName.textContent =
-            patient.name;
+}
 
 
-        patientId.textContent =
-            patient.id;
+history.forEach(item => {
 
+const card =
+document.createElement("div");
 
-        patientAge.textContent =
-            patient.age;
+card.className =
+"doctor-checkin";
 
 
-        latestStatus.classList.remove(
-            "status-low",
-            "status-moderate",
-            "status-high"
-        );
+card.innerHTML = `
 
+<div class="doctor-checkin-header">
 
-        if (history.length > 0) {
+<div>
 
-            const status =
-                history[0].overallStatus;
+<h4>
+Patient Check-in
+</h4>
 
+<span class="doctor-date">
 
-            latestStatus.textContent =
-                status;
+${formatDate(item.date)}
 
+</span>
 
-            latestStatus.classList.add(
-                statusClass(status)
-            );
+</div>
 
+<span class="doctor-status
+${getStatusClass(
+item.overallStatus
+)}">
 
-            if (status === "High Concern") {
+${item.overallStatus}
 
-                distressAlert.style.display =
-                    "block";
+</span>
 
-            } else {
+</div>
 
-                distressAlert.style.display =
-                    "none";
+<div class="doctor-data">
 
-            }
+<div class="doctor-data-item">
 
-        } else {
+<span>Mood</span>
 
-            latestStatus.textContent =
-                "No Data";
+<strong>
+${formatValue(item.mood)}
+</strong>
 
-            distressAlert.style.display =
-                "none";
-        }
+</div>
 
+<div class="doctor-data-item">
 
-        /* Statistics */
+<span>Stress</span>
 
-        totalCheckins.textContent =
-            history.length;
+<strong>
+${formatValue(item.stress)}
+</strong>
 
+</div>
 
-        let low = 0;
-        let moderate = 0;
-        let high = 0;
+<div class="doctor-data-item">
 
+<span>Anxiety</span>
 
-        history.forEach(function (item) {
+<strong>
+${formatValue(item.anxiety)}
+</strong>
 
-            if (
-                item.overallStatus ===
-                "Low Concern"
-            ) {
+</div>
 
-                low++;
+</div>
 
-            } else if (
-                item.overallStatus ===
-                "Moderate Concern"
-            ) {
+`;
 
-                moderate++;
 
-            } else if (
-                item.overallStatus ===
-                "High Concern"
-            ) {
+doctorHistory.appendChild(card);
 
-                high++;
+});
 
-            }
+}
 
-        });
 
+/* =========================
+   TREND
+========================= */
 
-        lowCount.textContent =
-            low;
+function displayTrend(history) {
 
+if (!history.length) {
 
-        moderateCount.textContent =
-            moderate;
+trendMood.textContent =
+"No Data";
 
+trendStress.textContent =
+"No Data";
 
-        highCount.textContent =
-            high;
+trendAnxiety.textContent =
+"No Data";
 
+trendDirection.textContent =
+"No Data";
 
-        displayHistory(history);
+return;
 
-        displayTrend(history);
+}
 
-    }
 
+const latest =
+history[0];
 
-    /* =========================
-       HISTORY
-    ========================= */
 
-    function displayHistory(history) {
+trendMood.textContent =
+formatValue(latest.mood);
 
-        if (!doctorHistory) {
-            return;
-        }
+trendStress.textContent =
+formatValue(latest.stress);
 
+trendAnxiety.textContent =
+formatValue(latest.anxiety);
 
-        doctorHistory.innerHTML = "";
 
+if (history.length < 2) {
 
-        if (history.length === 0) {
+trendDirection.textContent =
+"Not enough data";
 
-            doctorHistory.innerHTML = `
+return;
 
-                <div class="doctor-empty">
+}
 
-                    <div class="empty-icon">
-                        📋
-                    </div>
 
-                    <h4>
-                        No patient check-ins available
-                    </h4>
+const current =
+getScore(history[0].overallStatus);
 
-                    <p>
-                        Patient check-in information
-                        will appear here when available.
-                    </p>
+const previous =
+getScore(history[1].overallStatus);
 
-                </div>
 
-            `;
+if (current > previous) {
 
-            return;
-        }
+trendDirection.textContent =
+"Increasing Concern";
 
+trendDirection.className =
+"trend-warning";
 
-        history.forEach(function (item) {
+} else if (current < previous) {
 
-            const card =
-                document.createElement("div");
+trendDirection.textContent =
+"Improving";
 
-            card.className =
-                "doctor-checkin";
+trendDirection.className =
+"trend-good";
 
+} else {
 
-            card.innerHTML = `
+trendDirection.textContent =
+"Stable";
 
-                <div class="doctor-checkin-header">
+trendDirection.className =
+"trend-stable";
 
-                    <div>
+}
 
-                        <h4>
-                            Patient Check-in
-                        </h4>
+}
 
-                        <span class="doctor-date">
-                            ${formatDate(item.date)}
-                        </span>
 
-                    </div>
+/* =========================
+   RISK TIMELINE
+========================= */
 
-                    <span
-                        class="doctor-status
-                        ${statusClass(
-                            item.overallStatus
-                        )}"
-                    >
-                        ${item.overallStatus}
-                    </span>
+function displayRiskTimeline(history) {
 
-                </div>
+riskTimeline.innerHTML = "";
 
 
-                <div class="doctor-data">
+if (!history.length) {
 
-                    <div class="doctor-data-item">
+riskTimeline.innerHTML = `
 
-                        <span>
-                            Mood
-                        </span>
+<div class="history-empty">
 
-                        <strong>
-                            ${formatValue(item.mood)}
-                        </strong>
+No risk timeline data available.
 
-                    </div>
+</div>
 
+`;
 
-                    <div class="doctor-data-item">
+return;
 
-                        <span>
-                            Stress
-                        </span>
+}
 
-                        <strong>
-                            ${formatValue(item.stress)}
-                        </strong>
 
-                    </div>
+history.forEach((item,index) => {
 
+const type =
+getTimelineClass(
+item.overallStatus
+);
 
-                    <div class="doctor-data-item">
 
-                        <span>
-                            Anxiety
-                        </span>
+const itemElement =
+document.createElement("div");
 
-                        <strong>
-                            ${formatValue(item.anxiety)}
-                        </strong>
+itemElement.className =
+"timeline-item";
 
-                    </div>
 
-                </div>
+itemElement.innerHTML = `
 
-            `;
+<div class="timeline-line"></div>
 
+<div class="timeline-dot ${type}">
 
-            doctorHistory.appendChild(card);
+${type === "high"
+? "🔴"
+: type === "moderate"
+? "🟡"
+: "🟢"}
 
-        });
+</div>
 
-    }
+<div class="timeline-content">
 
+<div class="timeline-header">
 
-    /* =========================
-       TREND
-    ========================= */
+<div>
 
-    function displayTrend(history) {
+<strong>
+Check-in ${history.length - index}
+</strong>
 
-        if (history.length === 0) {
+<div class="timeline-date">
 
-            trendMood.textContent = "No Data";
-            trendStress.textContent = "No Data";
-            trendAnxiety.textContent = "No Data";
-            trendDirection.textContent = "No Data";
+${formatDate(item.date)}
 
-            return;
-        }
+</div>
 
+</div>
 
-        const latest =
-            history[0];
+<div class="timeline-status ${type}">
 
+${item.overallStatus}
 
-        trendMood.textContent =
-            formatValue(latest.mood);
+</div>
 
+</div>
 
-        trendStress.textContent =
-            formatValue(latest.stress);
+<div class="timeline-data">
 
+<div>
 
-        trendAnxiety.textContent =
-            formatValue(latest.anxiety);
+<span>Mood</span>
 
+<strong>
+${formatValue(item.mood)}
+</strong>
 
-        if (history.length < 2) {
+</div>
 
-            trendDirection.textContent =
-                "Not enough data";
+<div>
 
-            trendDirection.className = "";
+<span>Stress</span>
 
-            return;
-        }
+<strong>
+${formatValue(item.stress)}
+</strong>
 
+</div>
 
-        const latestScore =
-            concernScore(
-                history[0].overallStatus
-            );
+<div>
 
+<span>Anxiety</span>
 
-        const previousScore =
-            concernScore(
-                history[1].overallStatus
-            );
+<strong>
+${formatValue(item.anxiety)}
+</strong>
 
+</div>
 
-        if (latestScore > previousScore) {
+</div>
 
-            trendDirection.textContent =
-                "Increasing Concern";
+</div>
 
-            trendDirection.className =
-                "trend-warning";
+`;
 
-        } else if (
-            latestScore < previousScore
-        ) {
 
-            trendDirection.textContent =
-                "Improving";
+riskTimeline.appendChild(itemElement);
 
-            trendDirection.className =
-                "trend-good";
+});
 
-        } else {
+}
 
-            trendDirection.textContent =
-                "Stable";
 
-            trendDirection.className =
-                "trend-stable";
-        }
+/* =========================
+   ALERT HISTORY
+========================= */
 
-    }
+function displayAlertHistory() {
 
+alertHistory.innerHTML = "";
 
-    /* =========================
-       INITIALIZE
-    ========================= */
 
-    displayPatientList();
+const acknowledged =
+getAcknowledgedAlerts();
 
-    displayDistressAlerts();
 
-    displaySelectedPatient();
+const patient =
+patients.find(
+p => p.id === selectedPatientId
+);
+
+
+if (!patient) return;
+
+
+const history =
+Array.isArray(patient.history)
+? patient.history
+: [];
+
+
+const alerts =
+history.filter(
+item =>
+item.overallStatus ===
+"High Concern"
+);
+
+
+if (!alerts.length) {
+
+alertHistory.innerHTML = `
+
+<div class="history-empty">
+
+✅ No high-concern alerts
+for this patient.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+alerts.forEach(item => {
+
+const key =
+getAlertKey(
+patient,
+item
+);
+
+
+const reviewed =
+Boolean(acknowledged[key]);
+
+
+const element =
+document.createElement("div");
+
+element.className =
+"history-alert-item";
+
+
+element.innerHTML = `
+
+<div class="history-alert-header">
+
+<strong>
+
+🚨 High Concern Alert
+
+</strong>
+
+<span class="alert-status
+${reviewed
+? "reviewed"
+: "pending"}">
+
+${reviewed
+? "✓ Acknowledged"
+: "⚠ Pending"}
+
+</span>
+
+</div>
+
+<div class="history-alert-meta">
+
+${formatDate(item.date)}
+
+</div>
+
+<div class="history-alert-data">
+
+<span>
+Mood: ${formatValue(item.mood)}
+</span>
+
+<span>
+Stress: ${formatValue(item.stress)}
+</span>
+
+<span>
+Anxiety: ${formatValue(item.anxiety)}
+</span>
+
+</div>
+
+`;
+
+
+alertHistory.appendChild(element);
+
+});
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+displayPatientList();
+
+displayDistressAlerts();
+
+displaySelectedPatient();
 
 });
