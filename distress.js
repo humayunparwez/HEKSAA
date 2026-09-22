@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ALERT_STORAGE_KEY = "heksaaDistressAlerts";
 
+    /*
+       Stores which alert's details are currently open.
+       This prevents the 3-second refresh from closing it.
+    */
+    let openDetailAlertId = null;
+
 
     /* =====================================================
        STORAGE
@@ -16,13 +22,16 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
 
             const saved =
-                localStorage.getItem(ALERT_STORAGE_KEY);
+                localStorage.getItem(
+                    ALERT_STORAGE_KEY
+                );
 
             if (!saved) {
                 return [];
             }
 
-            const data = JSON.parse(saved);
+            const data =
+                JSON.parse(saved);
 
             return Array.isArray(data)
                 ? data
@@ -48,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PROFILE
+       PATIENT PROFILE
     ===================================================== */
 
     function getPatientProfile() {
@@ -76,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       FORMAT DATE
+       DATE FORMAT
     ===================================================== */
 
     function formatDate(value) {
@@ -85,7 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return "Time unavailable";
         }
 
-        const date = new Date(value);
+        const date =
+            new Date(value);
 
         if (isNaN(date.getTime())) {
             return "Time unavailable";
@@ -112,14 +122,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function createPatientDistressCard() {
 
         const checkinCard =
-            document.querySelector(".checkin-card");
+            document.querySelector(
+                ".checkin-card"
+            );
 
         if (!checkinCard) {
             return;
         }
 
 
-        /* Prevent duplicate card */
+        /*
+           Prevent duplicate card
+        */
 
         if (
             document.getElementById(
@@ -179,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           Put the card after the check-in card
+           Insert after check-in card
         */
 
         checkinCard.insertAdjacentElement(
@@ -199,6 +213,10 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
+        /* =================================================
+           SEND DISTRESS ALERT
+        ================================================= */
+
         button.addEventListener(
             "click",
             function () {
@@ -206,6 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const profile =
                     getPatientProfile();
 
+
+                /*
+                   Profile required
+                */
 
                 if (!profile) {
 
@@ -216,23 +238,28 @@ document.addEventListener("DOMContentLoaded", function () {
                         "distress-help-message error";
 
                     return;
-
                 }
 
 
                 /*
-                   Prevent accidental repeated alerts
+                   Get existing alerts
                 */
 
                 const alerts =
                     getAlerts();
 
 
+                /*
+                   Prevent duplicate pending alert
+                */
+
                 const existing =
                     alerts.find(
                         alert =>
-                            alert.patientId === profile.id &&
-                            alert.status === "Pending"
+                            alert.patientId ===
+                                profile.id &&
+                            alert.status ===
+                                "Pending"
                     );
 
 
@@ -245,12 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         "distress-help-message success";
 
                     return;
-
                 }
 
 
                 /*
-                   Create alert
+                   Create new distress alert
                 */
 
                 const alert = {
@@ -260,16 +286,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         Date.now(),
 
                     patientName:
-                        profile.name || "Patient",
+                        profile.name ||
+                        "Patient",
 
                     patientId:
-                        profile.id || "Unknown",
+                        profile.id ||
+                        "Unknown",
 
                     patientAge:
-                        profile.age || "Unknown",
+                        profile.age ||
+                        "Unknown",
 
                     createdAt:
-                        new Date().toISOString(),
+                        new Date()
+                            .toISOString(),
 
                     status:
                         "Pending",
@@ -280,10 +310,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
 
 
-                alerts.unshift(alert);
+                /*
+                   Add alert to beginning
+                */
 
-                saveAlerts(alerts);
+                alerts.unshift(
+                    alert
+                );
 
+
+                saveAlerts(
+                    alerts
+                );
+
+
+                /*
+                   Confirmation
+                */
 
                 message.textContent =
                     "✓ Distress alert sent. Your doctor/counselor can now see this alert.";
@@ -291,6 +334,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 message.className =
                     "distress-help-message success";
 
+
+                /*
+                   Disable button
+                */
 
                 button.textContent =
                     "✓ Alert Sent";
@@ -301,7 +348,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.classList.add(
                     "distress-sent"
                 );
-
 
             }
         );
@@ -325,13 +371,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /*
+           Get alerts
+        */
+
         const alerts =
             getAlerts();
 
 
         /*
            Remove previously generated
-           self-report cards
+           self-report cards.
+
+           They will be recreated below.
         */
 
         document
@@ -351,26 +403,39 @@ document.addEventListener("DOMContentLoaded", function () {
         alerts.sort(
             function (a, b) {
 
-                return new Date(b.createdAt)
-                    - new Date(a.createdAt);
+                return (
+                    new Date(
+                        b.createdAt
+                    ) -
+                    new Date(
+                        a.createdAt
+                    )
+                );
 
             }
         );
 
 
-        /*
-           Create alerts
-        */
+        /* =================================================
+           CREATE SELF-REPORTED ALERT CARDS
+        ================================================= */
 
         alerts.forEach(
             function (alert) {
 
                 const card =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 card.className =
                     "alert-item self-distress-alert";
 
+
+                /*
+                   Add acknowledged class
+                */
 
                 if (
                     alert.status ===
@@ -383,6 +448,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
+
+                /*
+                   Alert HTML
+                */
 
                 card.innerHTML = `
 
@@ -406,16 +475,20 @@ document.addEventListener("DOMContentLoaded", function () {
                                 ${alert.patientName}
                             </strong>
 
+
                             <span>
                                 ID: ${alert.patientId}
                                 • Self-Reported Distress
                             </span>
 
+
                             <span class="alert-time">
+
                                 Reported:
                                 ${formatDate(
                                     alert.createdAt
                                 )}
+
                             </span>
 
 
@@ -444,22 +517,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <div class="alert-actions">
 
+                        <!--
+                           Same class as the original
+                           View Patient button
+                        -->
+
                         <button
-                            class="self-view-patient"
+                            class="self-view-patient alert-view-button"
+                            type="button"
                         >
                             View Patient
                         </button>
 
 
+                        <!--
+                           Same class as the original
+                           View Details button
+                        -->
+
                         <button
-                            class="self-view-details"
+                            class="self-view-details alert-details-button"
+                            type="button"
                         >
                             View Details
                         </button>
 
 
+                        <!--
+                           Same class as the original
+                           Acknowledge button
+                        -->
+
                         <button
-                            class="self-acknowledge"
+                            class="self-acknowledge alert-acknowledge-button"
+                            type="button"
                             ${
                                 alert.status ===
                                 "Acknowledged"
@@ -479,6 +570,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     </div>
 
+
+                    <!--
+                       Hidden details panel
+                    -->
 
                     <div
                         class="alert-details-panel"
@@ -532,6 +627,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             </div>
 
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Alert Type
+                                </span>
+
+                                <strong>
+                                    Self-Reported Distress
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Reported At
+                                </span>
+
+                                <strong>
+                                    ${formatDate(
+                                        alert.createdAt
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="alert-data-box"
+                            >
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong>
+                                    ${alert.status}
+                                </strong>
+
+                            </div>
+
+
+                            ${
+                                alert.acknowledgedAt
+                                ? `
+
+                                    <div
+                                        class="alert-data-box"
+                                    >
+
+                                        <span>
+                                            Acknowledged At
+                                        </span>
+
+                                        <strong>
+                                            ${formatDate(
+                                                alert.acknowledgedAt
+                                            )}
+                                        </strong>
+
+                                    </div>
+
+                                `
+                                : ""
+                            }
+
                         </div>
 
                     </div>
@@ -539,14 +706,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
-                /*
-                   View Details
-                */
+                /* =================================================
+                   BUTTON REFERENCES
+                ================================================= */
 
                 const detailsButton =
                     card.querySelector(
                         ".self-view-details"
                     );
+
 
                 const detailsPanel =
                     card.querySelector(
@@ -554,31 +722,101 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                detailsButton.onclick =
-                    function () {
-
-                        const visible =
-                            detailsPanel.classList.toggle(
-                                "show"
-                            );
-
-                        detailsButton.textContent =
-                            visible
-                            ? "Hide Details"
-                            : "View Details";
-
-                    };
-
-
-                /*
-                   Acknowledge
-                */
-
                 const acknowledgeButton =
                     card.querySelector(
                         ".self-acknowledge"
                     );
 
+
+                const viewPatientButton =
+                    card.querySelector(
+                        ".self-view-patient"
+                    );
+
+
+                /* =================================================
+                   RESTORE OPEN DETAILS
+                   
+                   Important:
+                   The dashboard refreshes every 3 seconds.
+                   If this alert was open before the refresh,
+                   open it again automatically.
+                ================================================= */
+
+                if (
+                    openDetailAlertId ===
+                    alert.alertId
+                ) {
+
+                    detailsPanel.classList.add(
+                        "show"
+                    );
+
+                    detailsButton.textContent =
+                        "Hide Details";
+
+                }
+
+
+                /* =================================================
+                   VIEW DETAILS
+                ================================================= */
+
+                detailsButton.onclick =
+                    function () {
+
+                        const currentlyVisible =
+                            detailsPanel.classList.contains(
+                                "show"
+                            );
+
+
+                        if (
+                            currentlyVisible
+                        ) {
+
+                            /*
+                               Close details
+                            */
+
+                            detailsPanel.classList.remove(
+                                "show"
+                            );
+
+                            detailsButton.textContent =
+                                "View Details";
+
+                            openDetailAlertId =
+                                null;
+
+                        } else {
+
+                            /*
+                               Open details
+                            */
+
+                            detailsPanel.classList.add(
+                                "show"
+                            );
+
+                            detailsButton.textContent =
+                                "Hide Details";
+
+                            /*
+                               Remember this alert
+                            */
+
+                            openDetailAlertId =
+                                alert.alertId;
+
+                        }
+
+                    };
+
+
+                /* =================================================
+                   ACKNOWLEDGE ALERT
+                ================================================= */
 
                 if (
                     alert.status !==
@@ -605,6 +843,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
 
+                            /*
+                               Change status
+                            */
+
                             target.status =
                                 "Acknowledged";
 
@@ -614,10 +856,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                     .toISOString();
 
 
+                            /*
+                               Save
+                            */
+
                             saveAlerts(
                                 currentAlerts
                             );
 
+
+                            /*
+                               Keep details open
+                               after rerender
+                            */
 
                             createDoctorDistressSection();
 
@@ -626,22 +877,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /*
-                   View Patient
-                */
-
-                const viewPatientButton =
-                    card.querySelector(
-                        ".self-view-patient"
-                    );
-
+                /* =================================================
+                   VIEW PATIENT
+                ================================================= */
 
                 viewPatientButton.onclick =
                     function () {
 
                         /*
-                           Try to find patient
-                           card in doctor dashboard
+                           Find matching patient card
                         */
 
                         const patientCards =
@@ -650,14 +894,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             );
 
 
-                        let found = false;
+                        let found =
+                            false;
 
 
                         patientCards.forEach(
-                            function (patientCard) {
+                            function (
+                                patientCard
+                            ) {
 
                                 if (
-                                    patientCard.textContent
+                                    patientCard
+                                        .textContent
                                         .includes(
                                             alert.patientId
                                         )
@@ -665,7 +913,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     patientCard.click();
 
-                                    found = true;
+                                    found =
+                                        true;
 
                                 }
 
@@ -673,14 +922,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                        window.scrollTo({
-                            top: 0,
-                            behavior: "smooth"
-                        });
+                        /*
+                           Scroll to patient area
+                        */
 
+                        window.scrollTo({
+
+                            top: 0,
+
+                            behavior:
+                                "smooth"
+
+                        });
 
                     };
 
+
+                /*
+                   Add card to alert list
+                */
 
                 alertList.appendChild(
                     card
@@ -690,13 +950,17 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+        /*
+           Update active alert count
+        */
+
         updateDoctorAlertCount();
 
     }
 
 
     /* =====================================================
-       UPDATE ALERT COUNT
+       UPDATE ACTIVE ALERT COUNT
     ===================================================== */
 
     function updateDoctorAlertCount() {
@@ -712,6 +976,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /*
+           Self-reported alerts
+        */
+
         const selfAlerts =
             getAlerts();
 
@@ -725,7 +993,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /*
-           Existing HEKSAA alerts
+           Existing HEKSAA generated alerts
         */
 
         const existingPending =
@@ -734,19 +1002,31 @@ document.addEventListener("DOMContentLoaded", function () {
             ).length;
 
 
+        /*
+           Total
+        */
+
         const total =
             pendingSelfAlerts +
             existingPending;
 
 
+        /*
+           Display count
+        */
+
         counter.textContent =
             total +
             (
                 total === 1
-                ? " Active Alert"
-                : " Active Alerts"
+                    ? " Active Alert"
+                    : " Active Alerts"
             );
 
+
+        /*
+           Add/remove alert indicator
+        */
 
         if (total > 0) {
 
@@ -774,10 +1054,14 @@ document.addEventListener("DOMContentLoaded", function () {
     createDoctorDistressSection();
 
 
-    /*
-       Refresh doctor alerts periodically
-       for prototype demonstration.
-    */
+    /* =====================================================
+       AUTO REFRESH
+       
+       Prototype refresh every 3 seconds.
+       
+       The openDetailAlertId variable makes sure that
+       View Details does not disappear during refresh.
+    ===================================================== */
 
     if (
         document.getElementById(
