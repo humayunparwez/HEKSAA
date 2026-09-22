@@ -4,16 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
        HEKSAA REAL-TIME ALERT NOTIFICATION SYSTEM
     ===================================================== */
 
-    const ALERT_STORAGE_KEY =
-        "heksaaDistressAlerts";
+    const ALERT_STORAGE_KEY = "heksaaDistressAlerts";
 
-    const ESCALATION_TIME =
-        60 * 1000;
+    const ESCALATION_TIME = 60 * 1000;
 
     let notifiedAlerts = [];
-
-    let currentNotificationAlertId =
-        null;
 
 
     /* =====================================================
@@ -25,16 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
 
             const saved =
-                localStorage.getItem(
-                    ALERT_STORAGE_KEY
-                );
+                localStorage.getItem(ALERT_STORAGE_KEY);
 
             if (!saved) {
                 return [];
             }
 
-            const data =
-                JSON.parse(saved);
+            const data = JSON.parse(saved);
 
             return Array.isArray(data)
                 ? data
@@ -51,10 +43,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function saveAlerts(alerts) {
 
-        localStorage.setItem(
-            ALERT_STORAGE_KEY,
-            JSON.stringify(alerts)
-        );
+        try {
+
+            localStorage.setItem(
+                ALERT_STORAGE_KEY,
+                JSON.stringify(alerts)
+            );
+
+        } catch (error) {
+
+            console.error(
+                "HEKSAA: Unable to save alerts.",
+                error
+            );
+
+        }
 
     }
 
@@ -69,8 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return "";
         }
 
-        const date =
-            new Date(value);
+        const date = new Date(value);
 
         if (isNaN(date.getTime())) {
             return "";
@@ -105,10 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const notification =
             document.createElement("div");
 
-
         notification.id =
             "heksaa-alert-notification";
-
 
         notification.className =
             "heksaa-alert-notification";
@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 🚨
             </div>
 
-
             <div class="heksaa-notification-content">
 
                 <div
@@ -130,18 +129,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     New Distress Alert
                 </div>
 
-
                 <div
                     id="heksaa-notification-message"
                     class="heksaa-notification-message"
                 ></div>
 
-
                 <div
                     id="heksaa-notification-time"
                     class="heksaa-notification-time"
                 ></div>
-
 
                 <div class="heksaa-notification-actions">
 
@@ -151,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     >
                         View Alert
                     </button>
-
 
                     <button
                         type="button"
@@ -167,53 +162,114 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
 
-        document.body.appendChild(
-            notification
-        );
+        document.body.appendChild(notification);
 
 
-        document
-            .getElementById(
+        const closeButton =
+            document.getElementById(
                 "heksaa-notification-close"
-            )
-            .addEventListener(
-                "click",
-                function () {
-
-                    hideNotification();
-
-                }
             );
 
-
-        document
-            .getElementById(
+        const viewButton =
+            document.getElementById(
                 "heksaa-notification-view"
-            )
-            .addEventListener(
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
                 "click",
                 function () {
 
                     hideNotification();
 
+                }
+            );
 
-                    const list =
-                        document.getElementById(
-                            "distress-alert-list"
-                        );
+        }
 
 
-                    if (list) {
+        if (viewButton) {
 
-                        list.scrollIntoView({
-                            behavior: "smooth",
-                            block: "center"
-                        });
+            viewButton.addEventListener(
+                "click",
+                function () {
 
-                    }
+                    const alertId =
+                        notification.dataset.alertId;
+
+                    hideNotification();
+
+                    scrollToAlert(alertId);
 
                 }
             );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SCROLL TO EXACT ALERT
+    ===================================================== */
+
+    function scrollToAlert(alertId) {
+
+        if (!alertId) {
+            return;
+        }
+
+
+        const card =
+            document.querySelector(
+                `.self-distress-alert[data-alert-id="${alertId}"]`
+            );
+
+
+        if (card) {
+
+            card.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+
+            card.classList.add(
+                "heksaa-alert-highlight"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    card.classList.remove(
+                        "heksaa-alert-highlight"
+                    );
+
+                },
+                2500
+            );
+
+            return;
+        }
+
+
+        const list =
+            document.getElementById(
+                "distress-alert-list"
+            );
+
+
+        if (list) {
+
+            list.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
 
     }
 
@@ -232,18 +288,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 "heksaa-alert-notification"
             );
 
-
         const title =
             document.getElementById(
                 "heksaa-notification-title"
             );
 
-
         const message =
             document.getElementById(
                 "heksaa-notification-message"
             );
-
 
         const time =
             document.getElementById(
@@ -256,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        currentNotificationAlertId =
+        notification.dataset.alertId =
             alert.alertId;
 
 
@@ -303,9 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
        SHOW ESCALATION NOTIFICATION
     ===================================================== */
 
-    function showEscalationNotification(
-        alert
-    ) {
+    function showEscalationNotification(alert) {
 
         createNotificationContainer();
 
@@ -315,18 +366,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 "heksaa-alert-notification"
             );
 
-
         const title =
             document.getElementById(
                 "heksaa-notification-title"
             );
 
-
         const message =
             document.getElementById(
                 "heksaa-notification-message"
             );
-
 
         const time =
             document.getElementById(
@@ -339,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        currentNotificationAlertId =
+        notification.dataset.alertId =
             alert.alertId;
 
 
@@ -504,7 +552,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const oscillator =
                 audioContext.createOscillator();
 
-
             const gain =
                 audioContext.createGain();
 
@@ -512,19 +559,14 @@ document.addEventListener("DOMContentLoaded", function () {
             oscillator.type =
                 "sine";
 
-
             oscillator.frequency.value =
                 880;
-
 
             gain.gain.value =
                 0.08;
 
 
-            oscillator.connect(
-                gain
-            );
-
+            oscillator.connect(gain);
 
             gain.connect(
                 audioContext.destination
@@ -538,6 +580,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 audioContext.currentTime +
                 0.25
             );
+
+
+            oscillator.onended =
+                function () {
+
+                    audioContext.close();
+
+                };
 
         } catch (error) {
 
@@ -582,17 +632,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (!pendingAlerts.length) {
+
+            checkEscalation(alerts);
+
             return;
+
         }
 
 
-        const newest =
-            pendingAlerts[0];
-
-
         /*
-           Initialize existing alerts without
-           treating them as new.
+           First run:
+           Register existing alerts without
+           treating them as newly created.
         */
 
         if (
@@ -601,10 +652,13 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
 
             notifiedAlerts =
-                alerts.map(
-                    alert =>
-                        alert.alertId
-                );
+                alerts
+                    .map(
+                        alert =>
+                            alert.alertId
+                    )
+                    .filter(Boolean);
+
 
             checkEscalation(
                 alerts
@@ -615,24 +669,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const isNew =
-            !notifiedAlerts.includes(
-                newest.alertId
-            );
+        /*
+           Check all pending alerts instead
+           of checking only the newest one.
+        */
+
+        pendingAlerts.forEach(
+            function (alert) {
+
+                if (!alert.alertId) {
+                    return;
+                }
 
 
-        if (isNew) {
+                if (
+                    !notifiedAlerts.includes(
+                        alert.alertId
+                    )
+                ) {
 
-            notifiedAlerts.push(
-                newest.alertId
-            );
+                    notifiedAlerts.push(
+                        alert.alertId
+                    );
 
 
-            showNotification(
-                newest
-            );
+                    showNotification(
+                        alert
+                    );
 
-        }
+                }
+
+            }
+        );
 
 
         checkEscalation(
@@ -646,9 +714,7 @@ document.addEventListener("DOMContentLoaded", function () {
        ESCALATION
     ===================================================== */
 
-    function checkEscalation(
-        alerts
-    ) {
+    function checkEscalation(alerts) {
 
         let changed =
             false;
@@ -662,8 +728,8 @@ document.addEventListener("DOMContentLoaded", function () {
             function (alert) {
 
                 /*
-                   IMPORTANT:
-                   Only pending alerts can escalate.
+                   Only Pending alerts
+                   are allowed to escalate.
                 */
 
                 if (
@@ -673,6 +739,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
+
+                /*
+                   Already escalated.
+                */
 
                 if (
                     alert.escalatedAt
@@ -737,59 +807,76 @@ document.addEventListener("DOMContentLoaded", function () {
        ESCALATED CARD UI
     ===================================================== */
 
-    function updateEscalatedUI(
-        alerts
-    ) {
+    function updateEscalatedUI(alerts) {
 
-        alerts.forEach(
-            function (alert) {
+        const cards =
+            document.querySelectorAll(
+                ".self-distress-alert[data-alert-id]"
+            );
 
-                /*
-                   IMPORTANT:
-                   Acknowledged alerts should NEVER
-                   show the active escalation badge.
-                */
 
-                if (
-                    alert.status !==
-                    "Pending" ||
-                    !alert.escalatedAt
-                ) {
+        if (!cards.length) {
+            return;
+        }
+
+
+        cards.forEach(
+            function (card) {
+
+                const cardAlertId =
+                    card.dataset.alertId;
+
+
+                if (!cardAlertId) {
                     return;
                 }
 
 
-                const cards =
-                    document.querySelectorAll(
-                        ".self-distress-alert"
+                /*
+                   Find the exact alert using
+                   the unique alertId.
+                */
+
+                const alert =
+                    alerts.find(
+                        item =>
+                            item.alertId ===
+                            cardAlertId
                     );
 
 
-                cards.forEach(
-                    function (card) {
-
-                        if (
-                            !card.textContent.includes(
-                                alert.patientId
-                            )
-                        ) {
-                            return;
-                        }
+                if (!alert) {
+                    return;
+                }
 
 
-                        card.classList.add(
-                            "distress-escalated"
-                        );
+                /*
+                   Only Pending + escalated alerts
+                   receive the active escalation UI.
+                */
+
+                const shouldBeEscalated =
+                    alert.status ===
+                    "Pending" &&
+                    Boolean(
+                        alert.escalatedAt
+                    );
 
 
-                        if (
-                            card.querySelector(
-                                ".distress-escalated-badge"
-                            )
-                        ) {
-                            return;
-                        }
+                if (
+                    shouldBeEscalated
+                ) {
 
+                    card.classList.add(
+                        "distress-escalated"
+                    );
+
+
+                    if (
+                        !card.querySelector(
+                            ".distress-escalated-badge"
+                        )
+                    ) {
 
                         const badge =
                             document.createElement(
@@ -805,13 +892,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             `⚠️ ESCALATED — Unacknowledged for more than 1 minute`;
 
 
-                        /*
-                           Put the badge BELOW
-                           the patient information,
-                           not inside the horizontal
-                           alert-main row.
-                        */
-
                         const alertDetails =
                             card.querySelector(
                                 ".alert-details"
@@ -824,10 +904,42 @@ document.addEventListener("DOMContentLoaded", function () {
                                 badge
                             );
 
+                        } else {
+
+                            card.appendChild(
+                                badge
+                            );
+
                         }
 
                     }
-                );
+
+                } else {
+
+                    /*
+                       Remove escalation UI if the alert
+                       has been acknowledged or otherwise
+                       stopped being Pending.
+                    */
+
+                    card.classList.remove(
+                        "distress-escalated"
+                    );
+
+
+                    const badge =
+                        card.querySelector(
+                            ".distress-escalated-badge"
+                        );
+
+
+                    if (badge) {
+
+                        badge.remove();
+
+                    }
+
+                }
 
             }
         );
@@ -849,7 +961,8 @@ document.addEventListener("DOMContentLoaded", function () {
             function (alert) {
 
                 /*
-                   Only pending + escalated alerts
+                   Only Pending + Escalated alerts
+                   can trigger this notification.
                 */
 
                 if (
@@ -857,6 +970,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Pending" ||
                     !alert.escalatedAt
                 ) {
+                    return;
+                }
+
+
+                if (!alert.alertId) {
                     return;
                 }
 
@@ -911,6 +1029,11 @@ document.addEventListener("DOMContentLoaded", function () {
        INITIALIZE
     ===================================================== */
 
+    /*
+       This script is intended for the
+       Doctor Dashboard.
+    */
+
     if (
         !document.getElementById(
             "distress-alert-list"
@@ -927,7 +1050,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-       Check every second
+       Check every second.
     */
 
     setInterval(
