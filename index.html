@@ -2,27 +2,350 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>HEKSAA - Mental Health Monitoring</title>
 
-    <title>HEKSAA</title>
+    <style>
 
-    <link rel="stylesheet" href="style.css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        .home-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 22px 6%;
+        }
+
+        .home-header-inner {
+            max-width: 1100px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 54px;
+            height: 54px;
+
+            border-radius: 16px;
+
+            background: #4f46e5;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .brand-text h1 {
+            color: #4f46e5;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        .brand-text p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 1100px;
+            margin: auto;
+            padding: 80px 25px 70px;
+
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-label {
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero h2 {
+            font-size: 52px;
+            line-height: 1.08;
+            margin-bottom: 22px;
+        }
+
+        .hero h2 span {
+            color: #4f46e5;
+        }
+
+        .hero-description {
+            color: #64748b;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin-bottom: 32px;
+        }
+
+        /* ROLE CARDS */
+
+        .role-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .role-card {
+            background: #ffffff;
+            border: 1px solid #e1e5ed;
+            border-radius: 18px;
+            padding: 22px;
+
+            text-decoration: none;
+            color: #172033;
+
+            transition: 0.2s;
+
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04);
+        }
+
+        .role-card:hover {
+            border-color: #4f46e5;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(79, 70, 229, 0.10);
+        }
+
+        .role-icon {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 15px;
+
+            background: #eef2ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            margin-bottom: 16px;
+        }
+
+        .role-card h3 {
+            font-size: 18px;
+            margin-bottom: 7px;
+        }
+
+        .role-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .role-arrow {
+            display: block;
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* VISUAL CARD */
+
+        .hero-visual {
+            background: #ffffff;
+            border: 1px solid #e1e5ed;
+            border-radius: 28px;
+            padding: 30px;
+
+            box-shadow: 0 15px 45px rgba(15, 23, 42, 0.07);
+        }
+
+        .visual-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .visual-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: #eef2ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+        }
+
+        .visual-top h3 {
+            font-size: 20px;
+        }
+
+        .visual-top p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .monitor-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 12px;
+        }
+
+        .monitor-label {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .monitor-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .status-pill {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 12px;
+            border-radius: 20px;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .home-footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 55px;
+                gap: 35px;
+            }
+
+            .hero h2 {
+                font-size: 42px;
+            }
+
+            .hero-visual {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .home-header {
+                padding: 18px 20px;
+            }
+
+            .brand-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 27px;
+            }
+
+            .brand-text h1 {
+                font-size: 25px;
+            }
+
+            .brand-text p {
+                font-size: 12px;
+            }
+
+            .hero {
+                padding: 45px 18px 40px;
+            }
+
+            .hero h2 {
+                font-size: 36px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .role-selection {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                padding: 22px;
+            }
+        }
+
+    </style>
 
 </head>
 
-
 <body>
 
+    <header class="home-header">
 
-    <header>
+        <div class="home-header-inner">
 
-        <h1>HEKSAA</h1>
+            <div class="brand">
+
+                <div class="brand-icon">
+                    H
+                </div>
+
+                <div class="brand-text">
+
+                    <h1>HEKSAA</h1>
+
+                    <p>
+                        Mental Health Monitoring
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </header>
 
@@ -31,45 +354,156 @@
 
         <section class="hero">
 
+            <div>
 
-            <h2>
-                Your Mental Health Matters
-            </h2>
+                <div class="hero-label">
+                    AI-Powered Mental Health Monitoring
+                </div>
 
+                <h2>
+                    Your mental health
+                    <span>matters.</span>
+                </h2>
 
-            <p>
-                HEKSAA is a digital platform designed
-                to support mental health monitoring
-                and early distress detection.
-            </p>
-
-
-            <div class="role-buttons">
-
-
-                <a
-                    href="patient-login.html"
-                    class="role-btn"
-                >
-                    I'm a Patient
-                </a>
+                <p class="hero-description">
+                    HEKSAA supports continuous mental health
+                    monitoring, early distress reporting, and
+                    communication between patients and
+                    healthcare professionals.
+                </p>
 
 
-                <a
-                    href="doctor-login.html"
-                    class="role-btn"
-                >
-                    I'm a Doctor / Counselor
-                </a>
+                <div class="role-selection">
 
+                    <a
+                        href="patient-login.html"
+                        class="role-card"
+                    >
+
+                        <div class="role-icon">
+                            👤
+                        </div>
+
+                        <h3>
+                            I'm a Patient
+                        </h3>
+
+                        <p>
+                            Complete check-ins, monitor your
+                            well-being, and request support.
+                        </p>
+
+                        <span class="role-arrow">
+                            Continue →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="doctor-login.html"
+                        class="role-card"
+                    >
+
+                        <div class="role-icon">
+                            🩺
+                        </div>
+
+                        <h3>
+                            Doctor / Counselor
+                        </h3>
+
+                        <p>
+                            Monitor patients, review trends,
+                            and respond to distress alerts.
+                        </p>
+
+                        <span class="role-arrow">
+                            Continue →
+                        </span>
+
+                    </a>
+
+                </div>
 
             </div>
 
+
+            <div class="hero-visual">
+
+                <div class="visual-top">
+
+                    <div class="visual-icon">
+                        🧠
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            HEKSAA Monitoring
+                        </h3>
+
+                        <p>
+                            Supporting informed care
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="monitor-card">
+
+                    <div class="monitor-label">
+                        Mental Health Check-in
+                    </div>
+
+                    <div class="monitor-value">
+                        Daily self-report
+                    </div>
+
+                    <div class="status-pill">
+                        ✓ Monitoring Active
+                    </div>
+
+                </div>
+
+
+                <div class="monitor-card">
+
+                    <div class="monitor-label">
+                        Distress Support
+                    </div>
+
+                    <div class="monitor-value">
+                        Patient can request help
+                    </div>
+
+                </div>
+
+
+                <div class="monitor-card">
+
+                    <div class="monitor-label">
+                        Clinical Dashboard
+                    </div>
+
+                    <div class="monitor-value">
+                        Trends & alerts
+                    </div>
+
+                </div>
+
+            </div>
 
         </section>
 
     </main>
 
+
+    <footer class="home-footer">
+        HEKSAA • Mental Health Monitoring Prototype
+    </footer>
 
 </body>
 
