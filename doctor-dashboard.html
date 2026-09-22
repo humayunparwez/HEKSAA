@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="style.css">
 
+
     <style>
 
         /* =========================
@@ -108,12 +109,16 @@
 
             font-size: 22px;
 
+            flex-shrink: 0;
+
         }
 
 
         .patient-card-info {
 
             flex: 1;
+
+            min-width: 0;
 
         }
 
@@ -183,7 +188,234 @@
 
 
         /* =========================
-           Distress Alert
+           Distress Alert Center
+        ========================= */
+
+        .distress-alert-center {
+
+            margin-top: 25px;
+
+            padding: 24px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+        }
+
+
+        .alert-center-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+        }
+
+
+        .alert-center-header h3 {
+
+            margin: 0 0 6px 0;
+
+            color: #1f2937;
+
+        }
+
+
+        .active-alert-count {
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+        }
+
+
+        .active-alert-count.has-alerts {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        .alert-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 15px;
+
+            padding: 16px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            border-radius: 10px;
+
+        }
+
+
+        .alert-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #fee2e2;
+
+            border-radius: 50%;
+
+            font-size: 21px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .alert-details {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .alert-details strong {
+
+            display: block;
+
+            color: #7f1d1d;
+
+            font-size: 16px;
+
+        }
+
+
+        .alert-details span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #991b1b;
+
+            font-size: 13px;
+
+        }
+
+
+        .alert-time {
+
+            color: #6b7280 !important;
+
+            font-size: 12px !important;
+
+        }
+
+
+        .alert-view-button {
+
+            border: none;
+
+            padding: 9px 13px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+        }
+
+
+        .alert-view-button:hover {
+
+            background: #4338ca;
+
+        }
+
+
+        .alert-empty {
+
+            margin-top: 15px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+        }
+
+
+        .alert-empty-icon {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .alert-empty h4 {
+
+            margin: 0 0 5px 0;
+
+            color: #374151;
+
+        }
+
+
+        .alert-empty p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           Selected Patient Alert
         ========================= */
 
         .distress-alert {
@@ -248,6 +480,27 @@
 
             }
 
+
+            .alert-center-header {
+
+                flex-direction: column;
+
+            }
+
+
+            .alert-item {
+
+                align-items: flex-start;
+
+            }
+
+
+            .alert-view-button {
+
+                align-self: center;
+
+            }
+
         }
 
     </style>
@@ -285,7 +538,6 @@
     </p>
 
 
-
     <!-- =========================
          Patient List
     ========================= -->
@@ -321,6 +573,76 @@
     </div>
 
 
+    <!-- =========================
+         Distress Alert Center
+    ========================= -->
+
+    <div class="distress-alert-center">
+
+
+        <div class="alert-center-header">
+
+
+            <div>
+
+                <h3>
+                    🚨 Distress Alert Center
+                </h3>
+
+
+                <p class="section-description">
+
+                    Patients whose latest check-in
+                    requires attention are shown here.
+
+                </p>
+
+            </div>
+
+
+            <div
+                id="active-alert-count"
+                class="active-alert-count"
+            >
+
+                0 Active Alerts
+
+            </div>
+
+
+        </div>
+
+
+        <div id="distress-alert-list">
+
+
+            <div class="alert-empty">
+
+                <div class="alert-empty-icon">
+                    ✅
+                </div>
+
+
+                <h4>
+                    No Active Distress Alerts
+                </h4>
+
+
+                <p>
+
+                    No patient's latest check-in is
+                    currently classified as High Concern.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
 
     <!-- =========================
          Selected Patient Overview
@@ -338,6 +660,7 @@
 
         <div class="patient-profile-info">
 
+
             <span class="profile-label">
 
                 Selected Patient
@@ -353,6 +676,7 @@
 
 
             <div class="patient-details">
+
 
                 <span>
 
@@ -379,7 +703,9 @@
 
                 </span>
 
+
             </div>
+
 
         </div>
 
@@ -397,9 +723,8 @@
     </div>
 
 
-
     <!-- =========================
-         Distress Alert
+         Selected Patient Alert
     ========================= -->
 
     <div
@@ -407,6 +732,7 @@
         class="distress-alert"
         style="display:none;"
     >
+
 
         <h3>
             ⚠️ Attention Required
@@ -432,8 +758,8 @@
 
         </p>
 
-    </div>
 
+    </div>
 
 
     <!-- =========================
@@ -445,9 +771,11 @@
 
         <div class="summary-card">
 
+
             <span class="summary-icon">
                 👥
             </span>
+
 
             <div>
 
@@ -455,21 +783,24 @@
                     Total Check-ins
                 </p>
 
+
                 <strong id="total-checkins">
                     0
                 </strong>
 
             </div>
 
-        </div>
 
+        </div>
 
 
         <div class="summary-card">
 
+
             <span class="summary-icon">
                 🟢
             </span>
+
 
             <div>
 
@@ -477,21 +808,24 @@
                     Low Concern
                 </p>
 
+
                 <strong id="low-count">
                     0
                 </strong>
 
             </div>
 
-        </div>
 
+        </div>
 
 
         <div class="summary-card">
 
+
             <span class="summary-icon">
                 🟡
             </span>
+
 
             <div>
 
@@ -499,21 +833,24 @@
                     Moderate Concern
                 </p>
 
+
                 <strong id="moderate-count">
                     0
                 </strong>
 
             </div>
 
-        </div>
 
+        </div>
 
 
         <div class="summary-card">
 
+
             <span class="summary-icon">
                 🔴
             </span>
+
 
             <div>
 
@@ -521,17 +858,18 @@
                     High Concern
                 </p>
 
+
                 <strong id="high-count">
                     0
                 </strong>
 
             </div>
 
+
         </div>
 
 
     </div>
-
 
 
     <!-- =========================
@@ -542,9 +880,7 @@
 
 
         <h3>
-
             📊 Patient Mental Health Monitoring
-
         </h3>
 
 
@@ -557,7 +893,9 @@
 
         <div id="doctor-history">
 
+
             <div class="doctor-empty">
+
 
                 <div class="empty-icon">
                     📋
@@ -576,10 +914,11 @@
 
                 </p>
 
+
             </div>
 
-        </div>
 
+        </div>
 
 
         <!-- =========================
@@ -611,12 +950,12 @@
                         Latest Mood
                     </span>
 
+
                     <strong id="trend-mood">
                         No Data
                     </strong>
 
                 </div>
-
 
 
                 <div class="trend-card">
@@ -625,12 +964,12 @@
                         Latest Stress
                     </span>
 
+
                     <strong id="trend-stress">
                         No Data
                     </strong>
 
                 </div>
-
 
 
                 <div class="trend-card">
@@ -639,6 +978,7 @@
                         Latest Anxiety
                     </span>
 
+
                     <strong id="trend-anxiety">
                         No Data
                     </strong>
@@ -646,12 +986,12 @@
                 </div>
 
 
-
                 <div class="trend-card">
 
                     <span>
                         Recent Trend
                     </span>
+
 
                     <strong id="trend-direction">
                         No Data
@@ -662,18 +1002,19 @@
 
             </div>
 
+
         </div>
 
 
     </div>
 
 
-
     <!-- =========================
-         Information
+         Monitoring Information
     ========================= -->
 
     <div class="doctor-info">
+
 
         <h3>
             ℹ️ Monitoring Information
@@ -691,6 +1032,7 @@
 
         </p>
 
+
     </div>
 
 
@@ -700,8 +1042,7 @@
 </main>
 
 
-
-<script src="doctor.js?v=4"></script>
+<script src="doctor.js?v=5"></script>
 
 
 </body>
