@@ -22,12 +22,14 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
 
         .home-header {
             background: #ffffff;
             border-bottom: 1px solid #e5e7eb;
-            padding: 22px 6%;
+            padding: 18px 6%;
         }
 
         .home-header-inner {
@@ -37,6 +39,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 25px;
         }
 
         .brand {
@@ -74,7 +77,42 @@
             margin-top: 2px;
         }
 
-        /* HERO */
+        /* =========================
+           GLOBAL RESOURCE NAV
+        ========================= */
+
+        .global-resource-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .global-resource-nav a {
+            text-decoration: none;
+            color: #475569;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 10px 13px;
+            border-radius: 10px;
+
+            transition: 0.2s ease;
+        }
+
+        .global-resource-nav a:hover {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .global-resource-nav .active {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
 
         .hero {
             max-width: 1100px;
@@ -114,7 +152,9 @@
             margin-bottom: 32px;
         }
 
-        /* ROLE CARDS */
+        /* =========================
+           ROLE CARDS
+        ========================= */
 
         .role-selection {
             display: grid;
@@ -178,7 +218,9 @@
             margin-top: 15px;
         }
 
-        /* VISUAL CARD */
+        /* =========================
+           VISUAL CARD
+        ========================= */
 
         .hero-visual {
             background: #ffffff;
@@ -250,16 +292,65 @@
             font-weight: 700;
         }
 
+        /* =========================
+           FOOTER
+        ========================= */
+
         .home-footer {
             text-align: center;
-            padding: 20px;
+            padding: 25px 20px;
             color: #94a3b8;
             font-size: 13px;
+
+            border-top: 1px solid #e5e7eb;
+            background: #ffffff;
         }
 
-        /* MOBILE */
+        .home-footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            margin-bottom: 10px;
+        }
+
+        .home-footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 4px 7px;
+            border-radius: 7px;
+
+            transition: 0.2s ease;
+        }
+
+        .home-footer-links a:hover {
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .footer-divider {
+            color: #cbd5e1;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 800px) {
+
+            .home-header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .global-resource-nav {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
 
             .hero {
                 grid-template-columns: 1fr;
@@ -296,6 +387,15 @@
                 font-size: 12px;
             }
 
+            .global-resource-nav {
+                gap: 4px;
+            }
+
+            .global-resource-nav a {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+
             .hero {
                 padding: 45px 18px 40px;
             }
@@ -315,6 +415,15 @@
             .hero-visual {
                 padding: 22px;
             }
+
+            .home-footer {
+                padding: 22px 15px;
+            }
+
+            .home-footer-links {
+                gap: 4px;
+            }
+
         }
 
     </style>
@@ -322,6 +431,10 @@
 </head>
 
 <body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
 
     <header class="home-header">
 
@@ -345,10 +458,37 @@
 
             </div>
 
+
+            <!-- GLOBAL RESOURCE LINKS -->
+
+            <nav class="global-resource-nav" aria-label="Global resources">
+
+                <a href="index.html" class="active">
+                    🏠 Home
+                </a>
+
+                <a href="help.html">
+                    ❓ Help
+                </a>
+
+                <a href="about.html">
+                    ℹ️ About
+                </a>
+
+                <a href="privacy.html">
+                    🔒 Privacy
+                </a>
+
+            </nav>
+
         </div>
 
     </header>
 
+
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main>
 
@@ -372,6 +512,8 @@
                     healthcare professionals.
                 </p>
 
+
+                <!-- ROLE SELECTION -->
 
                 <div class="role-selection">
 
@@ -428,6 +570,8 @@
 
             </div>
 
+
+            <!-- HERO VISUAL -->
 
             <div class="hero-visual">
 
@@ -501,8 +645,42 @@
     </main>
 
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
     <footer class="home-footer">
-        HEKSAA • Mental Health Monitoring Prototype
+
+        <div class="home-footer-links">
+
+            <a href="help.html">
+                Help
+            </a>
+
+            <span class="footer-divider">•</span>
+
+            <a href="about.html">
+                About HEKSAA
+            </a>
+
+            <span class="footer-divider">•</span>
+
+            <a href="privacy.html">
+                Privacy
+            </a>
+
+            <span class="footer-divider">•</span>
+
+            <a href="patient-settings.html">
+                Settings
+            </a>
+
+        </div>
+
+        <p>
+            HEKSAA • Mental Health Monitoring Prototype
+        </p>
+
     </footer>
 
 </body>
