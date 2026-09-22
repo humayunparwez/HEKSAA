@@ -2478,3 +2478,104 @@ header h1 {
     }
 
 }
+/* =====================================================
+   PATIENT STATUS — CLEAN ROW LAYOUT
+===================================================== */
+
+.status-card .status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    width: 100%;
+    padding: 20px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.status-card .status-row span {
+    flex: 1;
+
+    font-size: 18px;
+    line-height: 1.5;
+    color: #536174;
+}
+
+.status-card .status-row strong {
+    flex-shrink: 0;
+
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 600;
+
+    color: #1f2937;
+
+    text-align: right;
+}
+
+
+/* Overall status */
+
+.status-card .status-overall {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    width: 100%;
+
+    padding: 22px 0 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.status-card .status-overall span {
+    font-size: 18px;
+    line-height: 1.5;
+
+    color: #536174;
+}
+
+.status-card .status-overall strong {
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+
+/* Keep disclaimer separated */
+
+.status-card .status-disclaimer {
+    margin-top: 24px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .status-card .status-row {
+        padding: 18px 0;
+        gap: 16px;
+    }
+
+    .status-card .status-row span,
+    .status-card .status-row strong {
+        font-size: 17px;
+    }
+
+    .status-card .status-overall {
+        padding: 20px 0;
+    }
+
+    .status-card .status-overall span {
+        font-size: 17px;
+    }
+
+    .status-card .status-overall strong {
+        font-size: 19px;
+    }
+
+}
