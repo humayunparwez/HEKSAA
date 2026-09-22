@@ -256,13 +256,11 @@
         }
 
 
+        /* =========================
+           Alert Item
+        ========================= */
+
         .alert-item {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 15px;
 
             margin-top: 15px;
 
@@ -273,6 +271,26 @@
             border: 1px solid #fecaca;
 
             border-radius: 10px;
+
+        }
+
+
+        .alert-item.acknowledged {
+
+            background: #f8fafc;
+
+            border-color: #d1d5db;
+
+        }
+
+
+        .alert-main {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
 
         }
 
@@ -300,6 +318,14 @@
         }
 
 
+        .alert-item.acknowledged
+        .alert-icon {
+
+            background: #e5e7eb;
+
+        }
+
+
         .alert-details {
 
             flex: 1;
@@ -320,6 +346,14 @@
         }
 
 
+        .alert-item.acknowledged
+        .alert-details strong {
+
+            color: #374151;
+
+        }
+
+
         .alert-details span {
 
             display: block;
@@ -333,6 +367,14 @@
         }
 
 
+        .alert-item.acknowledged
+        .alert-details span {
+
+            color: #6b7280;
+
+        }
+
+
         .alert-time {
 
             color: #6b7280 !important;
@@ -342,15 +384,65 @@
         }
 
 
-        .alert-view-button {
+        .alert-status {
+
+            display: inline-block;
+
+            margin-top: 6px;
+
+            padding: 4px 8px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+        }
+
+
+        .alert-status.pending {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        .alert-status.reviewed {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+        }
+
+
+        /* =========================
+           Alert Buttons
+        ========================= */
+
+        .alert-actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 14px;
+
+            padding-left: 57px;
+
+        }
+
+
+        .alert-view-button,
+        .alert-details-button,
+        .alert-acknowledge-button {
 
             border: none;
 
             padding: 9px 13px;
-
-            background: #4f46e5;
-
-            color: white;
 
             border-radius: 7px;
 
@@ -363,12 +455,156 @@
         }
 
 
+        .alert-view-button {
+
+            background: #4f46e5;
+
+            color: #ffffff;
+
+        }
+
+
         .alert-view-button:hover {
 
             background: #4338ca;
 
         }
 
+
+        .alert-details-button {
+
+            background: #e5e7eb;
+
+            color: #374151;
+
+        }
+
+
+        .alert-details-button:hover {
+
+            background: #d1d5db;
+
+        }
+
+
+        .alert-acknowledge-button {
+
+            background: #16a34a;
+
+            color: #ffffff;
+
+        }
+
+
+        .alert-acknowledge-button:hover {
+
+            background: #15803d;
+
+        }
+
+
+        .alert-acknowledge-button:disabled {
+
+            background: #9ca3af;
+
+            cursor: default;
+
+        }
+
+
+        /* =========================
+           Alert Details
+        ========================= */
+
+        .alert-details-panel {
+
+            display: none;
+
+            margin-top: 14px;
+
+            margin-left: 57px;
+
+            padding: 15px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+        }
+
+
+        .alert-details-panel.show {
+
+            display: block;
+
+        }
+
+
+        .alert-details-title {
+
+            margin-bottom: 12px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+        }
+
+
+        .alert-data-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .alert-data-box {
+
+            padding: 11px;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+        }
+
+
+        .alert-data-box span {
+
+            display: block;
+
+            margin: 0 0 5px 0;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+        }
+
+
+        .alert-data-box strong {
+
+            display: block;
+
+            color: #1f2937;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           Empty Alerts
+        ========================= */
 
         .alert-empty {
 
@@ -488,16 +724,32 @@
             }
 
 
-            .alert-item {
+            .alert-main {
 
                 align-items: flex-start;
 
             }
 
 
-            .alert-view-button {
+            .alert-actions {
 
-                align-self: center;
+                padding-left: 0;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .alert-details-panel {
+
+                margin-left: 0;
+
+            }
+
+
+            .alert-data-grid {
+
+                grid-template-columns: 1fr;
 
             }
 
@@ -544,6 +796,7 @@
 
     <div class="patient-list-section">
 
+
         <h3>
             👥 Patients
         </h3>
@@ -570,6 +823,7 @@
 
         </div>
 
+
     </div>
 
 
@@ -592,8 +846,8 @@
 
                 <p class="section-description">
 
-                    Patients whose latest check-in
-                    requires attention are shown here.
+                    Review and acknowledge
+                    high-concern patient alerts.
 
                 </p>
 
@@ -630,10 +884,12 @@
 
                 <p>
 
-                    No patient's latest check-in is
-                    currently classified as High Concern.
+                    No patient's latest check-in
+                    is currently classified as
+                    High Concern.
 
                 </p>
+
 
             </div>
 
@@ -645,7 +901,7 @@
 
 
     <!-- =========================
-         Selected Patient Overview
+         Selected Patient
     ========================= -->
 
     <div class="patient-profile-overview">
@@ -771,7 +1027,6 @@
 
         <div class="summary-card">
 
-
             <span class="summary-icon">
                 👥
             </span>
@@ -795,7 +1050,6 @@
 
 
         <div class="summary-card">
-
 
             <span class="summary-icon">
                 🟢
@@ -821,7 +1075,6 @@
 
         <div class="summary-card">
 
-
             <span class="summary-icon">
                 🟡
             </span>
@@ -845,7 +1098,6 @@
 
 
         <div class="summary-card">
-
 
             <span class="summary-icon">
                 🔴
@@ -1042,7 +1294,7 @@
 </main>
 
 
-<script src="doctor.js?v=5"></script>
+<script src="doctor.js?v=6"></script>
 
 
 </body>
