@@ -12,12 +12,15 @@
 
     <title>Doctor Dashboard - HEKSAA</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css?v=4"
+    >
 
     <style>
 
         /* =====================================================
-           DOCTOR DASHBOARD - PROFESSIONAL UI
+           DOCTOR DASHBOARD PAGE
         ===================================================== */
 
         .doctor-page {
@@ -32,27 +35,39 @@
 
         .doctor-header {
             background: #ffffff;
+
             border-bottom: 1px solid #e5e7eb;
+
             position: sticky;
             top: 0;
-            z-index: 100;
+
+            z-index: 1000;
         }
 
         .doctor-header-inner {
             max-width: 1180px;
+
             margin: auto;
+
             padding: 15px 24px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 20px;
         }
 
         .doctor-brand {
             display: flex;
+
             align-items: center;
+
             gap: 12px;
+
+            min-width: 0;
         }
 
         .doctor-brand-icon {
@@ -60,30 +75,38 @@
             height: 48px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             background: #4f46e5;
-            color: white;
+
+            color: #ffffff;
 
             border-radius: 14px;
 
             font-size: 25px;
+
             font-weight: 700;
+
+            flex-shrink: 0;
         }
 
         .doctor-brand h1 {
             margin: 0;
 
             font-size: 25px;
+
             color: #4f46e5;
         }
 
         .doctor-brand span {
             display: block;
+
             margin-top: 2px;
 
             color: #6b7280;
+
             font-size: 13px;
         }
 
@@ -93,9 +116,11 @@
             border-radius: 30px;
 
             background: #eef2ff;
+
             color: #4338ca;
 
             font-weight: 600;
+
             white-space: nowrap;
         }
 
@@ -106,13 +131,99 @@
 
         .doctor-main {
             max-width: 1180px;
+
             margin: auto;
+
             padding: 32px 24px 60px;
         }
 
 
         /* =====================================================
-           PAGE INTRO
+           QUICK NAVIGATION
+        ===================================================== */
+
+        .doctor-quick-nav {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 26px;
+
+            padding: 9px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(15, 23, 42, 0.04);
+
+            position: sticky;
+
+            top: 82px;
+
+            z-index: 900;
+        }
+
+        .doctor-quick-nav a {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            min-height: 40px;
+
+            padding: 9px 14px;
+
+            border-radius: 9px;
+
+            color: #475569;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.15s ease;
+        }
+
+        .doctor-quick-nav a:hover {
+            background: #eef2ff;
+
+            color: #4f46e5;
+        }
+
+        .doctor-quick-nav a:active {
+            transform: scale(0.97);
+        }
+
+        .doctor-quick-nav .logout-link {
+            margin-left: auto;
+
+            color: #b91c1c;
+        }
+
+        .doctor-quick-nav .logout-link:hover {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* =====================================================
+           HERO
         ===================================================== */
 
         .doctor-hero {
@@ -125,7 +236,9 @@
             margin-bottom: 8px;
 
             color: #4f46e5;
+
             font-size: 13px;
+
             font-weight: 700;
 
             letter-spacing: 1.4px;
@@ -135,6 +248,7 @@
             margin: 0;
 
             font-size: 34px;
+
             line-height: 1.2;
 
             color: #172033;
@@ -148,12 +262,13 @@
             color: #64748b;
 
             font-size: 17px;
+
             line-height: 1.7;
         }
 
 
         /* =====================================================
-           QUICK SUMMARY
+           SUMMARY
         ===================================================== */
 
         .doctor-summary {
@@ -169,7 +284,9 @@
 
         .summary-card {
             display: flex;
+
             align-items: center;
+
             gap: 14px;
 
             padding: 20px;
@@ -177,10 +294,24 @@
             background: #ffffff;
 
             border: 1px solid #e5e7eb;
+
             border-radius: 16px;
 
             box-shadow:
-                0 4px 18px rgba(15, 23, 42, 0.04);
+                0 4px 18px
+                rgba(15, 23, 42, 0.04);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 22px
+                rgba(15, 23, 42, 0.07);
         }
 
         .summary-icon {
@@ -188,6 +319,7 @@
             height: 46px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -196,6 +328,7 @@
             border-radius: 13px;
 
             font-size: 21px;
+
             flex-shrink: 0;
         }
 
@@ -203,11 +336,13 @@
             margin: 0 0 4px;
 
             color: #64748b;
+
             font-size: 13px;
         }
 
         .summary-card strong {
             font-size: 25px;
+
             color: #172033;
         }
 
@@ -224,15 +359,21 @@
             background: #ffffff;
 
             border: 1px solid #e5e7eb;
+
             border-radius: 18px;
 
             box-shadow:
-                0 4px 18px rgba(15, 23, 42, 0.035);
+                0 4px 18px
+                rgba(15, 23, 42, 0.035);
+
+            scroll-margin-top: 120px;
         }
 
         .doctor-section-header {
             display: flex;
+
             align-items: flex-start;
+
             justify-content: space-between;
 
             gap: 20px;
@@ -242,7 +383,9 @@
 
         .doctor-section-title {
             display: flex;
+
             align-items: flex-start;
+
             gap: 13px;
         }
 
@@ -251,6 +394,7 @@
             height: 44px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -259,6 +403,7 @@
             border-radius: 12px;
 
             font-size: 20px;
+
             flex-shrink: 0;
         }
 
@@ -266,6 +411,7 @@
             margin: 0;
 
             color: #172033;
+
             font-size: 21px;
         }
 
@@ -273,7 +419,9 @@
             margin: 5px 0 0;
 
             color: #64748b;
+
             font-size: 14px;
+
             line-height: 1.5;
         }
 
@@ -298,6 +446,7 @@
             padding: 13px 15px;
 
             border: 1px solid #d9dee8;
+
             border-radius: 11px;
 
             background: #ffffff;
@@ -311,15 +460,18 @@
             border-color: #4f46e5;
 
             box-shadow:
-                0 0 0 3px rgba(79, 70, 229, 0.1);
+                0 0 0 3px
+                rgba(79, 70, 229, 0.1);
         }
 
-        .patient-filter {
+        .patient-filter,
+        .alert-filter {
             min-width: 150px;
 
             padding: 13px 15px;
 
             border: 1px solid #d9dee8;
+
             border-radius: 11px;
 
             background: #ffffff;
@@ -327,9 +479,12 @@
             font-size: 15px;
 
             outline: none;
+
+            cursor: pointer;
         }
 
-        .patient-filter:focus {
+        .patient-filter:focus,
+        .alert-filter:focus {
             border-color: #4f46e5;
         }
 
@@ -344,6 +499,7 @@
 
         .patient-card {
             display: flex;
+
             align-items: center;
 
             gap: 14px;
@@ -370,7 +526,8 @@
             border-color: #c7d2fe;
 
             box-shadow:
-                0 7px 20px rgba(15, 23, 42, 0.07);
+                0 7px 20px
+                rgba(15, 23, 42, 0.07);
         }
 
         .patient-card.active {
@@ -379,7 +536,8 @@
             border: 2px solid #4f46e5;
 
             box-shadow:
-                0 5px 18px rgba(79, 70, 229, 0.12);
+                0 5px 18px
+                rgba(79, 70, 229, 0.12);
         }
 
         .patient-list-avatar {
@@ -387,6 +545,7 @@
             height: 48px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -401,6 +560,7 @@
 
         .patient-card-info {
             flex: 1;
+
             min-width: 0;
         }
 
@@ -428,6 +588,7 @@
             border-radius: 20px;
 
             font-size: 12px;
+
             font-weight: 600;
 
             white-space: nowrap;
@@ -435,17 +596,57 @@
 
         .patient-card-status.status-low {
             background: #dcfce7;
+
             color: #166534;
         }
 
         .patient-card-status.status-moderate {
             background: #fef3c7;
+
             color: #92400e;
         }
 
         .patient-card-status.status-high {
             background: #fee2e2;
+
             color: #991b1b;
+        }
+
+
+        /* =====================================================
+           NO PATIENTS FOUND
+        ===================================================== */
+
+        .patient-no-results {
+            grid-column: 1 / -1;
+
+            padding: 35px 20px;
+
+            text-align: center;
+
+            background: #f8fafc;
+
+            border: 1px dashed #d1d5db;
+
+            border-radius: 13px;
+
+            color: #64748b;
+        }
+
+        .patient-no-results-icon {
+            font-size: 32px;
+
+            margin-bottom: 10px;
+        }
+
+        .patient-no-results strong {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: #334155;
+
+            font-size: 16px;
         }
 
 
@@ -466,6 +667,7 @@
 
         .alert-center-header {
             display: flex;
+
             justify-content: space-between;
 
             gap: 15px;
@@ -479,9 +681,11 @@
             border-radius: 30px;
 
             background: #dcfce7;
+
             color: #166534;
 
             font-size: 13px;
+
             font-weight: 700;
 
             white-space: nowrap;
@@ -489,8 +693,23 @@
 
         .active-alert-count.has-alerts {
             background: #fee2e2;
+
             color: #991b1b;
         }
+
+
+        /* Alert controls */
+
+        .alert-controls {
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* Alert item */
 
         .alert-item {
             margin-top: 15px;
@@ -512,6 +731,7 @@
 
         .alert-main {
             display: flex;
+
             align-items: center;
 
             gap: 14px;
@@ -522,6 +742,7 @@
             height: 44px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -534,6 +755,7 @@
 
         .alert-details {
             flex: 1;
+
             min-width: 0;
         }
 
@@ -553,6 +775,7 @@
 
         .alert-time {
             color: #64748b !important;
+
             font-size: 12px !important;
         }
 
@@ -566,26 +789,31 @@
             border-radius: 20px;
 
             font-size: 11px !important;
+
             font-weight: 600;
         }
 
         .alert-status.pending {
             background: #fee2e2;
+
             color: #991b1b;
         }
 
         .alert-status.reviewed {
             background: #dcfce7;
+
             color: #166534;
         }
 
         .alert-actions {
             display: flex;
+
             flex-wrap: wrap;
 
             gap: 8px;
 
             margin-top: 14px;
+
             padding-left: 58px;
         }
 
@@ -603,32 +831,38 @@
 
         .alert-view-button {
             background: #4f46e5;
-            color: white;
+
+            color: #ffffff;
         }
 
         .alert-details-button {
             background: #e5e7eb;
+
             color: #1f2937;
         }
 
         .alert-acknowledge-button {
             background: #16a34a;
-            color: white;
+
+            color: #ffffff;
         }
 
         .alert-acknowledge-button:disabled {
             background: #9ca3af;
+
+            cursor: default;
         }
 
         .alert-details-panel {
             display: none;
 
             margin-top: 14px;
+
             margin-left: 58px;
 
             padding: 15px;
 
-            background: white;
+            background: #ffffff;
 
             border: 1px solid #e5e7eb;
 
@@ -671,6 +905,7 @@
 
         .patient-profile-overview {
             display: flex;
+
             align-items: center;
 
             gap: 16px;
@@ -689,6 +924,8 @@
             border: 1px solid #c7d2fe;
 
             border-radius: 17px;
+
+            scroll-margin-top: 120px;
         }
 
         .patient-avatar {
@@ -696,11 +933,13 @@
             height: 58px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             background: #4f46e5;
-            color: white;
+
+            color: #ffffff;
 
             border-radius: 16px;
 
@@ -717,9 +956,11 @@
             color: #6366f1;
 
             font-size: 12px;
+
             font-weight: 700;
 
             text-transform: uppercase;
+
             letter-spacing: 1px;
         }
 
@@ -733,6 +974,7 @@
 
         .patient-details {
             display: flex;
+
             gap: 18px;
 
             color: #64748b;
@@ -754,6 +996,7 @@
             color: #334155;
 
             font-size: 13px;
+
             font-weight: 700;
 
             white-space: nowrap;
@@ -761,7 +1004,7 @@
 
 
         /* =====================================================
-           ATTENTION
+           ATTENTION REQUIRED
         ===================================================== */
 
         .distress-alert {
@@ -795,6 +1038,10 @@
            RISK PREDICTION
         ===================================================== */
 
+        .risk-prediction-section {
+            scroll-margin-top: 120px;
+        }
+
         .risk-prediction-card {
             margin-top: 20px;
 
@@ -809,6 +1056,7 @@
 
         .risk-score-row {
             display: flex;
+
             align-items: center;
 
             gap: 22px;
@@ -819,6 +1067,7 @@
             height: 112px;
 
             display: flex;
+
             flex-direction: column;
 
             align-items: center;
@@ -859,17 +1108,30 @@
 
         .risk-low {
             background: #dcfce7;
+
             color: #166534;
         }
 
         .risk-moderate {
             background: #fef3c7;
+
             color: #92400e;
         }
 
         .risk-high {
             background: #fee2e2;
+
             color: #991b1b;
+        }
+
+        .risk-score-info p {
+            margin-top: 10px;
+
+            color: #64748b;
+
+            line-height: 1.6;
+
+            font-size: 14px;
         }
 
         .risk-meter {
@@ -886,11 +1148,12 @@
 
         .risk-meter-fill {
             height: 100%;
+
             width: 0%;
 
             border-radius: 20px;
 
-            transition: .4s;
+            transition: 0.4s;
         }
 
         .risk-factor-grid {
@@ -907,7 +1170,7 @@
         .risk-factor {
             padding: 14px;
 
-            background: white;
+            background: #ffffff;
 
             border: 1px solid #e5e7eb;
 
@@ -933,7 +1196,7 @@
 
             padding: 13px;
 
-            background: white;
+            background: #ffffff;
 
             border-radius: 9px;
 
@@ -946,8 +1209,168 @@
 
 
         /* =====================================================
-           TIMELINE
+           PATIENT MONITORING
         ===================================================== */
+
+        .patient-monitoring {
+            scroll-margin-top: 120px;
+        }
+
+        .doctor-checkin {
+            padding: 22px 0;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .doctor-checkin:last-child {
+            border-bottom: none;
+        }
+
+        .doctor-checkin-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .doctor-checkin-header h4 {
+            font-size: 18px;
+
+            margin-bottom: 6px;
+        }
+
+        .doctor-date {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .doctor-data {
+            margin-top: 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .doctor-data-item {
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+        }
+
+        .doctor-data-item span {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 7px;
+        }
+
+        .doctor-data-item strong {
+            color: #1f2937;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           MENTAL HEALTH TREND
+        ===================================================== */
+
+        .health-trend {
+            margin-top: 30px;
+
+            padding: 24px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+        }
+
+        .health-trend h3 {
+            margin-bottom: 8px;
+
+            color: #1f2937;
+        }
+
+        .section-description {
+            color: #64748b;
+
+            margin-bottom: 25px;
+        }
+
+        .trend-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 16px;
+
+            margin-top: 20px;
+        }
+
+        .trend-card {
+            padding: 18px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .trend-card span {
+            display: block;
+
+            font-size: 14px;
+
+            color: #6b7280;
+
+            margin-bottom: 8px;
+        }
+
+        .trend-card strong {
+            display: block;
+
+            font-size: 18px;
+
+            color: #4f46e5;
+        }
+
+        .trend-good {
+            color: #16a34a !important;
+        }
+
+        .trend-warning {
+            color: #dc2626 !important;
+        }
+
+        .trend-stable {
+            color: #d97706 !important;
+        }
+
+
+        /* =====================================================
+           RISK TIMELINE
+        ===================================================== */
+
+        .risk-timeline-section {
+            scroll-margin-top: 120px;
+        }
 
         .risk-timeline {
             margin-top: 20px;
@@ -967,7 +1390,9 @@
             position: absolute;
 
             left: 11px;
+
             top: 25px;
+
             bottom: 0;
 
             width: 2px;
@@ -980,6 +1405,7 @@
             height: 24px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -1028,26 +1454,31 @@
             border-radius: 20px;
 
             font-size: 12px;
+
             font-weight: 600;
         }
 
         .timeline-status.low {
             background: #dcfce7;
+
             color: #166534;
         }
 
         .timeline-status.moderate {
             background: #fef3c7;
+
             color: #92400e;
         }
 
         .timeline-status.high {
             background: #fee2e2;
+
             color: #991b1b;
         }
 
         .timeline-date {
             color: #64748b;
+
             font-size: 12px;
         }
 
@@ -1065,7 +1496,7 @@
         .timeline-data div {
             padding: 9px;
 
-            background: white;
+            background: #ffffff;
 
             border-radius: 7px;
         }
@@ -1080,8 +1511,12 @@
 
 
         /* =====================================================
-           HISTORY
+           ALERT HISTORY
         ===================================================== */
+
+        .alert-history-section {
+            scroll-margin-top: 120px;
+        }
 
         .history-alert-item {
             margin-top: 12px;
@@ -1097,6 +1532,7 @@
 
         .history-alert-header {
             display: flex;
+
             justify-content: space-between;
 
             gap: 10px;
@@ -1112,6 +1548,7 @@
 
         .history-alert-data {
             display: flex;
+
             flex-wrap: wrap;
 
             gap: 8px;
@@ -1122,7 +1559,7 @@
         .history-alert-data span {
             padding: 5px 8px;
 
-            background: white;
+            background: #ffffff;
 
             border-radius: 6px;
 
@@ -1145,7 +1582,194 @@
 
 
         /* =====================================================
-           MOBILE
+           INFORMATION
+        ===================================================== */
+
+        .doctor-info {
+            scroll-margin-top: 120px;
+        }
+
+        .doctor-info > p {
+            margin-top: 18px;
+
+            color: #64748b;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .doctor-empty {
+            text-align: center;
+
+            padding: 40px 20px;
+
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+
+            margin-bottom: 15px;
+        }
+
+        .doctor-empty h4 {
+            color: #1f2937;
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =====================================================
+           REAL-TIME NOTIFICATION
+        ===================================================== */
+
+        .heksaa-alert-notification {
+            position: fixed;
+
+            top: 20px;
+
+            right: 20px;
+
+            width: 360px;
+
+            max-width: calc(100vw - 40px);
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-left: 6px solid #4f46e5;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            display: flex;
+
+            gap: 14px;
+
+            align-items: flex-start;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.18);
+
+            z-index: 99999;
+
+            transform: translateX(430px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                transform 0.35s ease,
+                opacity 0.35s ease;
+        }
+
+        .heksaa-alert-notification.show {
+            transform: translateX(0);
+
+            opacity: 1;
+
+            pointer-events: auto;
+        }
+
+        .heksaa-alert-notification.escalated {
+            border-left-color: #dc2626;
+        }
+
+        .heksaa-notification-icon {
+            width: 48px;
+            height: 48px;
+
+            min-width: 48px;
+
+            border-radius: 50%;
+
+            background: #fee2e2;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+        .heksaa-notification-content {
+            flex: 1;
+        }
+
+        .heksaa-notification-title {
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: #111827;
+
+            margin-bottom: 5px;
+        }
+
+        .heksaa-notification-message {
+            font-size: 14px;
+
+            line-height: 1.45;
+
+            color: #374151;
+        }
+
+        .heksaa-notification-time {
+            font-size: 12px;
+
+            color: #6b7280;
+
+            margin-top: 6px;
+        }
+
+        .heksaa-notification-actions {
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 14px;
+        }
+
+        .heksaa-notification-actions button {
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        #heksaa-notification-view {
+            background: #4f46e5;
+
+            color: #ffffff;
+        }
+
+        #heksaa-notification-close {
+            background: #e5e7eb;
+
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE - 800px
         ===================================================== */
 
         @media (max-width: 800px) {
@@ -1167,8 +1791,26 @@
                 grid-template-columns: 1fr;
             }
 
+            .doctor-quick-nav {
+                overflow-x: auto;
+
+                scrollbar-width: none;
+            }
+
+            .doctor-quick-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .doctor-quick-nav a {
+                flex-shrink: 0;
+            }
+
         }
 
+
+        /* =====================================================
+           RESPONSIVE - 600px
+        ===================================================== */
 
         @media (max-width: 600px) {
 
@@ -1197,9 +1839,49 @@
                 font-size: 12px;
             }
 
+
+            /* Quick navigation */
+
+            .doctor-quick-nav {
+                top: 67px;
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(5, minmax(0, 1fr));
+
+                gap: 4px;
+
+                padding: 6px;
+            }
+
+            .doctor-quick-nav a {
+                flex-direction: column;
+
+                gap: 3px;
+
+                min-height: 47px;
+
+                padding: 7px 3px;
+
+                font-size: 10px;
+
+                text-align: center;
+            }
+
+            .doctor-quick-nav .logout-link {
+                margin-left: 0;
+            }
+
+
+            /* Main */
+
             .doctor-main {
                 padding: 24px 14px 45px;
             }
+
+
+            /* Hero */
 
             .doctor-hero h2 {
                 font-size: 28px;
@@ -1208,6 +1890,9 @@
             .doctor-hero p {
                 font-size: 15px;
             }
+
+
+            /* Summary */
 
             .doctor-summary {
                 grid-template-columns: 1fr 1fr;
@@ -1224,11 +1909,20 @@
             .summary-icon {
                 width: 38px;
                 height: 38px;
+
+                font-size: 17px;
+            }
+
+            .summary-card p {
+                font-size: 11px;
             }
 
             .summary-card strong {
                 font-size: 21px;
             }
+
+
+            /* Sections */
 
             .doctor-section {
                 padding: 18px;
@@ -1240,13 +1934,20 @@
                 flex-direction: column;
             }
 
+
+            /* Patient tools */
+
             .patient-directory-tools {
                 flex-direction: column;
             }
 
-            .patient-filter {
+            .patient-filter,
+            .alert-filter {
                 width: 100%;
             }
+
+
+            /* Patient profile */
 
             .patient-profile-overview {
                 align-items: flex-start;
@@ -1268,6 +1969,26 @@
                 display: none;
             }
 
+
+            /* Alerts */
+
+            .alert-center-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .alert-actions {
+                padding-left: 0;
+            }
+
+            .alert-details-panel {
+                margin-left: 0;
+            }
+
+
+            /* Risk */
+
             .risk-score-row {
                 align-items: flex-start;
             }
@@ -1283,6 +2004,29 @@
                 font-size: 25px;
             }
 
+
+            /* Monitoring */
+
+            .doctor-checkin-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .doctor-data {
+                grid-template-columns: 1fr;
+            }
+
+
+            /* Trend */
+
+            .trend-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            /* Timeline */
+
             .timeline-header {
                 flex-direction: column;
             }
@@ -1291,17 +2035,61 @@
                 grid-template-columns: 1fr;
             }
 
-            .alert-actions {
-                padding-left: 0;
+
+            /* Notification */
+
+            .heksaa-alert-notification {
+                top: 12px;
+
+                right: 12px;
+                left: 12px;
+
+                width: auto;
+
+                max-width: none;
+
+                transform: translateY(-150px);
             }
 
-            .alert-details-panel {
-                margin-left: 0;
+            .heksaa-alert-notification.show {
+                transform: translateY(0);
             }
 
-            .alert-center-header {
-                align-items: flex-start;
-                flex-direction: column;
+            .heksaa-notification-actions {
+                flex-wrap: wrap;
+            }
+
+            .heksaa-notification-actions button {
+                flex: 1;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL PHONES
+        ===================================================== */
+
+        @media (max-width: 380px) {
+
+            .doctor-brand span {
+                display: none;
+            }
+
+            .doctor-role {
+                font-size: 0;
+            }
+
+            .doctor-role::first-letter {
+                font-size: 18px;
+            }
+
+            .doctor-quick-nav a {
+                font-size: 9px;
+            }
+
+            .doctor-hero h2 {
+                font-size: 25px;
             }
 
         }
@@ -1354,6 +2142,52 @@
 
 
     <main class="doctor-main">
+
+
+        <!-- =================================================
+             QUICK NAVIGATION
+        ================================================== -->
+
+        <nav
+            class="doctor-quick-nav"
+            aria-label="Doctor dashboard navigation"
+        >
+
+            <a href="#patient-directory">
+                👥
+                <span>Patients</span>
+            </a>
+
+            <a href="#distress-center">
+                🚨
+                <span>Alerts</span>
+            </a>
+
+            <a href="#monitoring-section">
+                📊
+                <span>Monitoring</span>
+            </a>
+
+            <a href="#risk-timeline-section">
+                🕐
+                <span>Timeline</span>
+            </a>
+
+            <a href="#alert-history-section">
+                🔔
+                <span>History</span>
+            </a>
+
+            <a
+                href="doctor-login.html"
+                class="logout-link"
+            >
+                🚪
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
 
 
         <!-- =================================================
@@ -1478,7 +2312,10 @@
              PATIENT DIRECTORY
         ================================================== -->
 
-        <section class="doctor-section patient-list-section">
+        <section
+            id="patient-directory"
+            class="doctor-section patient-list-section"
+        >
 
             <div class="doctor-section-header">
 
@@ -1495,8 +2332,8 @@
                         </h3>
 
                         <p>
-                            Select a patient to view their
-                            monitoring information.
+                            Search and select a patient
+                            to view their monitoring information.
                         </p>
 
                     </div>
@@ -1506,7 +2343,7 @@
             </div>
 
 
-            <!-- Search/filter UI -->
+            <!-- Search and filter -->
 
             <div class="patient-directory-tools">
 
@@ -1515,12 +2352,14 @@
                     id="patient-search"
                     class="patient-search"
                     placeholder="🔎 Search patient name or ID..."
+                    aria-label="Search patients"
                 >
 
 
                 <select
                     id="patient-filter"
                     class="patient-filter"
+                    aria-label="Filter patients by concern"
                 >
 
                     <option value="all">
@@ -1561,7 +2400,10 @@
              DISTRESS ALERT CENTER
         ================================================== -->
 
-        <section class="doctor-section distress-alert-center">
+        <section
+            id="distress-center"
+            class="doctor-section distress-alert-center"
+        >
 
             <div class="alert-center-header">
 
@@ -1597,7 +2439,42 @@
             </div>
 
 
-            <div id="distress-alert-list"></div>
+            <!-- Alert filter -->
+
+            <div class="alert-controls">
+
+                <select
+                    id="alert-filter"
+                    class="alert-filter"
+                    aria-label="Filter distress alerts"
+                >
+
+                    <option value="all">
+                        All Alerts
+                    </option>
+
+                    <option value="pending">
+                        🔴 Pending
+                    </option>
+
+                    <option value="acknowledged">
+                        🟢 Acknowledged
+                    </option>
+
+                    <option value="escalated">
+                        ⚠️ Escalated
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div id="distress-alert-list">
+
+                <!-- Alerts are inserted by distress.js -->
+
+            </div>
 
         </section>
 
@@ -1607,7 +2484,10 @@
              SELECTED PATIENT
         ================================================== -->
 
-        <div class="patient-profile-overview">
+        <div
+            id="selected-patient"
+            class="patient-profile-overview"
+        >
 
             <div class="patient-avatar">
                 👤
@@ -1687,7 +2567,9 @@
              DYNAMIC RISK PREDICTION
         ================================================== -->
 
-        <section class="doctor-section risk-prediction-section">
+        <section
+            class="doctor-section risk-prediction-section"
+        >
 
             <div class="doctor-section-title">
 
@@ -1823,7 +2705,10 @@
              PATIENT MONITORING
         ================================================== -->
 
-        <section class="doctor-section patient-monitoring">
+        <section
+            id="monitoring-section"
+            class="doctor-section patient-monitoring"
+        >
 
             <div class="doctor-section-title">
 
@@ -1846,7 +2731,11 @@
             </div>
 
 
-            <div id="doctor-history"></div>
+            <div id="doctor-history">
+
+                <!-- History generated by doctor.js -->
+
+            </div>
 
 
 
@@ -1931,7 +2820,10 @@
              RISK TIMELINE
         ================================================== -->
 
-        <section class="doctor-section risk-timeline-section">
+        <section
+            id="risk-timeline-section"
+            class="doctor-section risk-timeline-section"
+        >
 
             <div class="doctor-section-title">
 
@@ -1958,7 +2850,11 @@
             <div
                 id="risk-timeline"
                 class="risk-timeline"
-            ></div>
+            >
+
+                <!-- Timeline generated by doctor.js -->
+
+            </div>
 
         </section>
 
@@ -1968,7 +2864,10 @@
              ALERT HISTORY
         ================================================== -->
 
-        <section class="doctor-section alert-history-section">
+        <section
+            id="alert-history-section"
+            class="doctor-section alert-history-section"
+        >
 
             <div class="doctor-section-title">
 
@@ -1992,7 +2891,11 @@
             </div>
 
 
-            <div id="alert-history"></div>
+            <div id="alert-history">
+
+                <!-- Alert history generated by doctor.js -->
+
+            </div>
 
         </section>
 
@@ -2052,8 +2955,9 @@
     <script src="alert-notification.js?v=1"></script>
 
 
+
     <!-- =====================================================
-         PATIENT SEARCH + FILTER
+         PATIENT SEARCH + FILTER + ALERT FILTER
     ====================================================== -->
 
     <script>
@@ -2062,10 +2966,16 @@
             "DOMContentLoaded",
             function () {
 
+
+                /* =================================================
+                   PATIENT SEARCH
+                ================================================= */
+
                 const search =
                     document.getElementById(
                         "patient-search"
                     );
+
 
                 const filter =
                     document.getElementById(
@@ -2073,13 +2983,18 @@
                     );
 
 
-
                 function filterPatients() {
+
+                    if (!search || !filter) {
+                        return;
+                    }
+
 
                     const searchValue =
                         search.value
                             .toLowerCase()
                             .trim();
+
 
                     const filterValue =
                         filter.value;
@@ -2099,7 +3014,7 @@
                                     .toLowerCase();
 
 
-                            let matchesSearch =
+                            const matchesSearch =
                                 text.includes(
                                     searchValue
                                 );
@@ -2132,43 +3047,10 @@
                                             .toLowerCase();
 
 
-                                    if (
-                                        filterValue ===
-                                        "low"
-                                    ) {
-
-                                        matchesFilter =
-                                            statusText.includes(
-                                                "low"
-                                            );
-
-                                    }
-
-
-                                    if (
-                                        filterValue ===
-                                        "moderate"
-                                    ) {
-
-                                        matchesFilter =
-                                            statusText.includes(
-                                                "moderate"
-                                            );
-
-                                    }
-
-
-                                    if (
-                                        filterValue ===
-                                        "high"
-                                    ) {
-
-                                        matchesFilter =
-                                            statusText.includes(
-                                                "high"
-                                            );
-
-                                    }
+                                    matchesFilter =
+                                        statusText.includes(
+                                            filterValue
+                                        );
 
                                 }
 
@@ -2187,7 +3069,6 @@
                     );
 
                 }
-
 
 
                 if (search) {
@@ -2210,21 +3091,9 @@
                 }
 
 
-                /*
-                   doctor.js dynamically creates
-                   the patient cards, so re-run the
-                   filter after they appear.
-                */
-
-                const observer =
-                    new MutationObserver(
-                        function () {
-
-                            filterPatients();
-
-                        }
-                    );
-
+                /* =================================================
+                   OBSERVE DYNAMIC PATIENT CARDS
+                ================================================= */
 
                 const patientList =
                     document.getElementById(
@@ -2234,7 +3103,17 @@
 
                 if (patientList) {
 
-                    observer.observe(
+                    const patientObserver =
+                        new MutationObserver(
+                            function () {
+
+                                filterPatients();
+
+                            }
+                        );
+
+
+                    patientObserver.observe(
                         patientList,
                         {
                             childList: true,
@@ -2243,6 +3122,167 @@
                     );
 
                 }
+
+
+
+                /* =================================================
+                   ALERT FILTER
+                ================================================= */
+
+                const alertFilter =
+                    document.getElementById(
+                        "alert-filter"
+                    );
+
+
+                function filterAlerts() {
+
+                    if (!alertFilter) {
+                        return;
+                    }
+
+
+                    const value =
+                        alertFilter.value;
+
+
+                    const alerts =
+                        document.querySelectorAll(
+                            "#distress-alert-list .alert-item"
+                        );
+
+
+                    alerts.forEach(
+                        function (alert) {
+
+                            if (value === "all") {
+
+                                alert.style.display =
+                                    "";
+
+                                return;
+
+                            }
+
+
+                            const statusElement =
+                                alert.querySelector(
+                                    ".alert-status"
+                                );
+
+
+                            const alertText =
+                                alert.textContent
+                                    .toLowerCase();
+
+
+                            if (value === "pending") {
+
+                                const isPending =
+                                    alertText.includes(
+                                        "pending"
+                                    );
+
+                                alert.style.display =
+                                    isPending
+                                        ? ""
+                                        : "none";
+
+                            }
+
+
+                            else if (
+                                value === "acknowledged"
+                            ) {
+
+                                const isAcknowledged =
+                                    alert.classList.contains(
+                                        "acknowledged"
+                                    ) ||
+                                    alertText.includes(
+                                        "acknowledged"
+                                    ) ||
+                                    alertText.includes(
+                                        "reviewed"
+                                    );
+
+
+                                alert.style.display =
+                                    isAcknowledged
+                                        ? ""
+                                        : "none";
+
+                            }
+
+
+                            else if (
+                                value === "escalated"
+                            ) {
+
+                                const isEscalated =
+                                    alert.classList.contains(
+                                        "distress-escalated"
+                                    ) ||
+                                    alertText.includes(
+                                        "escalated"
+                                    );
+
+
+                                alert.style.display =
+                                    isEscalated
+                                        ? ""
+                                        : "none";
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+                if (alertFilter) {
+
+                    alertFilter.addEventListener(
+                        "change",
+                        filterAlerts
+                    );
+
+                }
+
+
+                /* =================================================
+                   OBSERVE DYNAMIC ALERTS
+                ================================================= */
+
+                const alertList =
+                    document.getElementById(
+                        "distress-alert-list"
+                    );
+
+
+                if (alertList) {
+
+                    const alertObserver =
+                        new MutationObserver(
+                            function () {
+
+                                filterAlerts();
+
+                            }
+                        );
+
+
+                    alertObserver.observe(
+                        alertList,
+                        {
+                            childList: true,
+                            subtree: true
+                        }
+                    );
+
+                }
+
 
             }
         );
